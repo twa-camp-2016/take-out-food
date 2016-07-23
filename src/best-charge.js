@@ -48,26 +48,24 @@ function getDiscount(promotingItems, itemInfoList) {
 function getPromotion(totalPrice, promotingItems, discount) {
   let promotion = {};
 
-  if (totalPrice < 30) {
-    if (promotingItems.length < 1) {
-      // promotion should be empty
+  if (promotingItems.length < 1) {
+    if (totalPrice < 30) {
+      // empty non-promotion
     }
     else {
-      promotion.type = '指定菜品半价';
-      promotion.items = promotingItems;
-      promotion.discount = discount;
+      promotion.type = '满30减6元';
+      promotion.discount = 6;
     }
   }
   else {
-    // totalPrice >= 30
-    if (promotingItems.length < 1 || discount < 6) {
+    if (totalPrice > 30 && discount <= 6) {
       promotion.type = '满30减6元';
       promotion.discount = 6;
     }
     else {
       promotion.type = '指定菜品半价';
-      promotion.discount = discount;
       promotion.items = promotingItems;
+      promotion.discount = discount;
     }
   }
 
