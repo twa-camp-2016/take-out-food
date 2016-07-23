@@ -102,7 +102,7 @@ describe('Take out food', function () {
         promotionType: '满30减6元'
       },
       {
-        items: {
+        item: {
           id: 'ITEM0022',
           name: '凉皮',
           price: 8.00,
@@ -111,8 +111,7 @@ describe('Take out food', function () {
         originalPrice: 8.00,
         discountPrice: 4,
         promotionType: '指定菜品半价'
-      }
-  ];
+      }];
     let testResult = buildReceiptPrice(inputs);
     expect(testResult).toEqual(expectResult);
   });
