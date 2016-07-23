@@ -46,3 +46,145 @@ describe('Take out food', function () {
   });
 
 });
+describe('formatCart',function(){
+
+  it('formatedCart should toequal ',function(){
+    let cartItem = ["ITEM0001 x 1"];
+    let formatedCart = [{id:'ITEM0001',count:1}];
+    expect(formatedCart).toEqual(formatCart(cartItem));
+  });
+});
+describe('selectItems',function(){
+
+  it('selectedItems should toequal ',function(){
+    let allItems = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00
+    }];
+    let formatedItem = [{id:'ITEM0001',count:1}];
+    let expectedV = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1
+    }];
+    expect(expectedV).toEqual(selectItems(allItems,formatedItem));
+  });
+});
+describe('subTotal',function(){
+
+  it('Items should toequal ',function(){
+    let selectedItem = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1
+    }];
+    let expectVal = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1,
+      subTotals:18.00
+    }];
+
+    expect(expectVal).toEqual(subTotal(selectedItem));
+  });
+});
+
+
+describe('prePromotionTotal',function(){
+
+  it('Items should toequal ',function(){
+    let itemTotals = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1,
+      subTotals:18.00
+    }];
+    let expectVal = 18.00;
+
+    expect(expectVal).toEqual(prePromotionTotal(itemTotals));
+  });
+});
+describe('firstPromotion',function(){
+
+  it('Items should toequal ',function(){
+    let theTotal = 18.00;
+    let allPromotions = loadPromotions();
+    let expectVal = 0;
+
+    expect(expectVal).toEqual(firstPromotion(allPromotions,theTotal));
+  });
+});
+
+describe('matchPromotion',function(){
+
+  it('Items should toequal ',function(){
+    let itemTotals = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1,
+      subTotals:18.00
+    }];
+    let allPromotions = loadPromotions();
+    let expectVal = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1,
+      subTotals:18.00,
+      type:'指定菜品半价'
+    }];
+
+    expect(expectVal).toEqual(matchPromotion(allPromotions,itemTotals));
+  });
+});
+
+
+describe('secondPromotion',function(){
+
+  it('Items should toequal ',function(){
+
+    let theTotal = 18.00;
+    let matchedPromo = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1,
+      subTotals:18.00,
+      type:'指定菜品半价'
+    }];
+    let expectVal = 9.00;
+
+    expect(expectVal).toEqual(secondPromotion(matchedPromo,theTotal));
+  });
+});
+
+describe('selectPromotion',function(){
+
+  it('Items should toequal ',function(){
+    let firstPro = 0;
+    let secondPro = 9;
+    let allPromotions = loadPromotions();
+
+    let expectVal = {type:'指定菜品半价',promo:9.00};
+
+    expect(expectVal).toEqual(selectPromotion(firstPro,secondPro,allPromotions));
+  });
+});
+
+
+describe('total',function(){
+
+  it('Items should toequal ',function(){
+    let selectedPromo = {type:'指定菜品半价',promo:9.00};
+    let theTotal = 18.00;
+    let expectVal = 9.00;
+
+    expect(expectVal).toEqual(total(selectedPromo,theTotal));
+  });
+});
