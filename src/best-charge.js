@@ -30,12 +30,7 @@ function buildCartItems(countedIds, allItems) {
     return {id, name, price, count};
   })
 }
-// function calculateOriginalPrice(cartItems) {
-//   return cartItems.reduce((originalTotalPrice, cartItem) => {
-//     originalTotalPrice += cartItem.price * cartItem.count;
-//     return originalTotalPrice;
-//   }, 0)
-// }
+
 function buildPromotions(cartItems, promotions) {
   let halfPrice = promotions.find((promotion) => promotion.type === '指定菜品半价');
   return cartItems.map((cartItem) => {
