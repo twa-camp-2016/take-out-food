@@ -13,25 +13,45 @@ window.onload = function () {
   htmlAllItems += "<th>菜品 ID </th>";
   htmlAllItems += "<th>菜品名称</th>";
   htmlAllItems += "<th>菜品单价</th>";
+  htmlAllItems += "<th>输入数量</th>";
   htmlAllItems += "</tr>";
 
   for(let item of allItems) {
+    htmlAllItems += "<tr>";
+    htmlAllItems += "<td>";
     htmlAllItems += item.id;
+    htmlAllItems += "</td>";
+    htmlAllItems += "<td>";
     htmlAllItems += item.name;
+    htmlAllItems += "</td>";
+    htmlAllItems += "<td>";
     htmlAllItems += item.price;
+    htmlAllItems += "</td>";
+    htmlAllItems += "<td>";
+    htmlAllItems += "<input type=\"text\"></input>";
+    htmlAllItems += "</td>";
+    htmlAllItems += "</tr>";
   }
+  htmlAllItems += "</table>";
+
+  htmlPromotions += "<table>";
+  htmlPromotions += "<tr>";
+  htmlPromotions += "<th>促销方式</th>";
+  htmlPromotions += "<th>促销商品</th>";
+  htmlPromotions += "</tr>";
 
   for(let pro of allPromotions) {
-    htmlPromotions += "<p>促销方式:";
+    htmlPromotions += "<tr>";
+    htmlPromotions += "<td>";
     htmlPromotions += pro.type;
-    htmlPromotions += "</p>";
-    htmlPromotions += "<p>促销商品:";
+    htmlPromotions += "</td>";
+    htmlPromotions += "<td>";
     if(pro.items) {
       htmlPromotions += pro.items;
     } else {
       htmlPromotions += "无";
     }
-    htmlPromotions += "</p>";
+    htmlPromotions += "</td>";
   }
 
 
