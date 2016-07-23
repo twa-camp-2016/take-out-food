@@ -21,7 +21,7 @@ describe('Take out food', function () {
       expect(summary).toEqual(expected)
     });
 
-    xit('should generate best charge when best is 满30减6元', function () {
+    it('should generate best charge when best is 满30减6元', function () {
       let inputs = ["ITEM0013 x 4", "ITEM0022 x 1"];
       let summary = bestCharge(inputs).trim();
       let expected = `

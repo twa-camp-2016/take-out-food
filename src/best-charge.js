@@ -48,10 +48,12 @@ function getPromotionText(charge) {
 总计：${sumHalfdiscount}元
 ===================================`;
    }else{
-     ;
+     promotionText = `使用优惠:
+满30减6元，省6元
+-----------------------------------
+总计：${sumFullThirty}元
+===================================`
    }
-
-
   return promotionText;
 }
 
