@@ -26,30 +26,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/best-charge.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="899">
-              <caret line="100" column="47" selection-start-line="100" selection-start-column="47" selection-end-line="100" selection-end-column="47" />
+            <state relative-caret-position="311">
+              <caret line="116" column="37" selection-start-line="116" selection-start-column="37" selection-end-line="116" selection-end-column="37" />
               <folding>
                 <element signature="n#!!block;n#countIds#0" expanded="false" />
                 <element signature="n#!!block;n#_getExistElementByIds#0" expanded="false" />
                 <element signature="n#!!block;n#buildCartItems#0" expanded="false" />
-                <element signature="e#954#1001#0" expanded="false" />
+                <element signature="e#965#1012#0" expanded="false" />
                 <element signature="n#!!block;n#buildPromotions#0" expanded="false" />
-                <element signature="n#!!block;n#calculateTotalPrices#0" expanded="false" />
-                <element signature="n#!!block;n#chooseType#0" expanded="false" />
                 <element signature="n#!!block;n#buildReceipt#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3190">
-              <caret line="151" column="8" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="8" />
+            <state relative-caret-position="319">
+              <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="19" />
               <folding>
                 <element signature="e#903#956#0" expanded="false" />
               </folding>
@@ -70,7 +68,7 @@
       <file leaf-file-name="items.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/items.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
+            <state relative-caret-position="204">
               <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="12" selection-end-column="15" />
               <folding />
             </state>
@@ -240,12 +238,12 @@
       <option name="presentableId" value="Default" />
       <updated>1469240211112</updated>
       <workItem from="1469240212701" duration="315000" />
-      <workItem from="1469240546311" duration="10446000" />
+      <workItem from="1469240546311" duration="12888000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10761000" />
+    <option name="totallyTimeSpent" value="13203000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
@@ -296,10 +294,8 @@
             <element signature="n#!!block;n#countIds#0" expanded="false" />
             <element signature="n#!!block;n#_getExistElementByIds#0" expanded="false" />
             <element signature="n#!!block;n#buildCartItems#0" expanded="false" />
-            <element signature="e#954#1001#0" expanded="false" />
+            <element signature="e#965#1012#0" expanded="false" />
             <element signature="n#!!block;n#buildPromotions#0" expanded="false" />
-            <element signature="n#!!block;n#calculateTotalPrices#0" expanded="false" />
-            <element signature="n#!!block;n#chooseType#0" expanded="false" />
             <element signature="n#!!block;n#buildReceipt#0" expanded="false" />
           </folding>
         </state>
@@ -330,14 +326,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/items.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="12" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/promotions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="116">
@@ -346,29 +334,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
+    <entry file="file://$PROJECT_DIR$/src/items.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3190">
-          <caret line="151" column="8" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="8" />
-          <folding>
-            <element signature="e#903#956#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="12" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/best-charge.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="100" column="47" selection-start-line="100" selection-start-column="47" selection-end-line="100" selection-end-column="47" />
+        <state relative-caret-position="311">
+          <caret line="116" column="37" selection-start-line="116" selection-start-column="37" selection-end-line="116" selection-end-column="37" />
           <folding>
             <element signature="n#!!block;n#countIds#0" expanded="false" />
             <element signature="n#!!block;n#_getExistElementByIds#0" expanded="false" />
             <element signature="n#!!block;n#buildCartItems#0" expanded="false" />
-            <element signature="e#954#1001#0" expanded="false" />
+            <element signature="e#965#1012#0" expanded="false" />
             <element signature="n#!!block;n#buildPromotions#0" expanded="false" />
-            <element signature="n#!!block;n#calculateTotalPrices#0" expanded="false" />
-            <element signature="n#!!block;n#chooseType#0" expanded="false" />
             <element signature="n#!!block;n#buildReceipt#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="19" />
+          <folding>
+            <element signature="e#903#956#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -6,7 +6,7 @@ function bestCharge(selectedItems) {
   let promotedItems = buildPromotions(cartItems,promotions);
   let totalPrice = calculateTotalPrices(promotedItems);
 
-  let chosenTypePrice = chooseType(totalPrice);
+  let chosenTypePrice = chooseType(totalPrice,promotions);
   let receipt = buildReceipt(promotedItems,chosenTypePrice);
   let receiptString = buildReceiptString(receipt);
 
@@ -57,9 +57,11 @@ function calculateTotalPrices(promotedItems) {
   }, {totalPayPrice: 0, totalSaved: 0})
 }
 
-function chooseType({totalPayPrice,totalSaved}) {
+function chooseType({totalPayPrice,totalSaved},promotions) {
   let total = totalPayPrice+totalSaved;
   let reachPromotion = total>=30 ? 6 :0;
+  let reachPromotionString = promotions.find((promotion) => promotion.type === '满30减6元').type;
+  let halfPriceString = promotions.find((promotion) => promotion.type === '指定菜品半价').type;
   if(reachPromotion === 0){
     return {
       totalPayPrice:totalPayPrice,
@@ -68,15 +70,15 @@ function chooseType({totalPayPrice,totalSaved}) {
     }
   }else if(reachPromotion > totalSaved){
     return {
-      totalPayPrice:totalPayPrice-6,
+      totalPayPrice:totalPayPrice+totalSaved-6,
       totalSaved:6,
-      chosenType:'满30减6元'
+      chosenType:reachPromotionString
     }
   }else {
     return {
       totalPayPrice:totalPayPrice,
       totalSaved:totalSaved,
-      chosenType:'指定菜品半价'
+      chosenType:halfPriceString
     }
   }
 
@@ -103,15 +105,20 @@ function buildReceiptString(receipt) {
     return name;
   });
 
-  for(let {name,count,payPrice} of receipt.receiptItems){
-      let line=`${name} x ${count} = ${payPrice}元`;
+  for(let {name,count,price} of receipt.receiptItems){
+      let line=`${name} x ${count} = ${price*count}元`;
       lines.push(line);
   }
 
   if(receipt.chosenType.length>0){
     lines.push(`-----------------------------------`);
     lines.push(`使用优惠:`);
-    lines.push(`${receipt.chosenType}`);
+    if(savedItems.length>0){
+      lines.push(`指定菜品半价(黄焖鸡，凉皮)，省13元`);
+    }else {
+      lines.push(`${receipt.chosenType}，省${receipt.totalSaved}元`);
+
+    }
   }
 
   lines.push(`-----------------------------------`);

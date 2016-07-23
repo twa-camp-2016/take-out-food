@@ -155,7 +155,7 @@ describe('Take out food', function () {
     };
 
     let promotions = loadPromotions();
-    let chosenTypePrice = chooseType(totalPrice);
+    let chosenTypePrice = chooseType(totalPrice,promotions);
 
     let expected = {
       totalPayPrice:24,
