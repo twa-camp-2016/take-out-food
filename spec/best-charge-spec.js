@@ -1,7 +1,6 @@
 describe('Take out food', function () {
 
   describe('getSelectedItems', function () {
-    describe('input1',function(){
       let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
       let allItems = [{
         id: 'ITEM0001',
@@ -50,11 +49,9 @@ describe('Take out food', function () {
         ]
         expect(selectItems).toEqual(expected);
       });
-    })
-
   });
   describe('getReceiptItems', function () {
-    const selectItems = [
+    let selectItems = [
       {
         item: {
           id: 'ITEM0001',
@@ -80,7 +77,7 @@ describe('Take out food', function () {
         count: 1
       }
     ]
-    const allPromotions = [{
+    let allPromotions = [{
       type: '满30减6元'
     }, {
       type: '指定菜品半价',
@@ -88,8 +85,8 @@ describe('Take out food', function () {
     }];
     it('receiptItems', function () {
 
-      const receiptItems = getReceiptItems(selectItems, allPromotions);
-      const expected = [{
+      let receiptItems = getReceiptItems(selectItems, allPromotions);
+      let expected = [{
         selectItem: {
           item: {
             id: 'ITEM0001',
@@ -134,22 +131,33 @@ describe('Take out food', function () {
   });
 
   describe('findPromotionType', function () {
-    const selectItems = 'ITEM0001';
-    const allPromotions = [{
+    let selectItems = 'ITEM0001';
+    let allPromotions = [{
       type: '满30减6元'
     }, {
       type: '指定菜品半价',
       items: ['ITEM0001', 'ITEM0022']
     }];
     it('PromotionType', function () {
-      const promotions = findPromotionType(selectItems, allPromotions);
-      const expected = '指定菜品半价';
+      let promotions = findPromotionType(selectItems, allPromotions);
+      let expected = '指定菜品半价';
       expect(promotions).toEqual(expected);
     });
   });
 
+  describe('getDiscountInfo', function () {
+
+    let count =1;
+    let price =18;
+    let promotionType='指定菜品半价';
+    it('discountInfo', function () {
+      let discountInfo = getDiscountInfo(count, price, promotionType);
+      let expected = {saved:9,subtotal:18,promotionsType:'指定菜品半价'};
+      expect(discountInfo).toEqual(expected);
+    });
+  });
   describe('calculateSaveAndTotal', function () {
-    const receiptItems = [{
+    let receiptItems = [{
       selectItem: {
         item: {
           id: 'ITEM0001',
@@ -189,20 +197,19 @@ describe('Take out food', function () {
         subtotal: 8
       }
     ];
-    it('SaveAndTotal', function () {
+    it('saveAndTotal', function () {
 
-      const totalArr = calculateSaveAndTotal(receiptItems);
-      const expected = [13,38];
+      let totalArr = calculateSaveAndTotal(receiptItems);
+      let expected = [{saveTotal:13,total:38}];
       expect(totalArr).toEqual(expected);
     });
   });
   describe('getBestCharge', function () {
-    const totalArr = [13,38];
-
-    it('PromotionType', function () {
-      const promotions = getBestCharge(totalArr);
-      const expected = [25,'指定菜品半价'];
-      expect(promotions).toEqual(expected);
+    let totalArr =[{saveTotal:13,total:38}];
+    it('getBestCharge', function () {
+      let best = getBestCharge(totalArr);
+      let expected = [{bestcharge:25,proType:'指定菜品半价'}];
+      expect(best).toEqual(expected);
     });
   });
 

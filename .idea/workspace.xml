@@ -24,21 +24,63 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/best-charge.js">
+      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2722">
-              <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
-              <folding />
+            <state relative-caret-position="-642">
+              <caret line="163" column="16" selection-start-line="163" selection-start-column="16" selection-end-line="163" selection-end-column="16" />
+              <folding>
+                <element signature="e#517#1161#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
+      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/best-charge.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="208" column="18" selection-start-line="208" selection-start-column="18" selection-end-line="208" selection-end-column="18" />
+            <state relative-caret-position="322">
+              <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+              <folding>
+                <element signature="n#!!block;n#getSelectedItems#0" expanded="false" />
+                <element signature="e#99#307#0" expanded="false" />
+                <element signature="n#!!block;n#findPromotionType#0" expanded="false" />
+                <element signature="e#764#908#0" expanded="false" />
+                <element signature="e#801#904#0" expanded="false" />
+                <element signature="n#!!block;n#getDiscountInfo#0" expanded="false" />
+                <element signature="e#1089#1120#0" expanded="false" />
+                <element signature="n#!!block;n#calculateSaveAndTotal#0" expanded="false" />
+                <element signature="e#1307#1368#0" expanded="false" />
+                <element signature="n#!!block;n#getBestCharge#0" expanded="false" />
+                <element signature="e#1649#1682#0" expanded="false" />
+                <element signature="e#1725#1866#0" expanded="false" />
+                <element signature="e#1916#2054#0" expanded="false" />
+                <element signature="e#2062#2134#0" expanded="false" />
+                <element signature="n#!!block;n#ptint#0" expanded="false" />
+                <element signature="n#!!block;n#getText#0;n#!!block;n#ptint#0" expanded="false" />
+                <element signature="n#!!block;n#getpromotionInfo#0;n#!!block;n#getText#0;n#!!block;n#ptint#0" expanded="false" />
+                <element signature="e#2400#2639#0" expanded="false" />
+                <element signature="e#2441#2485#0" expanded="false" />
+                <element signature="e#2530#2573#0" expanded="false" />
+                <element signature="e#2587#2631#0" expanded="false" />
+                <element signature="e#2752#2871#0" expanded="false" />
+                <element signature="e#2910#2934#0" expanded="false" />
+                <element signature="e#2944#3424#0" expanded="false" />
+                <element signature="e#3108#3325#0" expanded="false" />
+                <element signature="e#3164#3228#0" expanded="false" />
+                <element signature="e#3272#3317#0" expanded="false" />
+                <element signature="e#3517#3633#0" expanded="false" />
+                <element signature="n#!!block;n#bestCharge#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promotions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/promotions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -74,8 +116,8 @@
         <option value="$PROJECT_DIR$/lib/test-out/src/aaa.html" />
         <option value="$PROJECT_DIR$/a.html" />
         <option value="$PROJECT_DIR$/student-name.txt" />
-        <option value="$PROJECT_DIR$/src/best-charge.js" />
         <option value="$PROJECT_DIR$/spec/best-charge-spec.js" />
+        <option value="$PROJECT_DIR$/src/best-charge.js" />
       </list>
     </option>
   </component>
@@ -239,15 +281,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1469237935456</updated>
-      <workItem from="1469237937200" duration="22745000" />
+      <workItem from="1469237937200" duration="35673000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22745000" />
+    <option name="totallyTimeSpent" value="35673000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="52" width="1301" height="716" extended-state="0" />
+    <frame x="65" y="52" width="1301" height="716" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15910839" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -277,17 +319,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/spec/best-charge-spec.js</url>
-          <line>241</line>
+          <line>248</line>
           <properties />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/best-charge.js</url>
-          <line>14</line>
+          <line>13</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/best-charge.js</url>
+          <line>86</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="3" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -340,14 +388,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/promotions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/a.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -364,19 +404,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/promotions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/best-charge.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2722">
-          <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
-          <folding />
+        <state relative-caret-position="322">
+          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+          <folding>
+            <element signature="n#!!block;n#getSelectedItems#0" expanded="false" />
+            <element signature="e#99#307#0" expanded="false" />
+            <element signature="n#!!block;n#findPromotionType#0" expanded="false" />
+            <element signature="e#764#908#0" expanded="false" />
+            <element signature="e#801#904#0" expanded="false" />
+            <element signature="n#!!block;n#getDiscountInfo#0" expanded="false" />
+            <element signature="e#1089#1120#0" expanded="false" />
+            <element signature="n#!!block;n#calculateSaveAndTotal#0" expanded="false" />
+            <element signature="e#1307#1368#0" expanded="false" />
+            <element signature="n#!!block;n#getBestCharge#0" expanded="false" />
+            <element signature="e#1649#1682#0" expanded="false" />
+            <element signature="e#1725#1866#0" expanded="false" />
+            <element signature="e#1916#2054#0" expanded="false" />
+            <element signature="e#2062#2134#0" expanded="false" />
+            <element signature="n#!!block;n#ptint#0" expanded="false" />
+            <element signature="n#!!block;n#getText#0;n#!!block;n#ptint#0" expanded="false" />
+            <element signature="n#!!block;n#getpromotionInfo#0;n#!!block;n#getText#0;n#!!block;n#ptint#0" expanded="false" />
+            <element signature="e#2400#2639#0" expanded="false" />
+            <element signature="e#2441#2485#0" expanded="false" />
+            <element signature="e#2530#2573#0" expanded="false" />
+            <element signature="e#2587#2631#0" expanded="false" />
+            <element signature="e#2752#2871#0" expanded="false" />
+            <element signature="e#2910#2934#0" expanded="false" />
+            <element signature="e#2944#3424#0" expanded="false" />
+            <element signature="e#3108#3325#0" expanded="false" />
+            <element signature="e#3164#3228#0" expanded="false" />
+            <element signature="e#3272#3317#0" expanded="false" />
+            <element signature="e#3517#3633#0" expanded="false" />
+            <element signature="n#!!block;n#bestCharge#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="208" column="18" selection-start-line="208" selection-start-column="18" selection-end-line="208" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="-642">
+          <caret line="163" column="16" selection-start-line="163" selection-start-column="16" selection-end-line="163" selection-end-column="16" />
+          <folding>
+            <element signature="e#517#1161#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
