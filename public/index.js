@@ -1,4 +1,4 @@
-document.getElementById('items').write
+
 
 function calculatePrice() {
   // 想办法调用`bestCharge`并且把返回的字符串
