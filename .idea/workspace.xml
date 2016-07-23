@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4130914c-6151-4ac1-a697-4e1ec7284a72" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/best-charge-spec.js" afterPath="$PROJECT_DIR$/spec/best-charge-spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/best-charge.js" afterPath="$PROJECT_DIR$/src/best-charge.js" />
     </list>
@@ -30,16 +29,17 @@
       <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/best-charge.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="76" column="18" selection-start-line="76" selection-start-column="18" selection-end-line="76" selection-end-column="18" />
+            <state relative-caret-position="899">
+              <caret line="100" column="47" selection-start-line="100" selection-start-column="47" selection-end-line="100" selection-end-column="47" />
               <folding>
                 <element signature="n#!!block;n#countIds#0" expanded="false" />
                 <element signature="n#!!block;n#_getExistElementByIds#0" expanded="false" />
                 <element signature="n#!!block;n#buildCartItems#0" expanded="false" />
-                <element signature="n#!!block;n#calculateOriginalPrice#0" expanded="false" />
+                <element signature="e#954#1001#0" expanded="false" />
                 <element signature="n#!!block;n#buildPromotions#0" expanded="false" />
                 <element signature="n#!!block;n#calculateTotalPrices#0" expanded="false" />
                 <element signature="n#!!block;n#chooseType#0" expanded="false" />
+                <element signature="n#!!block;n#buildReceipt#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -48,9 +48,11 @@
       <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="229" column="50" selection-start-line="229" selection-start-column="50" selection-end-line="229" selection-end-column="50" />
-              <folding />
+            <state relative-caret-position="-3190">
+              <caret line="151" column="8" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="8" />
+              <folding>
+                <element signature="e#903#956#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -149,7 +151,7 @@
     <property name="JavaScriptPreferStrict" value="false" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
   </component>
-  <component name="RunManager" selected="Node.js.best-charge.js">
+  <component name="RunManager" selected="Node.js.best-charge-spec.js">
     <configuration default="false" name="best-charge.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="best-charge.js" working-dir="$PROJECT_DIR$/src">
       <method />
     </configuration>
@@ -219,8 +221,8 @@
     </list>
     <recent_temporary>
       <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.best-charge.js" />
-        <item index="1" class="java.lang.String" itemvalue="Node.js.best-charge-spec.js" />
+        <item index="0" class="java.lang.String" itemvalue="Node.js.best-charge-spec.js" />
+        <item index="1" class="java.lang.String" itemvalue="Node.js.best-charge.js" />
       </list>
     </recent_temporary>
   </component>
@@ -238,12 +240,12 @@
       <option name="presentableId" value="Default" />
       <updated>1469240211112</updated>
       <workItem from="1469240212701" duration="315000" />
-      <workItem from="1469240546311" duration="8215000" />
+      <workItem from="1469240546311" duration="10446000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8530000" />
+    <option name="totallyTimeSpent" value="10761000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
@@ -280,7 +282,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -292,10 +296,11 @@
             <element signature="n#!!block;n#countIds#0" expanded="false" />
             <element signature="n#!!block;n#_getExistElementByIds#0" expanded="false" />
             <element signature="n#!!block;n#buildCartItems#0" expanded="false" />
-            <element signature="n#!!block;n#calculateOriginalPrice#0" expanded="false" />
+            <element signature="e#954#1001#0" expanded="false" />
             <element signature="n#!!block;n#buildPromotions#0" expanded="false" />
             <element signature="n#!!block;n#calculateTotalPrices#0" expanded="false" />
             <element signature="n#!!block;n#chooseType#0" expanded="false" />
+            <element signature="n#!!block;n#buildReceipt#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -304,7 +309,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#903#956#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -341,24 +348,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="229" column="50" selection-start-line="229" selection-start-column="50" selection-end-line="229" selection-end-column="50" />
-          <folding />
+        <state relative-caret-position="-3190">
+          <caret line="151" column="8" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="8" />
+          <folding>
+            <element signature="e#903#956#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/best-charge.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="76" column="18" selection-start-line="76" selection-start-column="18" selection-end-line="76" selection-end-column="18" />
+        <state relative-caret-position="899">
+          <caret line="100" column="47" selection-start-line="100" selection-start-column="47" selection-end-line="100" selection-end-column="47" />
           <folding>
             <element signature="n#!!block;n#countIds#0" expanded="false" />
             <element signature="n#!!block;n#_getExistElementByIds#0" expanded="false" />
             <element signature="n#!!block;n#buildCartItems#0" expanded="false" />
-            <element signature="n#!!block;n#calculateOriginalPrice#0" expanded="false" />
+            <element signature="e#954#1001#0" expanded="false" />
             <element signature="n#!!block;n#buildPromotions#0" expanded="false" />
             <element signature="n#!!block;n#calculateTotalPrices#0" expanded="false" />
             <element signature="n#!!block;n#chooseType#0" expanded="false" />
+            <element signature="n#!!block;n#buildReceipt#0" expanded="false" />
           </folding>
         </state>
       </provider>

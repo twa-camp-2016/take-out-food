@@ -50,29 +50,29 @@ describe('Take out food', function () {
     expect(cartItems).toEqual(expected);
   });
 
-  it('calculate original total prices',function () {
-    let cartItems = [
-      {
-        id:'ITEM0013',
-        name: '肉夹馍',
-        price: 6.00,
-        count:2
-      },
-
-      {
-        id: 'ITEM0022',
-        name: '凉皮',
-        price: 8.00,
-        count:3
-      }
-    ];
-
-    let originalTotalPrice = calculateOriginalPrice(cartItems);
-
-    let expected = 36;
-
-    expect(originalTotalPrice).toEqual(expected);
-  });
+  // it('calculate original total prices',function () {
+  //   let cartItems = [
+  //     {
+  //       id:'ITEM0013',
+  //       name: '肉夹馍',
+  //       price: 6.00,
+  //       count:2
+  //     },
+  //
+  //     {
+  //       id: 'ITEM0022',
+  //       name: '凉皮',
+  //       price: 8.00,
+  //       count:3
+  //     }
+  //   ];
+  //
+  //   let originalTotalPrice = calculateOriginalPrice(cartItems);
+  //
+  //   let expected = 36;
+  //
+  //   expect(originalTotalPrice).toEqual(expected);
+  // });
 
   it('build promotions',function () {
     let cartItems = [
@@ -155,7 +155,7 @@ describe('Take out food', function () {
     };
 
     let promotions = loadPromotions();
-    let chosenTypePrice = chooseType(totalPrice,promotions);
+    let chosenTypePrice = chooseType(totalPrice);
 
     let expected = {
       totalPayPrice:24,
@@ -251,7 +251,7 @@ describe('Take out food', function () {
       chosenType:'指定菜品半价'
     }
 
-    expect(chosenTypePrice).toEqual(expected);
+    expect(receipt).toEqual(expected);
   })
 
   it('should generate best charge when best is 指定菜品半价', function() {

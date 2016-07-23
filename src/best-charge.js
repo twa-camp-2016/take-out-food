@@ -1,5 +1,16 @@
 function bestCharge(selectedItems) {
-  return /*TODO*/;
+  let countedIds = countIds(selectedItems);
+  let allItems = loadAllItems();
+  let cartItems = buildCartItems(countedIds,allItems);
+  let promotions = loadPromotions();
+  let promotedItems = buildPromotions(cartItems,promotions);
+  let totalPrice = calculateTotalPrices(promotedItems);
+
+  let chosenTypePrice = chooseType(totalPrice);
+  let receipt = buildReceipt(promotedItems,chosenTypePrice);
+  let receiptString = buildReceiptString(receipt);
+
+  return receiptString;
 }
 
 function countIds(tags) {
@@ -19,14 +30,12 @@ function buildCartItems(countedIds, allItems) {
     return {id, name, price, count};
   })
 }
-
-function calculateOriginalPrice(cartItems) {
-  return cartItems.reduce((originalTotalPrice, cartItem) => {
-    originalTotalPrice += cartItem.price * cartItem.count;
-    return originalTotalPrice;
-  }, 0)
-}
-
+// function calculateOriginalPrice(cartItems) {
+//   return cartItems.reduce((originalTotalPrice, cartItem) => {
+//     originalTotalPrice += cartItem.price * cartItem.count;
+//     return originalTotalPrice;
+//   }, 0)
+// }
 function buildPromotions(cartItems, promotions) {
   let halfPrice = promotions.find((promotion) => promotion.type === '指定菜品半价');
   return cartItems.map((cartItem) => {
@@ -48,7 +57,7 @@ function calculateTotalPrices(promotedItems) {
   }, {totalPayPrice: 0, totalSaved: 0})
 }
 
-function chooseType({totalPayPrice,totalSaved},promotions) {
+function chooseType({totalPayPrice,totalSaved}) {
   let total = totalPayPrice+totalSaved;
   let reachPromotion = total>=30 ? 6 :0;
   if(reachPromotion === 0){
@@ -85,4 +94,30 @@ function buildReceipt(promotedItems,{totalPayPrice,totalSaved,chosenType}) {
       });
   }
   return {receiptItems:receiptArray,totalPayPrice,totalSaved,chosenType};
+}
+
+function buildReceiptString(receipt) {
+  let lines = [];
+  lines.push(`============= 订餐明细 =============`);
+  let savedItems = receipt.receiptItems.filter((receiptItem)=> receiptItem.saved >0).map(({name})=>{
+    return name;
+  });
+
+  for(let {name,count,payPrice} of receipt.receiptItems){
+      let line=`${name} x ${count} = ${payPrice}元`;
+      lines.push(line);
+  }
+
+  if(receipt.chosenType.length>0){
+    lines.push(`-----------------------------------`);
+    lines.push(`使用优惠:`);
+    lines.push(`${receipt.chosenType}`);
+  }
+
+  lines.push(`-----------------------------------`);
+  lines.push(`总计：${receipt.totalPayPrice}元`);
+  lines.push(`===================================`);
+
+  let result = lines.join("\n");
+  return result;
 }
