@@ -13,7 +13,7 @@ function bestCharge(selectedItems) {
 
   console.log("==========定餐明细=========");
   for (let i = 0; i < subtotals.length; i++) {
-    console.log(subtotals[i].name + " " + "x" + " " + "=" + subtotals[i].subtotal + "（元)\n");
+    console.log(subtotals[i].name + " " + "x" + " " + subtotals[i].amount+"=" + subtotals[i].subtotal + "（元)\n");
     console.log("使用优惠：\n" + "-----------------------");
     if (finalTotal === proTotal1) {
       console.log(subtotals[i].type + "(" + subtotals[i].name + ")" + "," + "省" + "元\n" + "------------------------------------");
