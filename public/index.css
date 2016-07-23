@@ -1,11 +1,16 @@
-/* 
-请把与index.html页面相关的css代码写在这里
-同时删除该注释
-*/
+body{
+	background: #edebeb;
+}
 
-/* #message只是一个示例，可以删除 */
-#message {
-	height: 30px;
-	line-height: 30px;
-	border: 1px solid red;
+h1,h2{
+	text-align: center;
+}
+.wrap{
+	width:1000px;
+	height: 800px;
+	margin:10px auto;
+	border:1px solid #f6efef;
+	border-radius: 5px;
+	box-shadow: ;
+	background: white;
 }
