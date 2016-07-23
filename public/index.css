@@ -1,11 +1,65 @@
-/* 
+body {
+    position: relative;
+    top: -20px;
+    padding: 0;
+    margin: 0;
+}
+
+.title {
+    height: 60px;
+    line-height: 60px;
+    color: #00b3ee;
+    text-align: center;
+    background: #a6e1ec;
+    border: 1px solid #00CCFF;
+}
+
+.all {
+    position: relative;
+    margin: 20px 50px;
+}
+
+.count {
+    display: inline-block;
+    text-align: center;
+    height: 110%;
+}
+
+.tableTitle {
+    font-size: 25px;
+    text-align: center;
+}
+
+tr {
+    position: relative;
+    height: 53px;
+
+    margin-left: 60px;
+}
+
+td {
+    position: relative;
+    text-align: center;
+}
+
+tbody {
+    font-size: 20px;
+}
+
+/*button {*/
+    /*position: relative;*/
+    /*left:40%;*/
+    /*margin-left:7%;*/
+/*}*/
+
+/*
 请把与index.html页面相关的css代码写在这里
 同时删除该注释
 */
 
 /* #message只是一个示例，可以删除 */
-#message {
-	height: 30px;
-	line-height: 30px;
-	border: 1px solid red;
-}
+/*#message {*/
+/*height: 30px;*/
+/*line-height: 30px;*/
+/*border: 1px solid red;*/
+/*}*/
