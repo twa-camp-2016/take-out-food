@@ -5,12 +5,26 @@ body{
 h1,h2{
 	text-align: center;
 }
+
+input{
+	width: 20px;
+}
+
 .wrap{
 	width:1000px;
 	height: 800px;
 	margin:10px auto;
 	border:1px solid #f6efef;
 	border-radius: 5px;
-	box-shadow: ;
 	background: white;
+}
+
+#items{
+	width: 600px;
+	margin: 10px auto;
+}
+
+.btn1{
+	width:1000px;
+	margin: 10px auto;
 }

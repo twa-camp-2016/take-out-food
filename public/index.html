@@ -5,7 +5,7 @@
     <title>Take Out Food</title>
 
     <link rel="stylesheet" href="./index.css" />
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./bootstrap.min.css" />
 
     <script type="text/javascript" src="../src/items.js"></script>
     <script type="text/javascript" src="../src/promotions.js"></script>
@@ -16,8 +16,9 @@
 
 <div class="wrap">
     <h1>“好多肉”在线点餐系统</h1>
+    <div id="items">
         <table class="table">
-            <caption>基本的表格布局</caption>
+            <h2>菜单</h2>
             <thead>
             <tr>
                 <th>菜名</th>
@@ -52,12 +53,11 @@
     <div id="promotions">
 
     </div>
-    <div>
+    <div class="btn1">
         <button onclick="calculatePrice()">结算</button>
         <button onclick="clear()">清除</button>
     </div>
     <pre id="message">
-        /* 请将结算后产生的汇总字符串显示在这里 */
     </pre>
 </div>
 </body>
