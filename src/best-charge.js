@@ -106,7 +106,7 @@ function buildReceipt(promotedItems, total) {
       name: promotedItem.name,
       count: promotedItem.count,
       isHalfPrice: promotedItem.isHalfPrice,
-      price: promotedItem.price
+      price: parseFloat((promotedItem.price * promotedItem.count).toFixed(2))
     };
   });
 
@@ -123,7 +123,7 @@ function buildReceiptString(receipt) {
 
   lines.push(`============= 订餐明细 =============`);
   for (let item of receipt.items)
-    lines.push(`${item.name} x ${item.count} = ${item.payPrice}元`);
+    lines.push(`${item.name} x ${item.count} = ${item.price}元`);
   if (receipt.type !== '没有优惠') {
     lines.push(`-----------------------------------`);
     lines.push(`使用优惠:`);
