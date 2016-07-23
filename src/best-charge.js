@@ -10,8 +10,8 @@ function bestCharge(selectedItems) {
 
 
 function buildDishItem(selectedItems, allItems) {
-  const dishItems = [];
-  for (const selectedItem of selectedItems) {
+  let dishItems = [];
+  selectedItems.map(selectedItem => {
     const selectedArray = selectedItem.split("x");
     const id = selectedArray[0];
     const count = parseFloat(selectedArray[1] || 1);
@@ -23,7 +23,9 @@ function buildDishItem(selectedItems, allItems) {
       const item = allItems.find(item => item.id === id);
       dishItems.push({item, count});
     }
-  }
+
+  });
+
   return dishItems;
 };
 
@@ -52,11 +54,10 @@ function discount(count, price, promotionType) {
 
 
 function buildMenuReceipt(menuItems, promotions) {
-  let savedTotal = 0, total = 0;
-  for (const MenuItem of menuItems) {
-    savedTotal += MenuItem.saved;
-    total += MenuItem.subtotal;
-  }
+  let total = menuItems.map(menuItem => menuItem.subtotal)
+                       .reduce((prv, cur) => prv + cur);
+  let savedTotal = menuItems.map(menuItem => menuItem.saved)
+                            .reduce((prv, cur) => prv + cur);
   let totalStr = countTotal(menuItems, promotions);
   let finalTotal = totalStr && total > totalStr.total ? totalStr.total : total;
   let promotionType = finalTotal === total ? promotions[1].type : totalStr.promotionType;
