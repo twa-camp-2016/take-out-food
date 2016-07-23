@@ -182,7 +182,7 @@ describe('unit testing', ()=> {
                 halfPrice: 21.00,
                 halfSaved: 9.00,
                 discountPrice: 24.00,
-                discountsaved: 6.00
+                discountSaved: 6.00
             };
 
 

@@ -55,16 +55,16 @@ function buildReceipt(receiptItems) {
 
     let halfPrice = 0;
     let halfSaved = 0;
-    let discount = 0;
+    let discountPrice = 0;
     let discountSaved = 6;
 
     for (let receiptItem of receiptItems) {
         halfPrice += receiptItem.halftotal;
         halfSaved += receiptItem.saved;
-        discount += receiptItem.actualTotal;
+        discountPrice += receiptItem.actualTotal;
     }
-    discount = discount - 6;
-    return {receiptItems, halfPrice, halfSaved, discount, discountSaved};
+    discountPrice = discountPrice - 6;
+    return {receiptItems, halfPrice, halfSaved, discountPrice, discountSaved};
 }
 
 
