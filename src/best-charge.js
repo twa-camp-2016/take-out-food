@@ -91,9 +91,7 @@ function ptint(receiptItems,totalArr,best){
     }
       return promtionInfo;
   };
-   if(best.length===1){
-     text='';
-   }
+
   let promtionInfo=getpromotionInfo(totalArr,best);
 
    if(promtionInfo[1]===6) {
@@ -101,11 +99,15 @@ function ptint(receiptItems,totalArr,best){
        '使用优惠:\n' +best[1]
        +'，省6元\n';
    }
-   else{
+   if(best.length===1){
+     text='';
+   }
+   else if(promtionInfo[1]===13){
      text +='-----------------------------------\n'+
        '使用优惠:\n' +best[1]+'(黄焖鸡，凉皮)'
        +'，省'+totalArr[0]+'元\n';
    }
+
   return text;
  }
 let text=getText(totalArr,best);
