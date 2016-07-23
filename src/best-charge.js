@@ -92,11 +92,3 @@ ${receiptItemsText}
     return title+'\n'+footer;
   }
 };
-
-moule.expores={
-  buildCartItems:buildCartItems,
-  buildReceiptItems:buildReceiptItems,
-  buildReceipt:buildReceipt,
-  toPrintReceipt:toPrintReceipt,
-  bestCharge:bestCharge
-};
