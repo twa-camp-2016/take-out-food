@@ -13,7 +13,7 @@ describe('Take out food', function () {
 指定菜品半价(黄焖鸡，凉皮)，省13元
 -----------------------------------
 总计：25元
-===================================`.trim()
+===================================`.trim();
     expect(summary).toEqual(expected)
   });
 
@@ -29,7 +29,7 @@ describe('Take out food', function () {
 满30减6元，省6元
 -----------------------------------
 总计：26元
-===================================`.trim()
+===================================`.trim();
     expect(summary).toEqual(expected)
   });
 
@@ -41,8 +41,55 @@ describe('Take out food', function () {
 肉夹馍 x 4 = 24元
 -----------------------------------
 总计：24元
-===================================`.trim()
+===================================`.trim();
     expect(summary).toEqual(expected)
   });
 
+  it('should get count Items',() => {
+    let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+    let items = loadAllItems();
+    let countItems = getCountItems(inputs,items);
+    const expectText = [
+      {
+        item: {
+          id: 'ITEM0001',
+          name: '黄焖鸡',
+          price: 18.00
+        },
+        count: 1
+      },
+      {
+         item: {
+           id: 'ITEM0013',
+           name: '肉夹馍',
+           price: 6.00
+         },
+        count:2
+      },
+      {
+        item: {
+          id: 'ITEM0022',
+          name: '凉皮',
+          price: 8.00
+        },
+        count:1
+      }
+    ];
+
+    expect(countItems).toEqual(expectText);
+  });
+
+  it('should get correct new Items',() => {
+    let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+    let items = loadAllItems();
+    let countItems = getCountItems(inputs,items);
+    let promotions = loadPromotions();
+    let save = countPromotions(countItems,promotions);
+
+    const expectText = 13;
+
+    expect(newItems).toEqual(expectText);
+  });
+
+  
 });
