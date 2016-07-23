@@ -56,48 +56,6 @@ describe('Take out food', function () {
     ]);
   });
 
-  // it('should build charge', function () {
-  //
-  //   const selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2"];
-  //   const oderedItems = buildOrderedItems(selectedItems, loadAllItems());
-  //   const chargeItems = buildChargedItems(oderedItems, loadPromotions());
-  //
-  //   const charge = buildCharge(chargeItems, loadPromotions());
-  //
-  //   expect(charge).toEqual(
-  //     {
-  //       chargeItems: [{
-  //         orderedItem: {
-  //           item: {
-  //             id: 'ITEM0001',
-  //             name: '黄焖鸡',
-  //             price: 18.00
-  //           },
-  //           count: 1
-  //         },
-  //         subtotal: 18.00
-  //       },
-  //         {
-  //           orderedItem: {
-  //             item: {
-  //               id: 'ITEM0013',
-  //               name: '肉夹馍',
-  //               price: 6.00
-  //             },
-  //             count: 2
-  //           },
-  //           subtotal: 12.00
-  //         }],
-  //       promotion: {
-  //         type: '指定菜品半价',
-  //         items: ['ITEM0001']
-  //       },
-  //       total: 21.00,
-  //       savedTotal: 9.00
-  //     });
-  // });
-
-
   it('should build charge', function () {
     const selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2"];
     const oderedItems = buildOrderedItems(selectedItems, loadAllItems());
@@ -183,6 +141,5 @@ describe('Take out food', function () {
 ===================================`.trim()
     expect(summary).toEqual(expected)
   });
-
 })
 ;

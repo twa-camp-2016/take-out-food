@@ -71,18 +71,18 @@ function calcuCharges(chargeItems, promotions) {
     if (promotionType === '满30减6元') {
       const payableTotal = chargeItems.reduce((prev, curr) => prev + curr.subtotal, 0);
 
-      if (isMeetPromotion(payableTotal)) {
+      isMeetPromotion(payableTotal) ?
         charges.push({promotion: {promotionType: promotion.type}, total: payableTotal - 6, savedTotal: 6})
-      }
-      else {
-        charges.push({promotion: {promotionType: ''}, total: payableTotal, savedTotal: 0});
-      }
+        : charges.push({promotion: {promotionType: ''}, total: payableTotal, savedTotal: 0});
+
     }
     else if (promotionType === '指定菜品半价') {
       const {total, savedTotal} = buildHalfPrice(chargeItems, promotion.items);
       const promotedItems = getPromotedItems(chargeItems, promotion.items);
 
-      charges.push({promotion: {promotionType: promotion.type, promotedItems}, total, savedTotal});
+      charges.push({promotion: {promotionType: promotion.type, promotedItems},
+        total, savedTotal
+      });
     }
   }
 
@@ -120,8 +120,22 @@ function buildHalfPrice(chargeItems, items) {
 
 function buildChargeText(charge) {
   const promotionType = charge.promotion.promotionType;
-  let itemsText;
+  const itemsText = charge.chargeItems.map(chargeItem => {
+    const orderedItem = chargeItem.orderedItem;
+    return `${orderedItem.item.name} x ${orderedItem.count} = ${chargeItem.subtotal}元`;
+  }).join('\n');
 
+  const text = generateText(promotionType, charge);
+
+  return `============= 订餐明细 =============
+${itemsText}
+${text}
+总计：${charge.total}元
+===================================`
+}
+
+function generateText(promotionType, charge) {
+  let itemsText;
   if (promotionType === '满30减6元') {
     itemsText = generateTextWithSubAmounts(charge);
   }
@@ -136,49 +150,27 @@ function buildChargeText(charge) {
 }
 
 function generateTextWithSubAmounts(charge) {
-  const text = charge.chargeItems.map(chargeItem => {
-    const orderedItem = chargeItem.orderedItem;
-    return `${orderedItem.item.name} x ${orderedItem.count} = ${chargeItem.subtotal}元`;
-  }).join('\n');
 
-  return `============= 订餐明细 =============
-${text}
+  return `\
 -----------------------------------
 使用优惠:
 ${charge.promotion.promotionType}，\
 省${charge.savedTotal}元
------------------------------------
-总计：${charge.total}元
-===================================`
+-----------------------------------`
 }
 
 function generateTextWithHalfAmounts(charge) {
-  const text = charge.chargeItems.map(chargeItem => {
-    const orderedItem = chargeItem.orderedItem;
-    return `${orderedItem.item.name} x ${orderedItem.count} = ${chargeItem.subtotal}元`;
-  }).join('\n');
 
-  return `============= 订餐明细 =============
-${text}
+  return `\
 -----------------------------------
 使用优惠:
 ${charge.promotion.promotionType}(${charge.promotion.promotedItems.join('，')})，\
 省${charge.savedTotal}元
------------------------------------
-总计：${charge.total}元
-===================================`
+-----------------------------------`;
 }
 
 function generateTextWithoutPromotion(charge) {
-  const text = charge.chargeItems.map(chargeItem => {
-    const orderedItem = chargeItem.orderedItem;
-    return `${orderedItem.item.name} x ${orderedItem.count} = ${chargeItem.subtotal}元`;
-  }).join('\n');
 
-  return `============= 订餐明细 =============
-${text}
------------------------------------
-总计：${charge.total}元
-===================================`
+  return `-----------------------------------`;
 }
 
