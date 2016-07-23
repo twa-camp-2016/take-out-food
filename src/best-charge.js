@@ -42,7 +42,7 @@ function findPromotionType(id, allPromotions) {
   const promotions = [];
   promotions.push(allPromotions[1]);
 
-  const thePromotion = promotions.find(promotion => promotion.items.find( b => b === id));
+  const thePromotion = promotions.find(promotion => promotion.items.find(b => b === id));
 
   return thePromotion ? thePromotion.type : undefined;
 }
@@ -67,7 +67,7 @@ function buildReceipts(receiptItems) {
     savedTotal += receiptItem.saved;
   }
 
-  if(total > 30){
+  if (total > 30) {
     if ((total - 6) < (total - savedTotal)) {
       return {receiptItems, total: (total - 6), savedTotal: 6, promotionType: '满30减6元'}
     }
@@ -75,7 +75,7 @@ function buildReceipts(receiptItems) {
       return {receiptItems, total: (total - savedTotal), savedTotal, promotionType: '指定菜品半价(黄焖鸡，凉皮)'}
   }
 
-  else if(savedTotal){
+  else if (savedTotal) {
     return {receiptItems, total: (total - savedTotal), savedTotal, promotionType: '指定菜品半价(黄焖鸡，凉皮)'}
   }
   else
@@ -90,7 +90,7 @@ function buildReceiptText(receipts) {
       return `${cartItem.item.name} x ${cartItem.count} = ${cartItem.item.price * cartItem.count}元`;
     }).join('\n');
 
-if(receipts.promotionType){
+  if (receipts.promotionType) {
     return `
 ============= 订餐明细 =============
 ${receiptItemsText}
@@ -100,7 +100,7 @@ ${receipts.promotionType}，省${receipts.savedTotal}元
 -----------------------------------
 总计：${receipts.total}元
 ===================================`
-}
+  }
   else return `
 ============= 订餐明细 =============
 ${receiptItemsText}
@@ -108,10 +108,3 @@ ${receiptItemsText}
 总计：${receipts.total}元
 ===================================`
 }
-
-
-
-
-
-
-
