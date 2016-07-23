@@ -1,5 +1,3 @@
-
-
 //#1
 function formatInputs(inputs) {
     //debugger;
@@ -37,15 +35,6 @@ function calculateItemsCharge(items) {
 function choosePromotions(itemsWithCharge, promotions) {
     let promotionOne = promotions.find((promotion) => promotion.type === '满30减6元');
     let promotionTwo = promotions.find((promotion) => promotion.type === '指定菜品半价');
-    //return itemsWithCharge.reduce((result,item) => {
-    //    let hasPromoted = promotionTwo.items.includes(item.id);
-    //    let itemSaved = hasPromoted ? item.itemCharge / 2 : 0;
-    //    //return Object.assign({}, promotionTwo, item.name, itemSaved);
-    //    //return hasPromoted;
-    //    //return itemSaved;
-    //    result.type
-    //},{});
-
 
     let result = [];
     let prpmotionTwoItemSaved = 0;
@@ -61,9 +50,9 @@ function choosePromotions(itemsWithCharge, promotions) {
             promotedItemName.push(item.name);
 
         }
-        //result.push(itemSaved);
+
     });
-    debugger;
+    //debugger;
 
     //promotionTwo
     let totalPrice = 0;
@@ -73,15 +62,10 @@ function choosePromotions(itemsWithCharge, promotions) {
 
     });
     if (totalPrice > 30) {
-        prpmotionOneItemSaved = (totalPrice / 30) * 6;
+        prpmotionOneItemSaved = parseInt((totalPrice / 30) * 6);
     }
 
     //choose
-    //let type;
-    //let type = prpmotionTwoItemSaved > prpmotionOneItemSaved ? promotionTwo.type :promotionOne.type;
-    //
-    //let type = promotionTwo.type;
-    //let saved ;//= prpmotionTwoItemSaved;
 
     if (prpmotionTwoItemSaved > prpmotionOneItemSaved) {
         type = promotionTwo.type;
@@ -94,12 +78,10 @@ function choosePromotions(itemsWithCharge, promotions) {
     }
 
 
-    //return {type, promotedItemName, saved};
-
 }
 
 //#5
-function calculateCharge(itemsWithCharge,bestPromotion) {
+function calculateCharge(itemsWithCharge, bestPromotion) {
     let charge = 0;
     itemsWithCharge.forEach((item) => {
         charge += item.itemCharge;
@@ -109,9 +91,9 @@ function calculateCharge(itemsWithCharge,bestPromotion) {
 }
 
 //#6
-function buildReceipt(itemsWithCharge,bestPromotion,charge) {
+function buildReceipt(itemsWithCharge, bestPromotion, charge) {
     return {
-        items:itemsWithCharge.map(({name,count,itemCharge}) => {
+        items: itemsWithCharge.map(({name,count,itemCharge}) => {
             return {name, count, itemCharge};
         }),
         bestPromotion,
@@ -120,15 +102,51 @@ function buildReceipt(itemsWithCharge,bestPromotion,charge) {
     };
 }
 
-function buildReceiptString() {
+function buildReceiptString(receipt) {
+    let lines = ['============= 订餐明细 ============='];
+    for (let {name,count,itemCharge} of receipt.items) {
+        let line = `${name} x ${count} = ${itemCharge}元`;
+        lines.push(line);
+    }
+    debugger;
+    let hasPromoted = receipt.bestPromotion;
+    if (receipt.bestPromotion.promotedItemName) {
+        for (let {name} of receipt.bestPromotion.promotedItemName) {
+           
+        }
+    }
 
+    if (hasPromoted) {
+        lines.push(`-----------------------------------`);
+        lines.push(`使用优惠:`);
+        lines.push(`${receipt.bestPromotion.type}()`);
+
+
+    }
+    lines.push(`，省${receipt.bestPromotion.saved}元`);
+    lines.push(`-----------------------------------`);
+    lines.push(`总计：${receipt.charge.charge}元`);
+    lines.push(`===================================`);
+
+
+    let receiptString = lines.join('\n');
+    return receiptString;
 }
 
-function bestCharge(selectedItems) {
-    return ;
+
+//指定菜品半价(黄焖鸡，凉皮)，省13元
+
+
+function bestCharge(inputs) {
+    let allItems = loadAllItems();
+    let promotions = loadPromotions();
+    let formattedInputs = formatInputs(inputs);
+    let items = buildItems(formattedInputs, allItems);
+    let itemsWithCharge = calculateItemsCharge(items);
+    let bestPromotion = choosePromotions(itemsWithCharge, promotions);
+    let charge = calculateCharge(itemsWithCharge, bestPromotion);
+    let receipt = buildReceipt(itemsWithCharge, bestPromotion, charge);
+
+    return buildReceiptString(receipt);
 }
 
-
-
-//Expected Object({ type: '指定菜品半价', promotedItemName: [ '黄焖鸡', '凉皮' ], prpmotionTwoItemSaved: 13 })
-//to equal Object({ type: '指定菜品半价', savedItems: [ '黄焖鸡', '凉皮' ], saved: 13 }).
