@@ -23,9 +23,7 @@ function buildDishItem(selectedItems, allItems) {
       const item = allItems.find(item => item.id === id);
       dishItems.push({item, count});
     }
-
   });
-
   return dishItems;
 };
 
@@ -79,7 +77,6 @@ function getReceiptText(receipt) {
     const item = menuItem.dishItem;
     return `${item.item.name} x ${item.count} = ${item.item.price * item.count}元`
   }).join('\n');
-
   return `============= 订餐明细 =============
 ${receiptItemsText}${getPromotionText(receipt)}
 -----------------------------------
@@ -97,12 +94,10 @@ function getPromotionText(receipt) {
   });
   let total = subtotalArr.reduce((pev, cru) => pev + cru);
   total = total === receipt.total.total && receipt.savedTotal === 0
-
   let text = `
 -----------------------------------
 使用优惠:
 ${receipt.total.promotionType}${finalPromotionType}省${finalSaved}元`;
-
   return total ? "" : text;
 }
 
