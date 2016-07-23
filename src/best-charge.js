@@ -1,3 +1,4 @@
+"use strict"
 function bestCharge(selectedItems) {
   const items = splitItems(selectedItems);
 
@@ -7,7 +8,7 @@ function bestCharge(selectedItems) {
 
   const promotion = selectBestPromotion(foodPromotions);
 
-  return receipt = buildFoodReceipt(foodPromotions, promotion);
+  return buildFoodReceipt(foodPromotions, promotion);
 }
 
 function splitItems(selectedItems) {
@@ -72,6 +73,7 @@ function selectBestPromotion(foodPromotions) {
 }
 
 function buildPromotionText(promotion) {
+  let promotionText;
   if (promotion.type === '指定菜品半价') {
     promotionText = `
 使用优惠:

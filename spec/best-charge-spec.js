@@ -1,3 +1,4 @@
+"use strict";
 describe('Take out food', function () {
 
   it('should generate best charge when best is 指定菜品半价', function () {
@@ -57,10 +58,10 @@ describe('Take out food', function () {
   it("buildFoodItems", ()=> {
     items = splitItems(selectedItems);
     const expectText = [
-      {item: {id: "ITEM0001", count: 1}, foodInformation: {name: '黄焖鸡', price: 18.00,subtotal:18}},
-      {item: {id: "ITEM0013", count: 2}, foodInformation: {name: '肉夹馍', price: 6.00,subtotal:12}},
+      {item: {id: "ITEM0001", count: 1}, foodInformation: {name: '黄焖鸡', price: 18.00, subtotal: 18}},
+      {item: {id: "ITEM0013", count: 2}, foodInformation: {name: '肉夹馍', price: 6.00, subtotal: 12}},
       {
-        item: {id: "ITEM0022", count: 1}, foodInformation: {name: '凉皮', price: 8.00,subtotal:8}
+        item: {id: "ITEM0022", count: 1}, foodInformation: {name: '凉皮', price: 8.00, subtotal: 8}
       }]
     expect(buildFoodItems(items)).toEqual(expectText);
   })
@@ -77,10 +78,10 @@ describe('Take out food', function () {
     expect(buildFoodPromotions(foodItems)).toEqual(expectText);
   })
 
-  it("selectBestPromotion",()=>{
+  it("selectBestPromotion", ()=> {
     foodPromotioons = buildFoodPromotions(foodItems);
     const expectText =
-        {type: '指定菜品半价', foods: ['黄焖鸡', '凉皮'], saved: 13};
+    {type: '指定菜品半价', foods: ['黄焖鸡', '凉皮'], saved: 13};
 
     expect(selectBestPromotion(foodPromotioons)).toEqual(expectText);
   })
