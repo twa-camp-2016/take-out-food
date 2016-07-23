@@ -50,14 +50,19 @@ function subtotalItems(subdevidedItems) {
 function addEachPromotion(subtotaledItems, allPromotions) {
   let addedItems = [];
   for(let one of subtotaledItems) {
+    let flag = 1;
     for(let each of allPromotions) {
-      if(one.id === each.id) {
-        addedItems.push(Object.assign({}, one, {type: each.type}));
-        break;
-      } else {
-        addedItems.push(Object.assign({}, one, {type: "无"}));
-        break;
+      if(each.items) {
+        for(let bar of each.items) {
+          if(one["id"] === bar) {
+            addedItems.push(Object.assign({}, one, {type: each.type}));
+            flag=0;
+          }
+        }
       }
+    }
+    if(flag) {
+      addedItems.push(Object.assign({}, one, {type: "无"}));
     }
   }
   return addedItems;
