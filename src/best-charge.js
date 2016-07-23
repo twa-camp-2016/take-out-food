@@ -33,16 +33,12 @@ function getPromotingItems(itemInfoList, allPromotions) {
 }
 
 function getDiscount(promotingItems, itemInfoList) {
-  let discount = 0;
-  if (promotingItems.length >= 1) {
-    for (let entry of promotingItems) {
-      let found = itemInfoList.find(item => item.id === entry.id);
-      if (found) {
-        discount += found.count * found.price / 2;
-      }
-    }
-  }
-  return discount;
+  return promotingItems.length < 1
+    ? 0
+    : promotingItems.reduce((acc, cur) => {
+    let found = itemInfoList.find(item=>item.id === cur.id);
+    return acc += found.count * found.price / 2;
+  }, 0);
 }
 
 function getPromotion(totalPrice, promotingItems, discount) {
