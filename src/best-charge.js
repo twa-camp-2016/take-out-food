@@ -53,6 +53,7 @@ function chooseDiscount(cartItems) {
   let discountOne=6;
   let discoutTwo=0;
   let savedMoney=0;
+  let choosedSummary=cartItems;
   let halfDisItems=calculateHalfDiscount(cartItems);
   let total=getTotal(cartItems);
   for(let i=0;i<halfDisItems.length;i++){
@@ -61,17 +62,17 @@ function chooseDiscount(cartItems) {
 
   if(total>30&&discoutTwo>discountOne){
     savedMoney=discoutTwo;
-    cartItems.push({type:'指定菜品半价'});
+    choosedSummary.push({type:'指定菜品半价'});
   }
   else if(total>30){
     savedMoney=total-discountOne;
-    cartItems.push({type:'满30减6元'});
+    choosedSummary.push({type:'满30减6元'});
   }
   else{
     savedMoney=0;
-    cartItems.push({type:'null'});
+    choosedSummary.push({type:'null'});
   }
-  return cartItems;
+  return choosedSummary;
 }
 
 function print(cartItems) {
@@ -92,6 +93,9 @@ function print(cartItems) {
 
     text += cartItems[i].name + ' x ' + cartItems[i].count + ' = ' + cartItems[i].count * cartItems[i].price + '元\n';
 
+
+
+
   }
   text+='-----------------------------------\n';
   if(total>30&&discoutTwo>discountOne){
@@ -109,7 +113,6 @@ function print(cartItems) {
     let text3='总计：'+total+'元\n'+'===================================';
     text+=text3;
   }
-
   /*if(choosedSummary[3].type==='指定菜品半价'){
 
     let text1='使用优惠:\n'+'指定菜品半价(黄焖鸡，凉皮)，省'+savedMoney+'元\n'+'-----------------------------------\n'+'总计：'+(total-savedMoney)+'元\n'+'===================================';
