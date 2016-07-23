@@ -6,3 +6,8 @@ function loadPromotions() {
     items: ['ITEM0001', 'ITEM0022']
   }];
 }
+let originalTotal=getOriginalTotal(cartItems);
+let itemsOneDiscount=getOnePromotionItems(cartItems,originalTotal);
+let itemsTwoDiscount=getTwoPromotionItems(cartItems,originalTotal);
+let itemsDiscount=getPromotionItems(itemsOneDiscount,itemsTwoDiscount);
+let total=getTotal(itemsDiscount);

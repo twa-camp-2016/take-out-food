@@ -1,3 +1,5 @@
+'use strict';
+
 function loadAllItems() {
   return [{
     id: 'ITEM0001',
@@ -17,3 +19,7 @@ function loadAllItems() {
     price: 2.00
   }];
 }
+//let inputs=[{"ITEM0001 * 1", "ITEM0013 * 2", "ITEM0022 * 1"}];
+
+let barcodes=formatTags(inputs);
+let cartItems=getItems(barcodes);
