@@ -1,7 +1,6 @@
 function getSelectedItems(inputs,allItems) {
 
   const selectItems = [];
-  //   let allItems = app.loadAllItems();
   for(const input of inputs){
     const inputArray = input.split(' x ');
     const id = inputArray[0];
@@ -75,7 +74,6 @@ function getBestCharge(totalArr){
   }
   return best;
 }
-
 function ptint(receiptItems,totalArr,best){
   let receipt = "============= 订餐明细 =============\n"
  function getText(totalArr,best) {
