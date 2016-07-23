@@ -4,8 +4,39 @@ function bestCharge(selectedItems) {
   return /*TODO*/;
 }
 
-function buildChargeItems(orderItems, promotions){
-  
+function buildChargeItems(orderItems, promotions) {
+  return orderItems.map(orderItem => {
+    const promotionType = getPromotionType(orderItem.item.id, promotions);
+    let {subtotal, saved} = discount(orderItem.item.price, orderItem.count, promotionType);
+
+    return {orderItem, subtotal, saved};
+  })
+}
+
+function discount(price, count, promotionType) {
+  let saved = 0;
+  let subtotal = price * count;
+
+  if (promotionType === '指定菜品半价') {
+    saved = price * 0.5 * count;
+  }
+
+  subtotal -= saved;
+
+  return {subtotal, saved}
+}
+
+function getPromotionType(id, promotions) {
+  let promotion = promotions.find(promotion => {
+    if (promotion.items === 'undefined' && promotion.type) {
+      return true;
+    }
+    if (promotion.items) {
+      return promotion.items.some(item => item === id)
+    }
+  });
+
+  return promotion ? promotion.type : 'undefined';
 }
 
 function buildOrderItems(tags, allItems) {
