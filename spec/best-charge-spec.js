@@ -168,12 +168,6 @@ describe('getScondSubtotal', function () {
           price: 18.00,
           count: 1,
           subtotal: 18
-        }, {
-          id: 'ITEM0013',
-          name: '肉夹馍',
-          price: 6.00,
-          count: 1,
-          subtotal: 6
         }
       ];
       let secondSubtotal = getScondSubtotal(itemSubtotal, halfIds)
@@ -187,14 +181,6 @@ describe('getScondSubtotal', function () {
           subtotal: 18,
           secondSubtotal: 9,
           secondSave: 9
-        }, {
-          id: 'ITEM0013',
-          name: '肉夹馍',
-          price: 6.00,
-          count: 1,
-          subtotal: 6,
-          secondSubtotal: 6,
-          secondSave: 0
         }
       ];
 

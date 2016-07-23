@@ -108,7 +108,7 @@ function getAllTotal(itemSbutotal) {
 
 function getScondSubtotal(itemSubtotal, halfIds) {
   let secondSubtotal = [];
-  
+  let flag = false;
 
   for(let item of itemSubtotal) {
     let first = 0;
@@ -119,15 +119,16 @@ function getScondSubtotal(itemSubtotal, halfIds) {
       if(item.id === id) {
         first = item.count * (item.price / 2);
         second = first;
+        break;
       } else {
         first = 0;
-        second = item.subtotal;
+        second = item.subtotal - first;
       }
       console.log(second)
-      secondSubtotal.push(Object.assign({}, item, {secondSave: first, secondSubtotal: second}))
-      break;
 
     }
+    // break;
+    secondSubtotal.push(Object.assign({}, item, {secondSave: first, secondSubtotal: second}))
   }
   console.log(secondSubtotal)
   return secondSubtotal;
@@ -166,7 +167,7 @@ function judge(firstAllSave, seconeAllSave, seconeAllSubtotal, total) {
   if(firstAllSave <= seconeAllSave && firstAllSave > 0) {
     finalTotal =seconeAllSubtotal
     returnType = {total: finalTotal,type: '指定菜品半价'};
-  } else if(firstAllSave === 0) {
+  } else if(firstAllSave === 0 ) {
     finalTotal = total;
     returnType = {total: finalTotal,type: 'null'};
   } else {
