@@ -2,6 +2,16 @@
 // 同时删除该注释
 
 function calculatePrice() {
+  var inputs = loadAllItems();
+  var conner = document.getElementById('conner');
+  var nodeDiv = document.createElement("div");
+  var nodeSpan = document.createElement("div");
+  nodeDiv.appendChild(nodeSpan);
+  for(const item of inputs){
+    newNode.innerHTML =item;
+  }
+  conner.appendChild(nodeDiv);
+
   // 想办法调用`bestCharge`并且把返回的字符串
   // 显示在html页面的`message`中
 }
