@@ -47,30 +47,30 @@ function getDiscount(promotingItems, itemInfoList) {
 
 function getPromotion(totalPrice, promotingItems, discount) {
   let promotion = {};
+
   if (totalPrice < 30) {
     if (promotingItems.length < 1) {
       // promotion should be empty
-    } else {
+    }
+    else {
       promotion.type = '指定菜品半价';
       promotion.items = promotingItems;
       promotion.discount = discount;
     }
-  } else {
+  }
+  else {
     // totalPrice >= 30
-    if (promotingItems.length < 1) {
+    if (promotingItems.length < 1 || discount < 6) {
       promotion.type = '满30减6元';
       promotion.discount = 6;
-    } else {
-      if (discount > 6) {
-        promotion.type = '指定菜品半价';
-        promotion.discount = discount;
-        promotion.items = promotingItems;
-      } else {
-        promotion.type = '满30减6元';
-        promotion.discount = 6;
-      }
+    }
+    else {
+      promotion.type = '指定菜品半价';
+      promotion.discount = discount;
+      promotion.items = promotingItems;
     }
   }
+
   return promotion;
 }
 
@@ -106,22 +106,16 @@ function getFooter(itemsWithPromotion, totalPrice) {
   function getFooterWhenExistPromotion() {
     footer = `\n-----------------------------------\n使用优惠:\n`;
     if (type === '指定菜品半价') {
-      footer += `指定菜品半价(${promotion.items.map(item => {
-        return item.name
-      }).join('，')})`;
+      footer += `指定菜品半价(${promotion.items.map(item =>item.name).join('，')})`;
     } else if (type === '满30减6元') {
       footer += '满30减6元';
     }
-    footer += `，省${promotion.discount}元\n-----------------------------------
-总计：${totalPrice - promotion.discount}元\n===================================`;
+    footer += `，省${promotion.discount}元\n-----------------------------------\n总计：${totalPrice - promotion.discount}元\n===================================`;
   }
 
   function getFooterWhenNonPromotion() {
-    footer = `\n-----------------------------------
-总计：${totalPrice}元
-===================================`
+    footer = `\n-----------------------------------\n总计：${totalPrice}元\n===================================`
   }
-
 }
 
 function generateSummary(totalPrice, itemsWithPromotion) {
