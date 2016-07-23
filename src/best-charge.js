@@ -4,6 +4,10 @@ function bestCharge(selectedItems) {
   return /*TODO*/;
 }
 
+function buildCharge() {
+  
+}
+
 function buildChargeItems(orderItems, promotions) {
   return orderItems.map(orderItem => {
     const promotionType = getPromotionType(orderItem.item.id, promotions);

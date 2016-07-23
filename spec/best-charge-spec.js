@@ -150,13 +150,62 @@ describe('Take out food', function () {
             },
             count: 1
           },
-          subtotal:4.00,
-          saved:4.00
+          subtotal: 4.00,
+          saved: 4.00
         }
       ];
-      
+
       expect(chargeItems).toEqual(expectChargeItems);
     });
-    
+
+    it('buildCharge', () => {
+      const chargeItems = [
+        {
+          orderItem: {
+            item: {
+              id: 'ITEM0001',
+              name: '黄焖鸡',
+              price: 18.00
+            },
+            count: 1
+          },
+          subtotal: 9.00,
+          saved: 9.00
+        },
+        {
+          orderItem: {
+            item: {
+              id: 'ITEM0013',
+              name: '肉夹馍',
+              price: 6.00
+            },
+            count: 2
+          },
+          subtotal: 12.00,
+          saved: 0.00
+        },
+        {
+          orderItem: {
+            item: {
+              id: 'ITEM0022',
+              name: '凉皮',
+              price: 8.00
+            },
+            count: 1
+          },
+          subtotal: 4.00,
+          saved: 4.00
+        }
+      ];
+      const charge = buildCharge(chargeItems);
+      const expectCharge = {
+        chargeItems: chargeItems,
+        total: 25.00,
+        savedTotal: 13.00
+      };
+
+      expect(charge).toEqual(expectCharge);
+    })
+
   });
 });
