@@ -4,8 +4,16 @@ function bestCharge(selectedItems) {
   return /*TODO*/;
 }
 
-function buildCharge() {
-  
+function buildCharge(chargeItems) {
+  let total = 0;
+  let savedTotal = 0;
+
+  chargeItems.forEach((chargeItem) => {
+    total += chargeItem.subtotal;
+    savedTotal += chargeItem.saved;
+  });
+
+  return {chargeItems, total, savedTotal}
 }
 
 function buildChargeItems(orderItems, promotions) {
