@@ -1,14 +1,23 @@
 'use strict';
 
-function bestCharge(selectedItems) {
-    return /*TODO*/;
+function bestCharge(tags) {
+    const allItems = loadAllItems();
+    const menuItems = buildMenuItems(tags, allItems);
+
+    const promotions = loadPromotions();
+    const receiptItems = buildReceiptItems(menuItems, promotions);
+
+    const receipt = buildReceipt(receiptItems);
+    const receiptText = buildReceiptText(receipt);
+
+      return receiptText;
 }
 
-function buildMenuItems(allItems, tags) {
+function buildMenuItems(tags, allItems) {
     const menuItems = [];
 
     for (let tag of tags) {
-        const tagArray = tag.split('x');
+        const tagArray = tag.split(' x ');
         const id = tagArray[0];
         const count = parseInt(tagArray[1]);
         const item = findExist(allItems, id);
@@ -70,19 +79,44 @@ function buildReceipt(receiptItems) {
 
 function buildReceiptText(receipt) {
     let promotion = '';
-    if (receipt.discountPrice > receipt.halfPrice) {
+    let savedMoney = 0;
+    let total = 0;
+    if (receipt.discountSaved > receipt.halfSaved) {
         promotion = '满30减6元';
+        savedMoney = receipt.discountSaved;
+        total = receipt.discountPrice;
     }
     else {
         promotion = '指定菜品半价';
+        savedMoney = receipt.halfSaved;
+        total =parseFloat(receipt.halfPrice);
+
     }
 
-    let receiptText = receipt.receipItems.map(menuReceipt => {
-        const item = menuReceipt.receiptItem;
-        return `${item.name}`
-    })
+    let halfItems = [];
 
+    let receiptText = receipt.receiptItems.map(meunItem => {
+        const item = meunItem.receiptItem;
+        if (meunItem.saved !== 0.00) {
+            const name = item.item.name;
+            halfItems.push(name);
+        }
+        return `${item.item.name} x ${item.count} = ${meunItem.actualTotal}元`;
+    }).join('\n');
+
+    let halfName = halfItems.join(',');
+
+    return `============= 订餐明细 =============
+${receiptText}
+-----------------------------------
+使用优惠:
+${promotion}(${halfName})，省${savedMoney}元
+-----------------------------------
+总计：${total}元
+===================================`;
 }
+
+
 
 
 
