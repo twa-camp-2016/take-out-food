@@ -12,15 +12,59 @@
     <script type="text/javascript" src="./index.js"></script>
 </head>
 <body>
-
     <h1>“好多肉”在线点餐系统</h1>
-
     <div id="items">
-        把`loadAllItems()`中的菜品信息以动态加载的方式显示在这里，并且能够让用户输入数量
+        <table border="1" id="table">
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>price</td>
+                <td>count</td>
+            </tr>
+            <tr>
+                <td>ITEM0001</td>
+                <td>黄焖鸡</td>
+                <td>18.00</td>
+                <td><input id='sub1' type="button" value="-"><input id='count1' type="text" value=0><input id='add1' type="button" value="+"></td>
+            </tr>
+            <tr>
+                <td>ITEM0013</td>
+                <td>肉夹馍</td>
+                <td>6.00</td>
+                <td><input id='sub2' type="button" value="-"><input id='count2' type="text" value=0><input id='add2' type="button" value="+"></td>
+            </tr>
+            <tr>
+                <td>ITEM0022</td>
+                <td>凉皮</td>
+                <td>8.00</td>
+                <td><input id='sub3' type="button" value="-"><input id='count3' type="text" value=0><input id='add3' type="button" value="+"></td>
+            </tr>
+            <tr>
+                <td>ITEM0030</td>
+                <td>冰锋</td>
+                <td>2.00</td>
+                <td><input id='sub4' type="button" value="-"><input id='count4' type="text" value=0><input id='add4' type="button" value="+"></td>
+            </tr>
+        </table>
     </div>
 
     <div id="promotions">
-        把`loadPromotions()`中的优惠信息以动态加载的方式显示在这里，让用户看到即可
+        <table border="1">
+            <tr>
+                <td>type</td>
+                <td>items</td>
+
+            </tr>
+            <tr>
+                <td>满30减6元</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>指定菜品半价</td>
+                <td>'ITEM0001', 'ITEM0022'</td>
+
+            </tr>
+           </table>
     </div>
 
     <div>
