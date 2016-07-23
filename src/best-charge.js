@@ -4,6 +4,10 @@ function bestCharge(selectedItems) {
   return /*TODO*/;
 }
 
+function buildChargeItems(orderItems, promotions){
+  
+}
+
 function buildOrderItems(tags, allItems) {
   let orderItems = [];
 
