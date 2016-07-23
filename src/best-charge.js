@@ -1,6 +1,4 @@
-function bestCharge(selectedItems) {
-    return /*TODO*/;
-}
+
 
 //#1
 function formatInputs(inputs) {
@@ -80,15 +78,57 @@ function choosePromotions(itemsWithCharge, promotions) {
 
     //choose
     //let type;
-    let type = prpmotionTwoItemSaved > prpmotionOneItemSaved ? promotionTwo.type :promotionOne.type;
+    //let type = prpmotionTwoItemSaved > prpmotionOneItemSaved ? promotionTwo.type :promotionOne.type;
     //
     //let type = promotionTwo.type;
-    let saved = prpmotionTwoItemSaved;
+    //let saved ;//= prpmotionTwoItemSaved;
+
+    if (prpmotionTwoItemSaved > prpmotionOneItemSaved) {
+        type = promotionTwo.type;
+        saved = prpmotionTwoItemSaved;
+        return {type, promotedItemName, saved};
+    } else {
+        type = promotionOne.type;
+        saved = prpmotionOneItemSaved;
+        return {type, saved};
+    }
 
 
-    return {type, promotedItemName, saved};
+    //return {type, promotedItemName, saved};
 
 }
+
+//#5
+function calculateCharge(itemsWithCharge,bestPromotion) {
+    let charge = 0;
+    itemsWithCharge.forEach((item) => {
+        charge += item.itemCharge;
+    });
+    charge -= bestPromotion.saved;
+    return {charge};
+}
+
+//#6
+function buildReceipt(itemsWithCharge,bestPromotion,charge) {
+    return {
+        items:itemsWithCharge.map(({name,count,itemCharge}) => {
+            return {name, count, itemCharge};
+        }),
+        bestPromotion,
+        charge
+
+    };
+}
+
+function buildReceiptString() {
+
+}
+
+function bestCharge(selectedItems) {
+    return ;
+}
+
+
 
 //Expected Object({ type: '指定菜品半价', promotedItemName: [ '黄焖鸡', '凉皮' ], prpmotionTwoItemSaved: 13 })
 //to equal Object({ type: '指定菜品半价', savedItems: [ '黄焖鸡', '凉皮' ], saved: 13 }).
