@@ -12,15 +12,50 @@
     <script type="text/javascript" src="./index.js"></script>
 </head>
 <body>
-
     <h1>“好多肉”在线点餐系统</h1>
 
-    <div id="items">
-        把`loadAllItems()`中的菜品信息以动态加载的方式显示在这里，并且能够让用户输入数量
+    <div id="items" align="center">
+        <h2>商品信息</h2>
+        <table width="1000" align="center">
+            <tr>
+                <th width="35%">商品ID</th>
+                <th>商品名</th>
+                <th>商品价格</th>
+                <th>商品数量</th>
+            </tr>
+            <script type="text/javascript">
+                var items = loadAllItems();
+                for(var i = 0 ; i < items.length; i++){
+                    var count = 'count' + i;
+                    var id = 'button' + i;
+                    var batton = '<button id="id" onclick="getCount()">添加</button>';
+
+                    var name = '<tr align="center"><td>' + items[i].id + '</td><td>' + items[i].name + '</td><td>' + items[i].price + '</td><td id="count">'+ 0 +'</td><td>' + batton +'</td></tr>';
+                    document.write(name);
+                }
+            </script>
+        </table>
+
     </div>
 
-    <div id="promotions">
-        把`loadPromotions()`中的优惠信息以动态加载的方式显示在这里，让用户看到即可
+    <div id="promotions" align="center">
+        <h2>优惠信息</h2>
+
+        <script type="text/javascript">
+            var promotions = loadPromotions();
+            for(var i = 0 ; i < promotions.length; i++){
+                var t = i + 1;
+                var type = '<h3>'+ t + '.' + promotions[i].type + '</h3>';
+                document.write(type);
+                if(promotions[i].items) {
+                    for(var j = 0; j< promotions[i].items.length; j++){
+                        var id = '<h4>' + promotions[i].items[j] + '</h4>';
+                        document.write(id)
+                    }
+
+                }
+            }
+        </script>
     </div>
 
     <div>
@@ -29,7 +64,7 @@
     </div>
 
     <pre id="message">
-        /* 请将结算后产生的汇总字符串显示在这里 */
+
     </pre>
 
 </body>
