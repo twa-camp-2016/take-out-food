@@ -1,11 +1,11 @@
 function bestCharge(inputs) {
-  let splitInputs=splitedInputs(inputs);
-  let items=loadAllItems();
-  let countItems=buildCountItems(splitInputs, items);
-  let promotions=loadPromotions();
-  let receiptItems=buildReceiptItems(countItems, promotions);
-  let receipt=selectpromotion(receiptItems);
- return buildReceiptText(receipt)
+  let splitInputs = splitedInputs(inputs);
+  let items = loadAllItems();
+  let countItems = buildCountItems(splitInputs, items);
+  let promotions = loadPromotions();
+  let receiptItems = buildReceiptItems(countItems, promotions);
+  let receipt = selectpromotion(receiptItems);
+  return buildReceiptText(receipt)
 
 
 //  return /*TODO*/;
@@ -36,7 +36,7 @@ function buildReceiptItems(countItems, promotions) {
     if (buildpromotion(countItem.item.id, promotions) === true) {
       halfSaved = countItem.item.price * countItem.count / 2;
     }
-   // let subtotal=0;
+    // let subtotal=0;
     receiptItems.push({countItem, actual: countItem.item.price * countItem.count, halfSaved})
   }
 
@@ -69,7 +69,7 @@ function selectpromotion(receiptItems) {
   }
   if (actualTotal > 30 && 6 > halfSavedTotal) {
     promotion = '满30减6元';
-    tatol = actualTotal-6;
+    tatol = actualTotal - 6;
     saved = 6;
   } else if (halfSavedTotal != 0) {
     promotion = '指定菜品半价';
@@ -77,7 +77,8 @@ function selectpromotion(receiptItems) {
     tatol = actualTotal - halfSavedTotal;
   } else {
     promotion = undefined;
-    tatol = actualTotal;;
+    tatol = actualTotal;
+    ;
     saved = undefined;
   }
   return {receiptItems, promotion, saved, tatol};
@@ -114,14 +115,14 @@ ${cartItem.count * cartItem.item.price}元`;
   } else {
     receiptPromotion = '';
   }
-  if (receipt.saved != undefined){
+  if (receipt.saved != undefined) {
     return `============= 订餐明细 =============
 ${receiptItemsText}
 ${receiptPromotion}
 -----------------------------------
 总计：${receipt.tatol}元
 ===================================`
-}
+  }
   else {
     return `============= 订餐明细 =============
 ${receiptItemsText}

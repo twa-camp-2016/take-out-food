@@ -99,7 +99,6 @@ describe('Take out food', function () {
       },
       actual: 18,
       halfSaved: 9,
-     // subtotal:0
     },
       {
         countItem: {
@@ -111,7 +110,6 @@ describe('Take out food', function () {
         },
         actual: 12,
         halfSaved: 0,
-        //subtotal:0
       }, {
         countItem: {
           item: {
@@ -122,7 +120,6 @@ describe('Take out food', function () {
         },
         actual: 8,
         halfSaved: 4,
-       // subtotal:0
       }];
     expect(receiptItems).toEqual(test);
   })
@@ -138,7 +135,6 @@ describe('Take out food', function () {
     },
     actual: 18,
     halfSaved: 9,
-   // subtotal:0
   },
     {
       countItem: {
@@ -150,7 +146,6 @@ describe('Take out food', function () {
       },
       actual: 12,
       halfSaved: 0,
-     // subtotal:0
     }, {
       countItem: {
         item: {
@@ -161,7 +156,6 @@ describe('Take out food', function () {
       },
       actual: 8,
       halfSaved: 4,
-     // subtotal:0
     }];
   it('selectPromotion', ()=> {
     let receipt = selectpromotion(receiptItems);
@@ -177,7 +171,6 @@ describe('Take out food', function () {
         },
         actual: 18,
         halfSaved: 9,
-       // subtotal:0
       },
         {
           countItem: {
@@ -189,7 +182,6 @@ describe('Take out food', function () {
           },
           actual: 12,
           halfSaved: 0,
-        //  subtotal:0
         }, {
           countItem: {
             item: {
@@ -201,15 +193,15 @@ describe('Take out food', function () {
           actual: 8,
           halfSaved: 4,
 
-                 }],
+        }],
       promotion: '指定菜品半价',
-      saved:13,
+      saved: 13,
       tatol: 25
     };
     expect(receipt).toEqual(test);
   })
 
-  let receipt={
+  let receipt = {
     receiptItems: [{
       countItem: {
         item: {
@@ -221,7 +213,7 @@ describe('Take out food', function () {
       },
       actual: 18,
       halfSaved: 9,
-      subtotal:9
+      subtotal: 9
     },
       {
         countItem: {
@@ -233,7 +225,7 @@ describe('Take out food', function () {
         },
         actual: 12,
         halfSaved: 0,
-        subtotal:12
+        subtotal: 12
       }, {
         countItem: {
           item: {
@@ -244,15 +236,15 @@ describe('Take out food', function () {
         },
         actual: 8,
         halfSaved: 4,
-        subtotal:4
+        subtotal: 4
       }],
     promotion: '指定菜品半价',
-    saved:13,
+    saved: 13,
     tatol: 25
   };
-  it('buildReceiptText',()=>{
-    let receiptText=buildReceiptText(receipt);
-    let test=`============= 订餐明细 =============
+  it('buildReceiptText', ()=> {
+    let receiptText = buildReceiptText(receipt);
+    let test = `============= 订餐明细 =============
 黄焖鸡 x 1 = 18元
 肉夹馍 x 2 = 12元
 凉皮 x 1 = 8元
