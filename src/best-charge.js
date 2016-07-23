@@ -90,12 +90,12 @@ function buildReceiptText(receipt,promotions) {
     const orderItem = receiptItem.orderItem;
     return `${orderItem.item.name} × ${orderItem.count} = ${receiptItem.subtotal}元`
   }).join('\n');
-  let chargeName = findDiscount(receipt);
+  //let chargeName = findDiscount(receipt);
   return `============= 订餐明细 =============
 ${receiptItemsText}
 -----------------------------------
 使用优惠:
-${receipt.type}${chargeName}，省${receipt.saved}元
+${receipt.type}，省${receipt.saved}元
 -----------------------------------
 总计：${receipt.total}元
 ===================================`.trim();
