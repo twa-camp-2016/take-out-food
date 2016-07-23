@@ -10,13 +10,13 @@ function bestCharge(selectedItems) {
   let proTotal1 = calculatePromotePrice_one(alltotals);
   let proTotal2 = calculatPromotePrice_two(subtotals);
   let finalTotal = chooseBest(proTotal1,proTotal2);
-
+  let proValue = alltotals-finalTotal;
   console.log("==========定餐明细=========");
   for (let i = 0; i < subtotals.length; i++) {
-    console.log(subtotals[i].name + " " + "x" + " " + subtotals[i].amount+"=" + subtotals[i].subtotal + "（元)\n");
-    console.log("使用优惠：\n" + "-----------------------");
+    console.log(subtotals[i].name + " " + "x" + " " + subtotals[i].amount+"="+subtotals[i].subtotal+"(元)"+"\n");
+    console.log("使用优惠："+"\n" + "-----------------------");
     if (finalTotal === proTotal1) {
-      console.log(subtotals[i].type + "(" + subtotals[i].name + ")" + "," + "省" + "元\n" + "------------------------------------");
+      console.log(subtotals[i].type + "(" + subtotals[i].name + ")" + "," + "省"+proValue+"元"+"\n"+ "------------------------------------");
     }
   }
   console.log("总计：" + finalTotal + "\n");
@@ -51,8 +51,9 @@ function mergePromoteTypes(cartItems){
   for(let i=0;i<cartItems.length;i++){
     promotedTypes.push(Object.assign({},cartItems[i],{type:"none"}));
     for(let j=0;j<allPromotions.length;j++){
-      for(let k=0;k<allPromotions[j].items.length;k++){
-        if(promotedTypes[i].id === allPromotions[j].items[k]){
+      let itemCodes = allPromotions[j].items;
+      for(let k=0;k<itemCodes.length;k++){
+        if(promotedTypes[i].id === itemCodes[k]){
           promotedTypes[i].type = allPromotions[j].type;
         }
       }
