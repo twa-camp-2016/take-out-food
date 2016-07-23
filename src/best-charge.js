@@ -58,8 +58,7 @@ function getBestCharge(totalArr){
   if(totalArr[1]>30)
   {
     totalArr[1]-=6;
- ;
-  }
+ ;}
   if(halfPriceTotal>totalArr[1]){
     bestcharge=totalArr[1];
     proType='满30减6元';
@@ -81,40 +80,36 @@ function ptint(receiptItems,totalArr,best){
   let receipt = "============= 订餐明细 =============\n"
  function getText(totalArr,best) {
   let text='';
+
    function getpromotionInfo(totalArr,best){
     let promtionInfo=[];
-    if(best.length===1){
-      promtionInfo=[];
-    }
-    else if(best[1]==='指定菜品半价'){
+    if(best[1]==='指定菜品半价'){
         promtionInfo.push(best[1],totalArr[0])
-
     }
      else if(best[1]==='满30减6元'){
       promtionInfo.push(best[1],6)
     }
       return promtionInfo;
   };
-  let promtionInfo=getpromotionInfo(totalArr,best);
-   if(promtionInfo.length=0)
-   {
+   if(best.length===1){
      text='';
    }
-   else if(promtionInfo[1]===6) {
+  let promtionInfo=getpromotionInfo(totalArr,best);
+
+   if(promtionInfo[1]===6) {
      text +='-----------------------------------\n'+
        '使用优惠:\n' +best[1]
        +'，省6元\n';
-   } else if(promtionInfo[1]===13){
+   }
+   else{
      text +='-----------------------------------\n'+
        '使用优惠:\n' +best[1]+'(黄焖鸡，凉皮)'
        +'，省'+totalArr[0]+'元\n';
    }
-   else{
-     text='';
-   }
   return text;
  }
 let text=getText(totalArr,best);
+
   for (let item of receiptItems) {
     receipt +=  item.selectItem.item.name+' x '+item.selectItem.count
       +' = '+item.subtotal + '元\n'

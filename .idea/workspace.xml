@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2681b6de-dcb9-493f-89af-c8f472b96715" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/best-charge-spec.js" afterPath="$PROJECT_DIR$/spec/best-charge-spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/best-charge.js" afterPath="$PROJECT_DIR$/src/best-charge.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/items.js" afterPath="$PROJECT_DIR$/src/items.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/promotions.js" afterPath="$PROJECT_DIR$/src/promotions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student-name.txt" afterPath="$PROJECT_DIR$/student-name.txt" />
     </list>
     <ignored path="take-out-food.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/best-charge.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="41" column="9" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="30" />
+            <state relative-caret-position="843">
+              <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
               <folding>
                 <element signature="n#!!block;n#getSelectedItems#0" expanded="false" />
                 <element signature="e#142#356#0" expanded="false" />
@@ -40,20 +35,17 @@
                 <element signature="e#476#725#0" expanded="false" />
                 <element signature="n#!!block;n#findPromotionType#0" expanded="false" />
                 <element signature="n#!!block;n#getDiscount#0" expanded="false" />
-                <element signature="n#!!block;n#calculateSaveAndTotal#0" expanded="false" />
-                <element signature="n#!!block;n#getBestCharge#0" expanded="false" />
-                <element signature="n#!!block;n#ptint#0" expanded="false" />
                 <element signature="n#!!block;n#bestCharge#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="145" column="0" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
+            <state relative-caret-position="268">
+              <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -108,9 +100,9 @@
         <option value="$PROJECT_DIR$/src/promotions.js" />
         <option value="$PROJECT_DIR$/lib/test-out/src/aaa.html" />
         <option value="$PROJECT_DIR$/a.html" />
-        <option value="$PROJECT_DIR$/src/best-charge.js" />
         <option value="$PROJECT_DIR$/student-name.txt" />
         <option value="$PROJECT_DIR$/spec/best-charge-spec.js" />
+        <option value="$PROJECT_DIR$/src/best-charge.js" />
       </list>
     </option>
   </component>
@@ -274,12 +266,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1469237935456</updated>
-      <workItem from="1469237937200" duration="19699000" />
+      <workItem from="1469237937200" duration="20742000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19699000" />
+    <option name="totallyTimeSpent" value="20742000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="52" width="1301" height="716" extended-state="0" />
@@ -385,25 +377,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/best-charge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="41" column="9" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="30" />
-          <folding>
-            <element signature="n#!!block;n#getSelectedItems#0" expanded="false" />
-            <element signature="e#142#356#0" expanded="false" />
-            <element signature="n#!!block;n#getReceiptItems#0" expanded="false" />
-            <element signature="e#476#725#0" expanded="false" />
-            <element signature="n#!!block;n#findPromotionType#0" expanded="false" />
-            <element signature="n#!!block;n#getDiscount#0" expanded="false" />
-            <element signature="n#!!block;n#calculateSaveAndTotal#0" expanded="false" />
-            <element signature="n#!!block;n#getBestCharge#0" expanded="false" />
-            <element signature="n#!!block;n#ptint#0" expanded="false" />
-            <element signature="n#!!block;n#bestCharge#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/student-name.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
@@ -414,9 +387,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="145" column="0" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
+        <state relative-caret-position="268">
+          <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/best-charge.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="843">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#getSelectedItems#0" expanded="false" />
+            <element signature="e#142#356#0" expanded="false" />
+            <element signature="n#!!block;n#getReceiptItems#0" expanded="false" />
+            <element signature="e#476#725#0" expanded="false" />
+            <element signature="n#!!block;n#findPromotionType#0" expanded="false" />
+            <element signature="n#!!block;n#getDiscount#0" expanded="false" />
+            <element signature="n#!!block;n#bestCharge#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
