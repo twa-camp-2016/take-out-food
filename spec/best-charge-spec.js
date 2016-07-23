@@ -84,12 +84,47 @@ describe('Take out food', function () {
     let items = loadAllItems();
     let countItems = getCountItems(inputs,items);
     let promotions = loadPromotions();
-    let save = countPromotions(countItems,promotions);
+    let newItems = countPromotions(countItems,promotions);
 
-    const expectText = 13;
+    const expectText = [
+      {
+        countItem: {
+          item: {
+            id: 'ITEM0001',
+            name: '黄焖鸡',
+            price: 18.00
+          },
+          count: 1
+        },
+        subtotal:9.00,
+        save:9.00
+      },
+      {
+        countItem:{
+          item: {
+            id: 'ITEM0013',
+            name: '肉夹馍',
+            price: 6.00
+          },
+          count:2
+        },
+        subtotal:12.00,
+        save:0
+      },
+      {
+        countItem:{
+          item: {
+            id: 'ITEM0022',
+            name: '凉皮',
+            price: 8.00
+          },
+          count:1
+        },
+        subtotal:4.00,
+        save:4.00
+      }
+    ];
 
     expect(newItems).toEqual(expectText);
   });
-
-  
 });
