@@ -6,3 +6,5 @@ function loadPromotions() {
     items: ['ITEM0001', 'ITEM0022']
   }];
 }
+
+exports.loadPromotions = loadPromotions;
