@@ -110,10 +110,13 @@ function buildReceiptString(receipt) {
     }
     debugger;
     let hasPromoted = receipt.bestPromotion;
+
     if (receipt.bestPromotion.promotedItemName) {
-        for (let {name} of receipt.bestPromotion.promotedItemName) {
-           
+        let name = [];
+        for (let name of receipt.bestPromotion.promotedItemName) {
+
         }
+
     }
 
     if (hasPromoted) {
