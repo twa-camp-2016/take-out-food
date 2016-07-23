@@ -92,7 +92,7 @@ function buildReceipt(chargeItems) {
 function buildReceiptText(receipt, promotions) {
   let receiptItemsText = receipt.receiptItems.map((receiptItem)=> {
     const orderItem = receiptItem.orderItem;
-    return `${orderItem.item.name} × ${orderItem.count} = ${receiptItem.subtotal}元`
+    return `${orderItem.item.name} x ${orderItem.count} = ${receiptItem.subtotal}元`
   }).join('\n');
   //let chargeName = findDiscount(receipt);
   return `============= 订餐明细 =============
