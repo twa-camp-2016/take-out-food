@@ -1,5 +1,16 @@
+let selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+let allItems = loadAllItems();
+let allPromotions = loadPromotions();
 function bestCharge(selectedItems) {
-  return /*TODO*/;
+  let itemAmounts = despiteItemsAmount(selectedItems);
+  let cartItems = matchCartItems(itemAmounts);
+  let promotedTypes = matchCartItems(cartItems);
+  let subtotals = calculateSubtotals(promotedTypes);
+  let alltotals = calculateAlltotals(subtotals);
+  let proTotal1 = calculatePromotePrice_one(alltotals);
+  let proTotal2 = calculatPromotePrice_two(subtotals);
+  let finalTotal = chooseBest(proTotal1,proTotal2);
+
   console.log("==========定餐明细=========");
   for (let i = 0; i < subtotals.length; i++) {
     console.log(subtotals[i].name + " " + "x" + " " + "=" + subtotals[i].subtotal + "（元)\n");
@@ -12,7 +23,6 @@ function bestCharge(selectedItems) {
 }
 bestCharge(selectedItems);
 
-let selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
 function despiteItemsAmount(selectedItems){
   return selectedItems.map(function(item){
     let info = item.split(" x ");
@@ -23,8 +33,6 @@ function despiteItemsAmount(selectedItems){
   });
 }
 
-let itemAmounts = despiteItemsAmount(selectedItems);
-let allItems = loadAllItems();
 function matchCartItems(itemAmounts){
   let cartItems = [];
   for(let i=0;i<itemAmounts.length;i++){
@@ -38,8 +46,6 @@ function matchCartItems(itemAmounts){
   return cartItems;
 }
 
-let cartItems = matchCartItems(itemAmounts);
-let allPromotions = loadPromotions();
 function mergePromoteTypes(cartItems){
   let promotedTypes = [];
   for(let i=0;i<cartItems.length;i++){
@@ -55,17 +61,15 @@ function mergePromoteTypes(cartItems){
   return promotedTypes;
 }
 
-let promotedTypes = matchCartItems(itemAmounts);
 function calculateSubtotals(promotedTypes){
   let subtotals = [];
-  for(let i=0;i<promotedTypes[i];i++){
+  for(let i=0;i<promotedTypes.length;i++){
     subtotals.push(Object.assign({},promotedTypes[i],{subtotal:(promotedTypes[i].amount)*(promotedTypes[i].price)}))
   }
   return subtotals;
 }
 
 
-let subtotals = calculateSubtotals(promotedTypes);
 function calculateAlltotals(subtotals){
   let alltotals = 0;
   for(let i=0;i<subtotals.length;i++){
@@ -74,7 +78,6 @@ function calculateAlltotals(subtotals){
   return alltotals;
 }
 
-let alltotals = calculateAlltotals(subtotals);
 function calculatePromotePrice_one(alltotals){
   let proTotal1 = 0;
   if(alltotals > 29){
@@ -83,7 +86,6 @@ function calculatePromotePrice_one(alltotals){
 return proTotal1;
 }
 
-let proTotal1 = calculatePromotePrice_one(alltotals);
 function calculatPromotePrice_two(subtotals){
   let proTotal2 = 0;
   for(let i=0;i<subtotals.length;i++){
@@ -97,7 +99,6 @@ function calculatPromotePrice_two(subtotals){
   return proTotal2;
 }
 
-let proTotal2 = calculatPromotePrice_two(subtotals);
 function chooseBest(proTotal1,proTotal2){
   let finalTotal = 0;
   if(proTotal1>proTotal2){
@@ -110,4 +111,3 @@ function chooseBest(proTotal1,proTotal2){
   return finalTotal;
 }
 
-let finalTotal = chooseBest(proTotal1,proTotal2);
