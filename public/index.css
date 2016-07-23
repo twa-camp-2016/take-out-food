@@ -6,8 +6,8 @@ body {
 }
 
 .title {
-    height: 60px;
-    line-height: 60px;
+    /*height: 60;*/
+    line-height: 180%;
     color: #00b3ee;
     text-align: center;
     background: #a6e1ec;
@@ -32,7 +32,7 @@ body {
 
 tr {
     position: relative;
-    height: 53px;
+    height: 60px;
 
     margin-left: 60px;
 }
