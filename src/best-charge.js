@@ -68,7 +68,7 @@ function buildReceipts(receiptItems) {
   }
 
   if (total > 30) {
-    if ((total - 6) < (total - savedTotal)) {
+    if ((total - 6) <= (total - savedTotal)) {
       return {receiptItems, total: (total - 6), savedTotal: 6, promotionType: '满30减6元'}
     }
     else
