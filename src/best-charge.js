@@ -27,9 +27,7 @@ function calculateTotalPrice(itemInfoList) {
   // }, 0);
 }
 
-function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
-
-  // get promoting items
+function getPromotingItems(itemInfoList, allPromotions) {
   let promotingItems = [];
   for (let element of itemInfoList) {
     let found = allPromotions.find(item => item.hasOwnProperty('items')).items.find(id => id === element.id);
@@ -38,28 +36,31 @@ function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
       promotingItems.push(item);
     }
   }
+  return promotingItems;
+}
 
-
-  let disount = 0;
-
+function getDiscount(promotingItems, itemInfoList) {
+  let discount = 0;
   if (promotingItems.length >= 1) {
     for (let entry of promotingItems) {
       let found = itemInfoList.find(item => item.id === entry.id);
       if (found) {
-        disount += found.count * found.price / 2;
+        discount += found.count * found.price / 2;
       }
     }
   }
+  return discount;
+}
 
+function getPromotion(totalPrice, promotingItems, discount) {
   let promotion = {};
-
   if (totalPrice < 30) {
     if (promotingItems.length < 1) {
       // promotion should be empty
     } else {
       promotion.type = '指定菜品半价';
       promotion.items = promotingItems;
-      promotion.discount = disount;
+      promotion.discount = discount;
     }
   } else {
     // totalPrice >= 30
@@ -67,9 +68,9 @@ function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
       promotion.type = '满30减6元';
       promotion.discount = 6;
     } else {
-      if (disount > 6) {
+      if (discount > 6) {
         promotion.type = '指定菜品半价';
-        promotion.discount = disount;
+        promotion.discount = discount;
         promotion.items = promotingItems;
       } else {
         promotion.type = '满30减6元';
@@ -77,7 +78,14 @@ function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
       }
     }
   }
+  return promotion;
+}
 
+function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
+
+  let promotingItems = getPromotingItems(itemInfoList, allPromotions);
+  let discount = getDiscount(promotingItems, itemInfoList);
+  let promotion = getPromotion(totalPrice, promotingItems, discount);
   let promotionInfo = {
     items: itemInfoList,
     promotion: promotion
@@ -89,29 +97,40 @@ function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
 
 function getFooter(itemsWithPromotion, totalPrice) {
   let footer = ``;
-  if (itemsWithPromotion.promotion.type === '指定菜品半价') {
-    footer = `\n-----------------------------------
-使用优惠:
-指定菜品半价(${itemsWithPromotion.promotion.items.map(item => {
-      return item.name
-    }).join('，')})，省${itemsWithPromotion.promotion.discount}元
------------------------------------
-总计：${totalPrice - itemsWithPromotion.promotion.discount}元
-===================================`
-  } else if (itemsWithPromotion.promotion.type === '满30减6元') {
-    footer = `\n-----------------------------------
-使用优惠:
-满30减6元，省${itemsWithPromotion.promotion.discount}元
------------------------------------
-总计：${totalPrice - itemsWithPromotion.promotion.discount}元
-===================================`
+
+  let promotion = itemsWithPromotion.promotion;
+  let type = promotion.type;
+
+  if (type) {
+    getFooterWhenExistPromotion();
   } else {
+    getFooterWhenNonPromotion();
+  }
+
+  return footer;
+
+
+  function getFooterWhenExistPromotion() {
+    footer = `\n-----------------------------------\n使用优惠:\n`;
+    if (type === '指定菜品半价') {
+      footer += `指定菜品半价(${promotion.items.map(item => {
+        return item.name
+      }).join('，')})`;
+    } else if (type === '满30减6元') {
+      footer += '满30减6元';
+    }
+    footer += `，省${promotion.discount}元\n-----------------------------------
+总计：${totalPrice - promotion.discount}元\n===================================`;
+  }
+
+  function getFooterWhenNonPromotion() {
     footer = `\n-----------------------------------
 总计：${totalPrice}元
 ===================================`
   }
-  return footer;
+
 }
+
 function generateSummary(totalPrice, itemsWithPromotion) {
 
   let header = `============= 订餐明细 =============\n`;
@@ -119,7 +138,6 @@ function generateSummary(totalPrice, itemsWithPromotion) {
   let body = itemsWithPromotion.items.map(item => {
     return `${item.name} x ${item.count} = ${item.price * item.count}元`;
   }).join('\n');
-
 
   let footer = getFooter(itemsWithPromotion, totalPrice);
 
