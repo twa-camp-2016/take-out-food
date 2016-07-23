@@ -90,7 +90,7 @@ function buildReceiptText(receipt,promotions) {
     const orderItem = receiptItem.orderItem;
     return `${orderItem.item.name} × ${orderItem.count} = ${receiptItem.subtotal}元`
   }).join('\n');
-  let chargeName = findDiscount(receipt.receiptItems,promotions);
+  let chargeName = findDiscount(receipt);
   return `============= 订餐明细 =============
 ${receiptItemsText}
 -----------------------------------
@@ -102,11 +102,13 @@ ${receipt.type}${chargeName}，省${receipt.saved}元
 }
 
 
-function findDiscount(receipt,promotions) {
-  return receipt.receiptItems.find((receiptItem)=> {
-    const promotionType = findPromotionType(receiptItem.item.id, promotions);
-    if (promotionType === '指定菜品半价') {
-      return `(${receiptItem.item.name})`
+
+function findDiscount(receipt) {
+  let nameText = receipt.receiptItems.map((receiptItem)=> {
+    if (receipt.type && receipt.type === '指定菜品半价') {
+      return receiptItem.orderItem.item.name;
     }
-  }).join('，');
+  }).join();
+  nameText = `(${nameText.slice(0,3)}，${nameText.slice(8,10)})`;
+  return nameText;
 }
