@@ -67,6 +67,7 @@ function buildOrderDetail(orderDishes) {
     total -= savedTotal;
     promotionType = promotions()[1].type;
   }
+
   return {orderDishes, total, savedTotal, promotionType}
 }
 
