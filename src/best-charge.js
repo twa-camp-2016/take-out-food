@@ -15,11 +15,15 @@ function buildItems(selectedItems, allItems) {
     const count = parseInt(itemArray[1]);
 
     const item = allItems.find(item=>item.id == id);
-    items.push({item,count});
+    items.push({item, count});
   }
   return items;
 }
 
-function buildCartItems(items) {
- const cartIte
+function buildCartItems(cartItems) {
+  return cartItems.map(cartItem=> {
+    const subTotal = cartItem.count * cartItem.item.price;
+    return {cartItem, subTotal};
+  });
 }
+

@@ -77,7 +77,72 @@ describe('buildItems', ()=> {
         count: 1
 
       }];
-    expect(buildItems(inputs,allItems)).toEqual(expectText);
+    expect(buildItems(inputs, allItems)).toEqual(expectText);
   })
 });
 
+
+describe('buildCartItems', ()=> {
+  it('build  cartItems', ()=> {
+    const items = [{
+      item: {
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00
+      },
+      count: 1
+    },
+      {
+        item: {
+          id: 'ITEM0013',
+          name: '肉夹馍',
+          price: 6.00
+        },
+        count: 2
+      },
+      {
+        item: {
+          id: 'ITEM0022',
+          name: '凉皮',
+          price: 8.00
+        },
+        count: 1
+
+      }];
+    const expectText = [
+      {
+        cartItem: {
+          item: {
+            id: 'ITEM0001',
+            name: '黄焖鸡',
+            price: 18.00
+          },
+          count: 1
+        },
+        subTotal: 18.00
+      },
+      {
+        cartItem: {
+          item: {
+            id: 'ITEM0013',
+            name: '肉夹馍',
+            price: 6.00
+          },
+          count: 2
+        },
+        subTotal: 12.00
+      },
+      {
+        cartItem: {
+          item:   {
+            id: 'ITEM0022',
+            name: '凉皮',
+            price: 8.00
+          },
+          count: 1
+        },
+        subTotal: 8.00
+      }];
+    expect(buildCartItems(items)).toEqual(expectText);
+  })
+});
