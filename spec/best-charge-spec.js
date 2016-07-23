@@ -1,6 +1,44 @@
+
+
 describe('Take out food', function () {
 
-  it('should generate best charge when best is 指定菜品半价', function() {
+ it ('should print food counts',()=>{
+ const tas=[
+
+ "ITEM0001*1",
+ "ITEM0013*2",
+ "ITEM0022*1"
+ ];
+ const printCount=[ { code: 'ITEM0001 ', count: ' 1' },
+ { code: 'ITEM0013 ', count: ' 2' },
+ { code: 'ITEM0022 ', count: ' 1' } ];
+ expect(getFoodCounts(tas)).toEqual(printCount);
+ });
+
+
+ it ('should print food items',()=>{
+ const tas=[ { code: 'ITEM0001 ', count: ' 1' },
+ { code: 'ITEM0013 ', count: ' 2' },
+ { code: 'ITEM0022 ', count: ' 1' } ];
+ const printItems=[ { code: 'ITEM0001', name: '黄焖鸡', count: '1', price: 18 },
+ { code: 'ITEM0013', name: '肉夹馍', count: '2', price: 6 },
+ { code: 'ITEM0022', name: '凉皮', count: '1', price: 8 } ];
+ expect(builtItems(tas)).toEqual(printItems);
+ });
+
+
+ it ('should print food before payPrice',()=>{
+ const tas=[ { code: 'ITEM0001', name: '黄焖鸡', count: '1', price: 18 },
+ { code: 'ITEM0013', name: '肉夹馍', count: '2', price: 6 },
+ { code: 'ITEM0022', name: '凉皮', count: '1', price: 8 } ];
+ const printPrice=[ { code: 'ITEM0001', name: '黄焖鸡', count: 1, price: 18, perAll: 18 },
+ { code: 'ITEM0013', name: '肉夹馍', count: 2, price: 6, perAll: 12 },
+ { code: 'ITEM0022', name: '凉皮', count: 1, price: 8, perAll: 8 } ];
+ expect(getBeforeAllPrice(tas)).toEqual(printPrice);
+ });
+
+
+ it('should generate best charge when best is 指定菜品半价', function() {
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
     let summary = bestCharge(inputs).trim();
     let expected = `
