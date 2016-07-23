@@ -49,13 +49,15 @@ function matchCartItems(itemAmounts){
 function mergePromoteTypes(cartItems){
   let promotedTypes = [];
   for(let i=0;i<cartItems.length;i++){
-    promotedTypes.push(Object.assign({},cartItems[i],{type:"none"}));
+    promotedTypes.push(Object.assign({},cartItems[i],{type:"满30减6元"}));
     for(let j=0;j<allPromotions.length;j++){
       let itemCodes = allPromotions[j].items;
-      for(let k=0;k<itemCodes.length;k++){
-        if(promotedTypes[i].id === itemCodes[k]){
-          promotedTypes[i].type = allPromotions[j].type;
+      if(itemCodes){
+      for(let k=0;k<itemCodes.length;k++) {
+        if (promotedTypes[i].id === itemCodes[k]) {
+          promotedTypes[i].type = "指定菜品半价";
         }
+      }
       }
     }
   }
