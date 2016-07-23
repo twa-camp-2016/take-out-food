@@ -151,7 +151,8 @@ describe("calculateSubtotals",function(){
       id: 'ITEM0013',
       amount:2,
       name: '肉夹馍',
-      price: 6.00
+      price: 6.00,
+      type: '满30减6元'
     }, {
       id: 'ITEM0022',
       amount:1,
@@ -171,6 +172,7 @@ describe("calculateSubtotals",function(){
       amount:2,
       name: '肉夹馍',
       price: 6.00,
+      type: '满30减6元',
       subtotal:12.00
     }, {
       id: 'ITEM0022',
@@ -198,6 +200,7 @@ describe("calculateAlltotals",function(){
       amount:2,
       name: '肉夹馍',
       price: 6.00,
+      type: '满30减6元',
       subtotal:12.00
     }, {
       id: 'ITEM0022',
@@ -234,6 +237,7 @@ describe("calculatePromotePrice_two",function(){
       amount:2,
       name: '肉夹馍',
       price: 6.00,
+      type: '满30减6元',
       subtotal:12.00
     }, {
       id: 'ITEM0022',
