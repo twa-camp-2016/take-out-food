@@ -46,11 +46,11 @@ tbody {
     font-size: 20px;
 }
 
-/*button {*/
-    /*position: relative;*/
-    /*left:40%;*/
-    /*margin-left:7%;*/
-/*}*/
+button {
+    position: relative;
+    left:40%;
+    margin-left:7%;
+}
 
 /*
 请把与index.html页面相关的css代码写在这里
