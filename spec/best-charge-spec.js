@@ -4,7 +4,7 @@ describe('Take out food', function () {
 
   describe('integration testing', () => {
 
-    xit('should generate best charge when best is 指定菜品半价', function () {
+    it('should generate best charge when best is 指定菜品半价', function () {
       let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
       let summary = bestCharge(inputs).trim();
       let expected = `
@@ -126,7 +126,7 @@ describe('Take out food', function () {
             },
             count: 1
           },
-          subtotal: 9.00,
+          subtotal: 18.00,
           saved: 9.00
         },
         {
@@ -150,7 +150,7 @@ describe('Take out food', function () {
             },
             count: 1
           },
-          subtotal: 4.00,
+          subtotal: 8.00,
           saved: 4.00
         }
       ];
@@ -169,7 +169,7 @@ describe('Take out food', function () {
             },
             count: 1
           },
-          subtotal: 9.00,
+          subtotal: 18.00,
           saved: 9.00
         },
         {
@@ -193,14 +193,14 @@ describe('Take out food', function () {
             },
             count: 1
           },
-          subtotal: 4.00,
+          subtotal: 8.00,
           saved: 4.00
         }
       ];
       const charge = buildCharge(chargeItems);
       const expectCharge = {
         chargeItems: chargeItems,
-        total: 25.00,
+        total: 38.00,
         savedTotal: 13.00
       };
 
