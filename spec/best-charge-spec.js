@@ -153,9 +153,8 @@ describe('unit testing', ()=> {
             }
         ];
 
-        const expectReceipt = {receipt:[{
-                    receiptItems: {
-                        receiptItem: {
+        const expectReceipt = {receiptItems:[{
+                        receiptItem:{
                             item: {
                                 id: 'ITEM0001',
                                 name: '黄焖鸡',
@@ -166,9 +165,8 @@ describe('unit testing', ()=> {
                         actualTotal: 18.00,
                         halftotal: 9.00,
                         saved: 9.00
-                    },
-
-                    receiptItem: {
+                    },{
+                     receiptItem :{
                         item: {
                             id: 'ITEM0013',
                             name: '肉夹馍',
@@ -180,6 +178,7 @@ describe('unit testing', ()=> {
                     halftotal: 12.00,
                     saved: 0.00
                 }],
+
                 halfPrice: 21.00,
                 halfSaved: 9.00,
                 discountPrice: 24.00,

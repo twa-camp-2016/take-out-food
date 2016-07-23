@@ -64,7 +64,7 @@ function buildReceipt(receiptItems) {
         discount += receiptItem.actualTotal;
     }
     discount = discount - 6;
-    return {receipt:receiptItems, halfPrice, halfSaved, discount, discountSaved};
+    return {receiptItems, halfPrice, halfSaved, discount, discountSaved};
 }
 
 
