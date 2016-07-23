@@ -61,30 +61,28 @@ function buildReceipt(receiptItems) {
 function findPomotionType(receiptItems) {
   const saved = receiptItems.total > 30 ? receiptItems.total -(receiptItems.total- 6) : 0;
 
-  return saved >= receiptItems.canSaved ? {type: '满30减6元', saved: saved} : {
+  return saved >= receiptItems.canSaved ? {type: '满30减6元', saved: saved, nameOfItems:''} : {
     type: '指定菜品半价',
-    saved: receiptItems.canSaved
+    saved: receiptItems.canSaved,
+    nameOfItems: receiptItems.receiptItems.filter(receiptItem => receiptItem.canSave !== 0).map(receiptItem => receiptItem.receiptCartItem.item.name).join('，')
   };
 }
 
 
 function buildReceiptText(receipt) {
   let receiptText = receipt.receipt.receiptItems.map(receiptItem => {
-    const info =  `
+    return `${receiptItem.receiptCartItem.item.name} x ${receiptItem.receiptCartItem.count} = ${receiptItem.subTotal}元`
+  }).join('\n');
+
+  let string = `
 ============= 订餐明细 =============
-${receiptItem.receiptCartItem.item.name}\
- x ${receiptItem.receiptCartItem.count}\
-  = ${receiptItem.subTotal}元
-`
-  });
-  let string =`
+${receiptText}
 -----------------------------------
 使用优惠:
-${receipt.promotion.type},${receipt.promotion.saved}
+${receipt.promotion.type}${receipt.promotion.nameOfItems}，省${receipt.promotion.saved}元
 -----------------------------------
-总计：${receipt.receipt.total}元
-===================================
-`
+总计：${receipt.receipt.total-receipt.promotion.saved}元
+===================================`.trim()
 
 return string;
 

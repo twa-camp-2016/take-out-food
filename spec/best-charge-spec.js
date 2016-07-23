@@ -263,7 +263,7 @@ describe('Take out food', function () {
         canSaved: 13.00
       };
 
-    const expectReceipt = {receipt: items, promotion:{type:'指定菜品半价', saved: 13.00} };
+    const expectReceipt = {receipt: items, promotion:{type:'指定菜品半价', saved: 13.00, nameOfItems: '黄焖鸡，凉皮'} };
     const receipt = main.buildReceipt(items, loadpro.loadPromotions());
     expect(receipt).toEqual(expectReceipt);
   });
@@ -320,11 +320,12 @@ describe('Take out food', function () {
       promotion:
       {
         type:'指定菜品半价',
-        saved: 13.00
+        saved: 13.00,
+        nameOfItems: '黄焖鸡，凉皮'
       }
     }
 
-    const printText = main.buildRceiptText(receipt);
+    const printText = main.buildReceiptText(receipt);
     const expectText = `
 ============= 订餐明细 =============
 黄焖鸡 x 1 = 18元
@@ -335,7 +336,7 @@ describe('Take out food', function () {
 指定菜品半价(黄焖鸡，凉皮)，省13元
 -----------------------------------
 总计：25元
-===================================`.trim()
+===================================`.trim();
     expect(printText).toEqual(expectText);
   });
 
