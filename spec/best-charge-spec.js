@@ -1,4 +1,4 @@
-/*describe('Take out food', function () {
+describe('Take out food', function () {
 
   it('should generate best charge when best is 指定菜品半价', function() {
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
@@ -45,7 +45,7 @@
     expect(summary).toEqual(expected)
   });
 
-});*/
+});
 
 /*describe("setPromoteType",function(){
   it("should return the promotedSet",function(){
@@ -144,7 +144,8 @@ describe("matchCartItems",function(){
       id: 'ITEM0013',
       amount:2,
       name: '肉夹馍',
-      price: 6.00
+      price: 6.00,
+      type: '满30减6元'
     }, {
       id: 'ITEM0022',
       amount:1,
@@ -224,15 +225,15 @@ describe("calculateAlltotals",function(){
       type: '指定菜品半价',
       subtotal:8.00
     }];
-    let alltotals =  32;
-    expect(calculateAlltotals(promotedTypes)).toEqual(alltotals);
+    let alltotals =  38;
+    expect(calculateAlltotals(subtotals)).toEqual(alltotals);
   });
 });
 
 describe("calculatePromotePrice_one",function(){
   it("should return the proTotal1",function(){
-    let alltotals =  32;
-    let proTotal1 = 26;
+    let alltotals =  38;
+    let proTotal1 = 32;
     expect(calculatePromotePrice_one(alltotals)).toEqual(proTotal1);
   });
 });
