@@ -13,7 +13,7 @@ function bestCharge(selectedItems) {
   let proValue = alltotals-finalTotal;
   console.log("==========定餐明细=========");
   for (let i = 0; i < subtotals.length; i++) {
-    console.log(subtotals[i].name + " " + "x" + " " + subtotals[i].amount+"="+subtotals[i].subtotal+"(元)"+"\n");
+    console.log(subtotals[i].name + " " + "x" + " " + subtotals[i].amount+" "+"="+" "+subtotals[i].subtotal+"(元)"+"\n");
     console.log("使用优惠："+"\n" + "-----------------------");
     if (finalTotal === proTotal1) {
       console.log(subtotals[i].type + "(" + subtotals[i].name + ")" + "," + "省"+proValue+"元"+"\n"+ "------------------------------------");
@@ -39,9 +39,8 @@ function matchCartItems(itemAmounts){
       for(let j=0;j<allItems.length;j++){
    if(itemAmounts[i].id === allItems[j].id){
     cartItems.push(Object.assign({},allItems[j],{amount:itemAmounts[i].amount}));
-
-  }
       }
+    }
   }
   return cartItems;
 }
@@ -56,8 +55,8 @@ function mergePromoteTypes(cartItems){
       for(let k=0;k<itemCodes.length;k++) {
         if (promotedTypes[i].id === itemCodes[k]) {
           promotedTypes[i].type = "指定菜品半价";
+          }
         }
-      }
       }
     }
   }
@@ -92,7 +91,7 @@ return proTotal1;
 function calculatPromotePrice_two(subtotals){
   let proTotal2 = 0;
   for(let i=0;i<subtotals.length;i++){
-    if(subtotals[i].type){
+    if(subtotals[i].type === "指定菜品半价"){
       subtotals[i].subtotal = (subtotals[i].price/2)*subtotals[i].amount;
     }else{
       subtotals[i].subtotal = (subtotals[i].price)*subtotals[i].amount;
