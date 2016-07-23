@@ -22,4 +22,9 @@ var reporter = new JasmineConsoleReporter({
 
 jasmine.addReporter(reporter);
 
+<<<<<<< a6d2ae37e4938f2b1cfd8c21f1afe185f8f2eec5
 jasmine.execute();
+=======
+jasmine.execute();
+
+>>>>>>> commit
