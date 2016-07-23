@@ -51,8 +51,6 @@ function findPromotionType(id, promotions) {
   if (promotion) {
 
     return promotion ? promotion.type : undefined;
-  } else {
-    return null;
   }
 
 }
@@ -60,7 +58,7 @@ function findPromotionType(id, promotions) {
 function discount(price, count, promotions) {
 
   let subtotal = price * count;
-  let save = {discountname: 'null', savetoal: price};
+  let save = {discountname:null, savetoal: price};
 
   if (promotions) {
     save = {discountname: '指定菜品半价', savetoal: price / 2};
@@ -69,9 +67,7 @@ function discount(price, count, promotions) {
   return {save, subtotal};
 }
 
-
 function getSaveItem(receiptItms) {
-
   let saveItem = [];
 
   for (const receipt of receiptItms) {
@@ -97,19 +93,18 @@ function buildReceipt(receiptItms) {
     let subtotal = receiptItms.savetoal;
     let save = receiptItms.save.savetoal;
 
-
      saveItem.push( getSaveItem(receiptItms));
 
     if (subtotal > 30 && (subtotal - 6) >= subtotal - save) {
 
       saveWay.push({saveway: '指定菜品半价'}, {save: save})
-    } else if (subtotal > 30 && (subtotal - 6) <= subtotal - save) {
+    } else if (subtotal > 30 && (subtotal - 6) <= (subtotal - save)) {
 
       saveWay.push({saveway: '满30减6元'}, {save: save}, saveItem);
     }
   }
-  return {receiptItms, saveWay, subtotal, saveItem};
 
+  return {receiptItms, saveWay, subtotal, saveItem};
 }
 
 function buildReceiptText(receiptItems) {
@@ -117,16 +112,16 @@ function buildReceiptText(receiptItems) {
   let receiptText = receiptItems.map(receipt=> {
 
     const cartItem = receipt.cartItem;
-    return `${cartItem.item.price} x${cartItem.count}=${cartItem.subtotal}`.join('\n');
+    return `${cartItem.item.price}(元) x${cartItem.count}=${cartItem.subtotal}(元)`.join('\n');
   })
 
   return receiptText += `============= 订餐明细 =============
 ${cartItem}
 -----------------------------------
   使用优惠:
-${receipt.saveWay}${receipt.saveItem}
+${receipt.saveWay}(${receipt.saveItem})
 -----------------------------------
-  总计：${receiptItems.subtotal}
+  总计：${receiptItems.subtotal}(元)
 ===================================    `
 
 }
