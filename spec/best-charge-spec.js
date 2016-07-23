@@ -46,3 +46,102 @@ describe('Take out food', function () {
   });
 
 });
+
+describe("formatItems" ,function(){
+  it("should return formatted of selectItems",function(){
+    let selectedItems = ["ITEM0013 x 2"];
+    let result = formatItems(selectedItems);
+    expect(result).toEqual(
+      [
+        {
+          id:"ITEM0013",
+          count:2
+        }
+      ]
+    )
+  });
+});
+
+describe("getDetailItems",function(){
+  it("should return detailResult of formatted and allItems",function(){
+    let formatted =
+      [
+        {
+          id:"ITEM0001",
+          count:2
+        }
+      ];
+    let allItems =
+      [{
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00
+      }, {
+        id: 'ITEM0013',
+        name: '肉夹馍',
+        price: 6.00
+      }, {
+        id: 'ITEM0022',
+        name: '凉皮',
+        price: 8.00
+      }, {
+        id: 'ITEM0030',
+        name: '冰锋',
+        price: 2.00
+      }];
+    let result = getDetailItems(formatted,allItems);
+    expect(result).toEqual(
+      [{
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00,
+        count:2
+      }
+      ]
+    )
+  });
+});
+
+describe("getSubtotal",function(){
+  it("should return subtotal from detailItems",function(){
+    let detailItems =
+      [{
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00,
+        count:2
+      }
+      ];
+    let result = getSubtotal(detailItems);
+    expect(result).toEqual(
+      [{
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00,
+        count:2,
+        subtotal:36.00
+      }
+      ]
+    )
+  });
+});
+
+describe("getOriginTotal", function(){
+  it("should return originTotal of subtotal",function(){
+    let subtotal =
+      [{
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00,
+        count:2,
+        subtotal:36.00
+      }
+      ];
+    result = getOriginTotal(subtotal);
+    expect(result).toEqual(
+      {
+        originTotal:36.00
+      }
+    )
+  });
+});
