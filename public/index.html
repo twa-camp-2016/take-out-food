@@ -4,29 +4,55 @@
     <meta charset="UTF-8">
     <title>Take Out Food</title>
 
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./index.css"/>
 
     <script type="text/javascript" src="../src/items.js"></script>
     <script type="text/javascript" src="../src/promotions.js"></script>
     <script type="text/javascript" src="../src/best-charge.js"></script>
     <script type="text/javascript" src="./index.js"></script>
+
+    <script>
+        function eat() {
+
+            const allItems = loadAllItems();
+            let info1, info2, info3, info4;
+
+
+            info1 += `id:${allItems[0].id}   name:${allItems[0].name}   price:${allItems[0].price}`;
+            info2 += `id:${allItems[1].id}   name:${allItems[1].name}   price:${allItems[1].price}`;
+            info3 += `id:${allItems[2].id}   name:${allItems[2].name}   price:${allItems[2].price}`;
+            info4 += `id:${allItems[3].id}   name:${allItems[3].name}   price:${allItems[3].price}`;
+
+            document.getElementById("food1").innerHTML = info1.valueOf();
+
+            document.getElementById("food1").innerHTML = allItems[0].valueOf();
+            document.getElementById("food2").innerHTML = allItems[1].valueOf();
+            document.getElementById("food3").innerHTML = allItems[2].valueOf();
+            document.getElementById("food4").innerHTML = allItems[3].valueOf();
+        }
+
+    </script>
 </head>
 <body>
 
-    <h1>“好多肉”在线点餐系统</h1>
+<h1>“好多肉”在线点餐系统</h1>
 
-    <div id="items">
-        把`loadAllItems()`中的菜品信息以动态加载的方式显示在这里，并且能够让用户输入数量
-    </div>
+<div id="items">
+    <div id='food1'></div>
+    <div id='food2'></div>
+    <div id='food3'></div>
+    <div id='food4'></div>
+    <input type="button" onclick="eat()" value="点餐"/>
+</div>
 
-    <div id="promotions">
-        把`loadPromotions()`中的优惠信息以动态加载的方式显示在这里，让用户看到即可
-    </div>
+<div id="promotions">
+    把`loadPromotions()`中的优惠信息以动态加载的方式显示在这里，让用户看到即可
+</div>
 
-    <div>
-        <button onclick="calculatePrice()">结算</button>
-        <button onclick="clear()">清除</button>
-    </div>
+<div>
+    <button onclick="calculatePrice()">结算</button>
+    <button onclick="clear()">清除</button>
+</div>
 
     <pre id="message">
         /* 请将结算后产生的汇总字符串显示在这里 */
