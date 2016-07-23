@@ -5,7 +5,7 @@ function bestCharge(selectedItems) {
   const orderItems = buildOrderItems(selectedItems, allItems);
 
   const promotions = loadPromotions();
-  const chargeItems = buildChargeItems(orderItems,promotions);
+  const chargeItems = buildChargeItems(orderItems, promotions);
 
   const charge = buildCharge(chargeItems);
   const chargeText = buildChargeText(charge);
@@ -24,36 +24,38 @@ function buildChargeText(charge) {
 ${chargeText}
 -----------------------------------
 ${getPromotionText(charge)}
-`;
+===================================`;
 }
+
 function getPromotionText(charge) {
   let sumFullThirty = 0;
   let sumHalfdiscount = charge.total - charge.savedTotal;
   let promotionText = '';
   let promotionItems = [];
 
-  if(charge.total > 30){
-    sumFullThirty = charge.total - 6;
-  }
-
-  for(let chargeItem of charge.chargeItems){
-    if(chargeItem.saved != 0){
+  for (let chargeItem of charge.chargeItems) {
+    if (chargeItem.saved != 0) {
       promotionItems.push(chargeItem.orderItem.item.name);
     }
   }
-   if(sumFullThirty > sumHalfdiscount){
-     promotionText = `使用优惠:
+
+  if (charge.total > 30) {
+    sumFullThirty = charge.total - 6;
+
+    if (sumFullThirty > sumHalfdiscount) {
+      promotionText = `使用优惠:
 指定菜品半价(${promotionItems.join('，')})，省${charge.savedTotal}元
 -----------------------------------
-总计：${sumHalfdiscount}元
-===================================`;
-   }else{
-     promotionText = `使用优惠:
+总计：${sumHalfdiscount}元`;
+    } else {
+      promotionText = `使用优惠:
 满30减6元，省6元
 -----------------------------------
-总计：${sumFullThirty}元
-===================================`
-   }
+总计：${sumFullThirty}元`
+    }
+  } else {
+    promotionText = `总计：${charge.total}元`
+  }
   return promotionText;
 }
 
