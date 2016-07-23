@@ -1,4 +1,3 @@
-//'use strict';
 'use strict';
 function bestCharge(tags) {
   const allItems = loadAllItems();
@@ -6,14 +5,10 @@ function bestCharge(tags) {
 
   const promotions = loadPromotions();
   const receipt = buildReceipt(selectedItems, promotions);
-  //
-  // const someItemReceipt=buidSomeItemReceipt(selectedItems);
 
-  // const  bestChargesItems=CompareTwoPromotions(halfPriceReceipt,someItemReceipt);
+  const receiptText = buildReceiptText(receipt);
 
-   const receiptText=buildReceiptText(receipt);
-
-  return  receiptText;
+  return receiptText;
 }
 
 function buildSelectedItems(tags, allItems) {
@@ -36,7 +31,7 @@ function buildReceipt(selectedItems, promotions) {
 
   const totalDiscountItems = buildTotalDiscountItems(selectedItems, promotions);
 
-  return getTotal(halfPriceItems,totalDiscountItems);
+  return getTotal(halfPriceItems, totalDiscountItems);
 
 }
 
@@ -74,56 +69,56 @@ function buildTotalDiscountItems(selectedItems, promotions) {
 }
 
 
-function getTotal(halfPriceItems,totalDiscountItems) {
+function getTotal(halfPriceItems, totalDiscountItems) {
 
-  let halfPriceItemsTotal=0;
-  let   halfPriceItemssaved=0;
-  let   totalDiscountItemsTotal=0;
+  let halfPriceItemsTotal = 0;
+  let halfPriceItemssaved = 0;
+  let totalDiscountItemsTotal = 0;
 
   for (let halfPriceItem of halfPriceItems) {
-     halfPriceItemsTotal+=halfPriceItem .subtotal;
-    halfPriceItemssaved+=halfPriceItem.saved;
+    halfPriceItemsTotal += halfPriceItem.subtotal;
+    halfPriceItemssaved += halfPriceItem.saved;
   }
   for (let totalDiscountItem of totalDiscountItems) {
-    totalDiscountItemsTotal +=totalDiscountItem .subtotal;
+    totalDiscountItemsTotal += totalDiscountItem.subtotal;
 
-}
+  }
   if (totalDiscountItemsTotal > 30) {
-     totalDiscountItemsTotal -= 6;
+    totalDiscountItemsTotal -= 6;
   }
 
-   return halfPriceItemsTotal > totalDiscountItemsTotal ? {
+  return halfPriceItemsTotal > totalDiscountItemsTotal ? {
     receiptItems: totalDiscountItems,
-     total: totalDiscountItemsTotal,
-     type:'满30减6元'
-   } : {receiptItems:halfPriceItems, total: halfPriceItemsTotal,savedTotal:halfPriceItemssaved,type:'指定菜品半价'};
+    total: totalDiscountItemsTotal,
+    type: '满30减6元'
+  } : {receiptItems: halfPriceItems, total: halfPriceItemsTotal, savedTotal: halfPriceItemssaved, type: '指定菜品半价'};
 
 }
 
 
 function buildReceiptText(receipt) {
-    const receiptItems=receipt.receiptItems;
-  let typeInfo='';
+  const receiptItems = receipt.receiptItems;
+  let typeInfo = '';
 
-  const receiptText=receiptItems.map(receiptItem=>{
+  const receiptText = receiptItems.map(receiptItem=> {
 
-    const selectedItem=receiptItem.selectedItem;
+    const selectedItem = receiptItem.selectedItem;
 
-     return `${selectedItem.item.name} x ${selectedItem.count} = ${receiptItem.subtotal}元`;
+    return `${selectedItem.item.name} x ${selectedItem.count} = ${receiptItem.subtotal}元`;
   }).join('\n');
 
 
-  if(receipt.type='满30减6元') {
-     typeInfo=`使用优惠:
+  if (receipt.type = '满30减6元') {
+    typeInfo = `使用优惠:
 满30减6元，省6元`
   }
-  else if(receipt.type='指定菜品半价')  {
-    typeInfo=`使用优惠:
+  else if (receipt.type = '指定菜品半价') {
+    typeInfo = `使用优惠:
 指定菜品半价(黄焖鸡，凉皮)，省${receipt.savedTotal}元`
-}
-  else{
+  }
+  else {
 
-    return  `
+    return `
 ============= 订餐明细 =============
 ${receiptText}
 -----------------------------------
@@ -131,7 +126,7 @@ ${receiptText}
 ===================================`.trim();
   }
 
-    return `
+  return `
 ============= 订餐明细 =============
 ${receiptText}
 -----------------------------------

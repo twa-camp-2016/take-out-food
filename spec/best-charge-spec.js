@@ -77,25 +77,26 @@ describe('Take out food', function () {
 
   it('buildReceipt', ()=> {
 
-    let selectedItemsArray =[
-        {
-      item: {
-        id: 'ITEM0013',
-        name: '肉夹馍',
-        price: 6.00
-      },
-      count: 4
-    }, {
-      item: {
-        id: 'ITEM0022',
-        name: '凉皮',
-        price: 8.00
-      },
-      count: 1
-    }
-     ];
-      const receipt = buildReceipt(selectedItemsArray, loadPromotions());
-      const expectReceipt = {receiptItems: [{
+    let selectedItemsArray = [
+      {
+        item: {
+          id: 'ITEM0013',
+          name: '肉夹馍',
+          price: 6.00
+        },
+        count: 4
+      }, {
+        item: {
+          id: 'ITEM0022',
+          name: '凉皮',
+          price: 8.00
+        },
+        count: 1
+      }
+    ];
+    const receipt = buildReceipt(selectedItemsArray, loadPromotions());
+    const expectReceipt = {
+      receiptItems: [{
         selectedItem: {
           item: {
             id: 'ITEM0013',
@@ -105,27 +106,25 @@ describe('Take out food', function () {
           count: 4
         }, subtotal: 24
       },
-      {
-        selectedItem: {
-          item: {
-            id: 'ITEM0022',
+        {
+          selectedItem: {
+            item: {
+              id: 'ITEM0022',
               name: '凉皮',
               price: 8.00
-          },
-          count: 1
-        }, subtotal: 8
-      }],total:26,type:'满30减6元'};
+            },
+            count: 1
+          }, subtotal: 8
+        }], total: 26, type: '满30减6元'
+    };
 
     expect(receipt).toEqual(expectReceipt);
-    });
-
-
-
+  });
 
   it('buildReceipt', ()=> {
 
-    let selectedItemsArray =[
-        {
+    let selectedItemsArray = [
+      {
         item: {
           id: 'ITEM0001',
           name: '黄焖鸡',
@@ -133,62 +132,61 @@ describe('Take out food', function () {
         },
         count: 1
       },
-        {
-          item: {
-            id: 'ITEM0013',
-            name: '肉夹馍',
-            price: 6.00
-          },
-          count: 2
-        }, {
-          item: {
-            id: 'ITEM0022',
-            name: '凉皮',
-            price: 8.00
-          },
-          count: 1
-        }
-    ];
-    const receipt = buildReceipt(selectedItemsArray, loadPromotions());
-    const expectReceipt = {receiptItems: [{
-      selectedItem: {
-        item: {
-          id: 'ITEM0001',
-          name: '黄焖鸡',
-          price: 18.00
-        },
-        count: 1
-      }, subtotal: 9,
-      saved:9
-    },
-      {selectedItem: {
+      {
         item: {
           id: 'ITEM0013',
           name: '肉夹馍',
           price: 6.00
         },
         count: 2
-      }, subtotal: 12,
-        saved:0
-    },
-      {
+      }, {
+        item: {
+          id: 'ITEM0022',
+          name: '凉皮',
+          price: 8.00
+        },
+        count: 1
+      }
+    ];
+    const receipt = buildReceipt(selectedItemsArray, loadPromotions());
+    const expectReceipt = {
+      receiptItems: [{
         selectedItem: {
           item: {
-            id: 'ITEM0022',
-            name: '凉皮',
-            price: 8.00
+            id: 'ITEM0001',
+            name: '黄焖鸡',
+            price: 18.00
           },
           count: 1
-        }, subtotal: 4,
-        saved:4
-      }],total:25,savedTotal:13,type:'指定菜品半价'};
+        }, subtotal: 9,
+        saved: 9
+      },
+        {
+          selectedItem: {
+            item: {
+              id: 'ITEM0013',
+              name: '肉夹馍',
+              price: 6.00
+            },
+            count: 2
+          }, subtotal: 12,
+          saved: 0
+        },
+        {
+          selectedItem: {
+            item: {
+              id: 'ITEM0022',
+              name: '凉皮',
+              price: 8.00
+            },
+            count: 1
+          }, subtotal: 4,
+          saved: 4
+        }], total: 25, savedTotal: 13, type: '指定菜品半价'
+    };
 
     expect(receipt).toEqual(expectReceipt);
   });
-
-
-
-
 
 
   it('buildHalfPriceReceipt', ()=> {
@@ -296,30 +294,32 @@ describe('Take out food', function () {
     expect(items).toEqual(expectItems);
   })
 
-  it('receiptText',()=>{
-    const receipt={receiptItems: [{
-      selectedItem: {
-        item: {
-          id: 'ITEM0013',
-          name: '肉夹馍',
-          price: 6.00
-        },
-        count: 4
-      }, subtotal: 24
-    },
-      {
+  it('receiptText', ()=> {
+    const receipt = {
+      receiptItems: [{
         selectedItem: {
           item: {
-            id: 'ITEM0022',
-            name: '凉皮',
-            price: 8.00
+            id: 'ITEM0013',
+            name: '肉夹馍',
+            price: 6.00
           },
-          count: 1
-        }, subtotal: 8
-      }],total:26};
-   const text=buildReceiptText(receipt);
+          count: 4
+        }, subtotal: 24
+      },
+        {
+          selectedItem: {
+            item: {
+              id: 'ITEM0022',
+              name: '凉皮',
+              price: 8.00
+            },
+            count: 1
+          }, subtotal: 8
+        }], total: 26
+    };
+    const text = buildReceiptText(receipt);
 
-    const expectText=`
+    const expectText = `
 ============= 订餐明细 =============
 肉夹馍 x 4 = 24元
 凉皮 x 1 = 8元
@@ -333,6 +333,4 @@ describe('Take out food', function () {
     expect(text).toEqual(expectText);
 
   })
-
-
 });
