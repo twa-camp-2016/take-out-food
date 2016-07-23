@@ -226,8 +226,7 @@ describe('getPromotionInfo', () => {
     }
   )
 
-
-})
+});
 
 describe('Take out food', function () {
 

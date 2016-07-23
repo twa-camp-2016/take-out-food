@@ -16,18 +16,11 @@ function getItemInfoList(allItems, formattedItems) {
 }
 
 function calculateTotalPrice(itemInfoList) {
-  let totalPrice = 0;
-  for (let item of itemInfoList) {
-    totalPrice += item.price * item.count;
-  }
-  return totalPrice;
-  // todo
-  // return itemInfoList.reduce((acc, cur) => {
-  //   return acc += cur.price * cur.count;
-  // }, 0);
+  return itemInfoList.reduce((acc, cur) => acc += cur.price * cur.count, 0);
 }
 
 function getPromotingItems(itemInfoList, allPromotions) {
+
   let promotingItems = [];
   for (let element of itemInfoList) {
     let found = allPromotions.find(item => item.hasOwnProperty('items')).items.find(id => id === element.id);
