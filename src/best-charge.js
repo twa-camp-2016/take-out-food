@@ -87,17 +87,8 @@ function getPromotionInfo(totalPrice, allPromotions, itemInfoList) {
 
 }
 
-function generateSummary(totalPrice, itemsWithPromotion) {
-
-  let header = `============= 订餐明细 =============\n`;
-
-  let body = itemsWithPromotion.items.map(item => {
-    return `${item.name} x ${item.count} = ${item.price * item.count}元`;
-  }).join('\n');
-
-
-  let footer;
-
+function getFooter(itemsWithPromotion, totalPrice) {
+  let footer = ``;
   if (itemsWithPromotion.promotion.type === '指定菜品半价') {
     footer = `\n-----------------------------------
 使用优惠:
@@ -119,6 +110,18 @@ function generateSummary(totalPrice, itemsWithPromotion) {
 总计：${totalPrice}元
 ===================================`
   }
+  return footer;
+}
+function generateSummary(totalPrice, itemsWithPromotion) {
+
+  let header = `============= 订餐明细 =============\n`;
+
+  let body = itemsWithPromotion.items.map(item => {
+    return `${item.name} x ${item.count} = ${item.price * item.count}元`;
+  }).join('\n');
+
+
+  let footer = getFooter(itemsWithPromotion, totalPrice);
 
   return `${header}${body}${footer}`;
 
