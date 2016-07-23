@@ -3,10 +3,9 @@ describe('Take out food', function () {
   it('should print correct orderItems', ()=> {
     const selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
     const allItems = loadAllItems();
-    const expectCartItems= [
+    const expectCartItems = [
       {
-        item:
-        {
+        item: {
           id: 'ITEM0001',
           name: '黄焖鸡',
           price: 18
@@ -14,8 +13,7 @@ describe('Take out food', function () {
         count: 1
       },
       {
-        item:
-        {
+        item: {
           id: 'ITEM0013',
           name: '肉夹馍',
           price: 6
@@ -23,8 +21,7 @@ describe('Take out food', function () {
         count: 2
       },
       {
-        item:
-        {
+        item: {
           id: 'ITEM0022',
           name: '凉皮',
           price: 8
@@ -36,7 +33,74 @@ describe('Take out food', function () {
     expect(orderItems).toEqual(expectCartItems);
   });
 
-  it('should generate best charge when best is 指定菜品半价', function() {
+  it('should print correct receiptItems', ()=> {
+    const inputOrderItems = [
+      {
+        item: {
+          id: 'ITEM0001',
+          name: '黄焖鸡',
+          price: 18
+        },
+        count: 1
+      },
+      {
+        item: {
+          id: 'ITEM0013',
+          name: '肉夹馍',
+          price: 6
+        },
+        count: 2
+      },
+      {
+        item: {
+          id: 'ITEM0022',
+          name: '凉皮',
+          price: 8
+        },
+        count: 1
+      }
+    ];
+    const receiptItems = buildReceiptItems(inputOrderItems);
+    const expectReceiptItems = [
+      {
+        orderItem: {
+          item: {
+            id: 'ITEM0001',
+            name: '黄焖鸡',
+            price: 18
+          },
+          count: 1
+        },
+        subtotal: 18
+      },
+      {
+        orderItem: {
+          item: {
+            id: 'ITEM0013',
+            name: '肉夹馍',
+            price: 6
+          },
+          count: 2
+        },
+        subtotal: 12
+      },
+      {
+        orderItem: {
+          item: {
+            id: 'ITEM0022',
+            name: '凉皮',
+            price: 8
+          },
+          count: 1
+        },
+        subtotal: 8
+      }
+    ];
+
+    expect(receiptItems).toEqual(expectReceiptItems);
+  });
+
+  it('should generate best charge when best is 指定菜品半价', function () {
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
     let summary = bestCharge(inputs).trim();
     let expected = `
@@ -53,7 +117,7 @@ describe('Take out food', function () {
     expect(summary).toEqual(expected)
   });
 
-  it('should generate best charge when best is 满30减6元', function() {
+  it('should generate best charge when best is 满30减6元', function () {
     let inputs = ["ITEM0013 x 4", "ITEM0022 x 1"];
     let summary = bestCharge(inputs).trim();
     let expected = `
@@ -69,7 +133,7 @@ describe('Take out food', function () {
     expect(summary).toEqual(expected)
   });
 
-  it('should generate best charge when no promotion can be used', function() {
+  it('should generate best charge when no promotion can be used', function () {
     let inputs = ["ITEM0013 x 4"];
     let summary = bestCharge(inputs).trim();
     let expected = `
