@@ -6,9 +6,6 @@ function bestCharge(inputs) {
   let receiptItems = buildReceiptItems(countItems, promotions);
   let receipt = selectpromotion(receiptItems);
   return buildReceiptText(receipt)
-
-
-//  return /*TODO*/;
 }
 
 function splitedInputs(inputs) {
@@ -36,7 +33,6 @@ function buildReceiptItems(countItems, promotions) {
     if (buildpromotion(countItem.item.id, promotions) === true) {
       halfSaved = countItem.item.price * countItem.count / 2;
     }
-    // let subtotal=0;
     receiptItems.push({countItem, actual: countItem.item.price * countItem.count, halfSaved})
   }
 
@@ -78,7 +74,6 @@ function selectpromotion(receiptItems) {
   } else {
     promotion = undefined;
     tatol = actualTotal;
-    ;
     saved = undefined;
   }
   return {receiptItems, promotion, saved, tatol};
