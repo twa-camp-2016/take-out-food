@@ -47,24 +47,6 @@ describe('Take out food', function () {
 
 });
 
-/*describe("setPromoteType",function(){
-  it("should return the promotedSet",function(){
-  let allPromotions = [{
-    type: '满30减6元'
-  }, {
-    type: '指定菜品半价',
-    items: ['ITEM0001', 'ITEM0022']
-  }];
-  let promotedSet = [{
-    type: '满30减6元',
-    alltotal:30
-  }, {
-    type: '指定菜品半价',
-    items: ['ITEM0001', 'ITEM0022']
-  }];
-})
-})
-*/
 describe("despiteItemsAmount",function(){
   it("should return the itemAmounts",function(){
     let selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
