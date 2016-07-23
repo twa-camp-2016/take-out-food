@@ -101,9 +101,9 @@ function buildReceipt(promotedItems,{totalPayPrice,totalSaved,chosenType}) {
 function buildReceiptString(receipt) {
   let lines = [];
   lines.push(`============= 订餐明细 =============`);
-  let savedItems = receipt.receiptItems.filter((receiptItem)=> receiptItem.saved >0).map(({name})=>{
+  let savedItems =receipt.chosenType === '指定菜品半价' ? receipt.receiptItems.filter((receiptItem)=> receiptItem.saved >0).map(({name})=>{
     return name;
-  });
+  }) : [];
 
   for(let {name,count,price} of receipt.receiptItems){
       let line=`${name} x ${count} = ${price*count}元`;
@@ -114,10 +114,10 @@ function buildReceiptString(receipt) {
     lines.push(`-----------------------------------`);
     lines.push(`使用优惠:`);
     if(savedItems.length>0){
-      lines.push(`指定菜品半价(黄焖鸡，凉皮)，省13元`);
+      let savedItemsString = savedItems.join("，");
+      lines.push(`${receipt.chosenType}(${savedItemsString})，省${receipt.totalSaved}元`);
     }else {
       lines.push(`${receipt.chosenType}，省${receipt.totalSaved}元`);
-
     }
   }
 
