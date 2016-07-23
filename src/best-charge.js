@@ -107,7 +107,6 @@ function getFinalSaved(receipt) {
   else if (receipt.total.promotionType === '指定菜品半价') {
     return receipt.savedTotal;
   }
-
 }
 
 module.exports = {
