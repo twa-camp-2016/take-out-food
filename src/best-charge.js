@@ -43,7 +43,7 @@ function buildChargeItems(receiptItems, promotions) {
 function fullCut(receiptItems) {
   let sum = 0;
   receiptItems.map((receiptItem)=> {
-    sum += receiptItem.orderItem.item.price;
+    sum += receiptItem.orderItem.item.price *receiptItem.orderItem.count;
   });
   if (sum >= 30) {
     sum -= 6;
@@ -81,12 +81,16 @@ function buildReceipt(chargeItems) {
   for (const receiptItem of receiptItems) {
     sum += receiptItem.subtotal;
   }
-  chargeItems.saved = sum - chargeItems.total;
+  if (chargeItems.type === '满30减6元') {
+    chargeItems.saved = 6;
+  } else {
+    chargeItems.saved = sum - chargeItems.total;
+  }
   return chargeItems;
 }
 
-function buildReceiptText(receipt,promotions) {
-  let receiptItemsText = receipt.receiptItems.map((receiptItem)=>{
+function buildReceiptText(receipt, promotions) {
+  let receiptItemsText = receipt.receiptItems.map((receiptItem)=> {
     const orderItem = receiptItem.orderItem;
     return `${orderItem.item.name} × ${orderItem.count} = ${receiptItem.subtotal}元`
   }).join('\n');
@@ -102,13 +106,12 @@ ${receipt.type}，省${receipt.saved}元
 }
 
 
-
 function findDiscount(receipt) {
   let nameText = receipt.receiptItems.map((receiptItem)=> {
     if (receipt.type && receipt.type === '指定菜品半价') {
       return receiptItem.orderItem.item.name;
     }
   }).join();
-  nameText = `(${nameText.slice(0,3)}，${nameText.slice(8,10)})`;
+  nameText = `(${nameText.slice(0, 3)}，${nameText.slice(8, 10)})`;
   return nameText;
 }
