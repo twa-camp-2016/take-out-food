@@ -10,21 +10,13 @@ function bestCharge(selectedItems) {
 
 
 function buildDishItem(selectedItems, allItems) {
-  let dishItems = [];
-  selectedItems.map(selectedItem => {
+  return selectedItems.map(selectedItem => {
     const selectedArray = selectedItem.split("x");
     const id = selectedArray[0];
     const count = parseFloat(selectedArray[1] || 1);
-    const dishItem = dishItems.find(dishItem => dishItem.item.id == id);
-    if (dishItem) {
-      dishItem.count += count;
-    }
-    else {
-      const item = allItems.find(item => item.id === id);
-      dishItems.push({item, count});
-    }
+    const item = allItems.find(item => item.id === id);
+    return {item, count};
   });
-  return dishItems;
 };
 
 function buildMenuItem(dishItems, promotions) {
