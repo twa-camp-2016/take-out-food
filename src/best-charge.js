@@ -47,8 +47,8 @@ function buildReceipt(receiptItems) {
   const savedHalf = calculateSavedHalf(receiptItems);
   const sum = calculateSum(receiptItems);
   const totalWithHalf = sum - savedHalf;
-  const halfPriceItemNames = calculateHalfPriceItemNames(receiptItems);
-  const savedType = calculateSavedType(sum, totalWithHalf, halfPriceItemNames);
+  const halfPriceItemNames = getHalfPriceItemNames(receiptItems);
+  const savedType = buildSavedType(sum, totalWithHalf, halfPriceItemNames);
   if (savedType.type === '满30减6元') {
     savedTotal = 6;
   }
@@ -71,13 +71,13 @@ function calculateSum(receiptItems) {
     .reduce((a, b) => a + b);
 }
 
-function calculateHalfPriceItemNames(receiptItems) {
+function getHalfPriceItemNames(receiptItems) {
   return receiptItems
     .filter(receiptItem => receiptItem.saved > 0)
     .map(item => item.cartItem.item.name);
 }
 
-function calculateSavedType(sum, totalWithHalf, halfItemNames) {
+function buildSavedType(sum, totalWithHalf, halfItemNames) {
   if (sum>=30 && sum -6 < totalWithHalf) {
     return {type: '满30减6元', name: undefined};
   }
