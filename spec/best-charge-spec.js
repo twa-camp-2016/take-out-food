@@ -35,7 +35,7 @@ describe("getTwoPromotionItems",function () {
   });
 })
 describe("getPromotionItems",function () {
-  it("items")
+  it("itemsDis")
 
 })
 
