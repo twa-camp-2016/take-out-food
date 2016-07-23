@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0e33cc7d-1a45-43df-a3e3-c787a5894b21" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/best-charge-spec.js" afterPath="$PROJECT_DIR$/spec/best-charge-spec.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/best-charge.js" afterPath="$PROJECT_DIR$/src/best-charge.js" />
     </list>
     <ignored path="take-out-food.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,11 +26,24 @@
       <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="638">
+            <state relative-caret-position="-107">
               <caret line="177" column="6" selection-start-line="177" selection-start-column="6" selection-end-line="177" selection-end-column="6" />
               <folding>
                 <element signature="e#581#940#0" expanded="false" />
+                <element signature="e#3741#3960#0" expanded="false" />
+                <element signature="e#4288#4839#0" expanded="false" />
+                <element signature="e#4865#4937#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="student-name.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/student-name.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="3" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -74,18 +86,6 @@
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -138,8 +138,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/student-name.txt" />
         <option value="$PROJECT_DIR$/src/best-charge.js" />
+        <option value="$PROJECT_DIR$/student-name.txt" />
         <option value="$PROJECT_DIR$/spec/best-charge-spec.js" />
       </list>
     </option>
@@ -316,12 +316,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1469237218177</updated>
-      <workItem from="1469237219737" duration="18060000" />
+      <workItem from="1469237219737" duration="19262000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18060000" />
+    <option name="totallyTimeSpent" value="19262000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
@@ -334,7 +334,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -356,14 +356,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/student-name.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-235">
@@ -448,12 +440,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/student-name.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
+        <state relative-caret-position="-107">
           <caret line="177" column="6" selection-start-line="177" selection-start-column="6" selection-end-line="177" selection-end-column="6" />
           <folding>
             <element signature="e#581#940#0" expanded="false" />
+            <element signature="e#3741#3960#0" expanded="false" />
+            <element signature="e#4288#4839#0" expanded="false" />
+            <element signature="e#4865#4937#0" expanded="false" />
           </folding>
         </state>
       </provider>

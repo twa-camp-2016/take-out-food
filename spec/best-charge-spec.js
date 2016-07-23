@@ -176,7 +176,6 @@ describe('Take out food', function () {
         total: 25,
       }
     })
-    
   });
 
   it('compare two promotion way',()=> {
@@ -222,8 +221,8 @@ describe('Take out food', function () {
       lastSave:13,
       lastTotal:25
     }
-    
+
     expect(receiptItems).toEqual(expected);
   });
-  
+
 });
