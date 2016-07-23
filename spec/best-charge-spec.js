@@ -50,6 +50,209 @@ describe('Take out food', function () {
     expect(cartItems).toEqual(expected);
   });
 
+  it('calculate original total prices',function () {
+    let cartItems = [
+      {
+        id:'ITEM0013',
+        name: '肉夹馍',
+        price: 6.00,
+        count:2
+      },
+
+      {
+        id: 'ITEM0022',
+        name: '凉皮',
+        price: 8.00,
+        count:3
+      }
+    ];
+
+    let originalTotalPrice = calculateOriginalPrice(cartItems);
+
+    let expected = 36;
+
+    expect(originalTotalPrice).toEqual(expected);
+  });
+
+  it('build promotions',function () {
+    let cartItems = [
+      {
+        id:'ITEM0013',
+        name: '肉夹馍',
+        price: 6.00,
+        count:2
+      },
+
+      {
+        id: 'ITEM0022',
+        name: '凉皮',
+        price: 8.00,
+        count:3
+      }
+    ];
+    let promotions = loadPromotions();
+    let promotedItems = buildPromotions(cartItems,promotions);
+
+    let expected =[
+        {
+          id:'ITEM0013',
+          name: '肉夹馍',
+          price: 6.00,
+          count:2,
+          payPrice:12,
+          saved:0
+        },
+
+        {
+          id: 'ITEM0022',
+          name: '凉皮',
+          price: 8.00,
+          count:3,
+          payPrice:12,
+          saved:12
+        }
+      ]
+
+    expect(promotedItems).toEqual(expected);
+  });
+
+
+  it('calculate totalPrices and choose 指定菜品半价',function () {
+    let promotedItems=[
+      {
+        id:'ITEM0013',
+        name: '肉夹馍',
+        price: 6.00,
+        count:2,
+        payPrice:12,
+        saved:0
+      },
+
+      {
+        id: 'ITEM0022',
+        name: '凉皮',
+        price: 8.00,
+        count:3,
+        payPrice:12,
+        saved:12
+      }
+    ];
+
+    let totalPrices = calculateTotalPrices(promotedItems);
+
+    let expected = {
+      totalPayPrice:24,
+      totalSaved:12
+    }
+
+    expect(totalPrices).toEqual(expected);
+  })
+
+  it('choose 指定菜品半价',function () {
+    let totalPrice={
+      totalPayPrice:24,
+      totalSaved:12
+    };
+
+    let promotions = loadPromotions();
+    let chosenTypePrice = chooseType(totalPrice,promotions);
+
+    let expected = {
+      totalPayPrice:24,
+      totalSaved:12,
+      chosenType:'指定菜品半价'
+    }
+
+    expect(chosenTypePrice).toEqual(expected);
+  });
+
+  it('choose 满30减6元',function () {
+    let totalPrice={
+      totalPayPrice:30,
+      totalSaved:0
+    };
+
+    let promotions = loadPromotions();
+    let chosenTypePrice = chooseType(totalPrice,promotions);
+
+    let expected = {
+      totalPayPrice:24,
+      totalSaved:6,
+      chosenType:'满30减6元'
+    }
+    expect(chosenTypePrice).toEqual(expected);
+  });
+
+  it('没有优惠',function () {
+    let totalPrice={
+      totalPayPrice:24,
+      totalSaved:0
+    };
+
+    let promotions = loadPromotions();
+    let chosenTypePrice = chooseType(totalPrice,promotions);
+
+    let expected = {
+      totalPayPrice:24,
+      totalSaved:0,
+      chosenType:''
+    }
+    expect(chosenTypePrice).toEqual(expected);
+  });
+
+  it('build receipt',function () {
+    let promotedItems = [
+      {
+        id:'ITEM0013',
+        name: '肉夹馍',
+        price: 6.00,
+        count:2,
+        payPrice:12,
+        saved:0
+      },
+
+      {
+        id: 'ITEM0022',
+        name: '凉皮',
+        price: 8.00,
+        count:3,
+        payPrice:12,
+        saved:12
+      }
+    ];
+
+    let chosenTypePrice = {
+      totalPayPrice:24,
+      totalSaved:12,
+      chosenType:'指定菜品半价'
+    };
+
+    let receipt = buildReceipt(promotedItems,chosenTypePrice);
+
+    let expected = {
+      receiptItems:[
+        {
+          name: '肉夹馍',
+          price: 6.00,
+          count:2,
+          payPrice:12,
+          saved:0
+        },
+        {
+          name: '凉皮',
+          price: 8.00,
+          count:3,
+          payPrice:12,
+          saved:12
+        }
+      ],
+      totalPayPrice:24,
+      totalSaved:12,
+      chosenType:'指定菜品半价'
+    }
+
+    expect(chosenTypePrice).toEqual(expected);
+  })
 
   it('should generate best charge when best is 指定菜品半价', function() {
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
