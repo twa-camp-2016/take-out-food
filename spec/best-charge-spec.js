@@ -11,7 +11,7 @@ describe('Take out food', function () {
         expect(formattedInputs).toEqual(expected);
     });
 
-    it('#2.buildCartItems',() => {
+    it('#2.buildItems',() => {
         let formattedInputs = [
             {id:'ITEM0001',count:1},
             {id:'ITEM0013',count:2},
@@ -28,7 +28,7 @@ describe('Take out food', function () {
         expect(items).toEqual(expected);
     });
 
-    it('#3.ItemsCharge', () => {
+    it('#3.calculateItemsCharge', () => {
         let items = [
             {id:'ITEM0001',name:'黄焖鸡',price:18.00,count:1},
             {id:'ITEM0013',name:'肉夹馍',price:6.00,count:2},
@@ -44,7 +44,7 @@ describe('Take out food', function () {
         expect(itemsWithCharge).toEqual(expected);
     });
 
-    it('#4.choosePromotion', () => {
+    it('#4.choosePromotions', () => {
         let itemsWithCharge =  [
             {id:'ITEM0001',name:'黄焖鸡',price:18.00,count:1,itemCharge:18},
             {id:'ITEM0013',name:'肉夹馍',price:6.00,count:2,itemCharge:12},
@@ -53,31 +53,13 @@ describe('Take out food', function () {
         let promotions = loadPromotions();
         let bestPromotion = choosePromotions(itemsWithCharge,promotions);
         let expected = {
-            type:'指定菜品半价',
+            promotionType:'指定菜品半价',
             promotedItemName:['黄焖鸡','凉皮'],
             saved:13
         };
         expect(bestPromotion).toEqual(expected);
-
-
     });
 
-    //it('#4-2.choosePromotion', () => {
-    //    let itemsWithCharge =  [
-    //        {id:'ITEM0001',name:'黄焖鸡',price:18.00,count:1,itemCharge:18},
-    //        {id:'ITEM0013',name:'肉夹馍',price:6.00,count:2,itemCharge:12},
-    //        {id:'ITEM0022',name:'凉皮',price:8.00,count:1,itemCharge:8}
-    //    ];
-    //    let promotions = loadPromotions();
-    //    let bestPromotion = choosePromotions(itemsWithCharge,promotions);
-    //    let expected = {
-    //        type:'满30减6元',
-    //        saved:13
-    //    };
-    //    expect(bestPromotion).toEqual(expected);
-    //
-    //
-    //});
 
     it('#5.calculateCharge',() => {
         let itemsWithCharge =  [
@@ -94,9 +76,8 @@ describe('Take out food', function () {
 
         let charge = calculateCharge(itemsWithCharge,bestPromotion);
 
-        let expected = {charge: 25};
+        let expected = 25;
         expect(charge).toEqual(expected);
-
 
     });
 
@@ -106,14 +87,12 @@ describe('Take out food', function () {
             {id:'ITEM0013',name:'肉夹馍',price:6.00,count:2,itemCharge:12},
             {id:'ITEM0022',name:'凉皮',price:8.00,count:1,itemCharge:8}
         ];
-
         let bestPromotion = {
             type:'指定菜品半价',
             promotedItemName:['黄焖鸡','凉皮'],
             saved:13
         };
-
-        let charge = {charge: 25};
+        let charge = 25;
 
         let receipt = buildReceipt(itemsWithCharge,bestPromotion,charge);
 
@@ -128,17 +107,12 @@ describe('Take out food', function () {
                 promotedItemName:['黄焖鸡','凉皮'],
                 saved:13
             },
-            charge :{charge: 25}
-
+            charge:25
         };
 
         expect(receipt).toEqual(expected);
 
-
     });
-
-
-
 
 
   it('should generate best charge when best is 指定菜品半价', function() {
