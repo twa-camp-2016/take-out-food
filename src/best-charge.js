@@ -1,118 +1,99 @@
-'use strict';
-const allItems = require('./items');
-const allPromotions = require('./promotions');
+const allItems = require("./items");
+const allPromotions = require("./promotions");
+
 function bestCharge(selectedItems) {
-  const dishItems = buildDishItem(selectedItems, allItems());
-  const menuItems = buildMenuItem(dishItems, allPromotions());
-  const receipt = buildMenuReceipt(menuItems, allPromotions());
+  const cartItems = buildCartItems(selectedItems, allItems());
+  const receiptItems = buildReceiptItems(cartItems, allPromotions());
+  const receipt = buildReceipt(receiptItems, allPromotions());
   return getReceiptText(receipt);
 }
 
-
-function buildDishItem(selectedItems, allItems) {
+function buildCartItems(selectedItems, allItems) {
   return selectedItems.map(selectedItem => {
-    const selectedArray = selectedItem.split("x");
-    const id = selectedArray[0];
-    const count = parseFloat(selectedArray[1] || 1);
+    const splitedSelectedItme = selectedItem.split(" ");
+    const id = splitedSelectedItme[0];
+    const count = parseInt(splitedSelectedItme[2] || 1);
     const item = allItems.find(item => item.id === id);
     return {item, count};
   });
 }
 
-function buildMenuItem(dishItems, promotions) {
-  return dishItems.map(dishItem => {
-    const promotionType = getPromotionType(dishItem.item.id, promotions);
-    const {saved, subtotal} = discount(dishItem.count, dishItem.item.price, promotionType);
-    return {dishItem, saved, subtotal};
+function buildReceiptItems(cartItems, promotions) {
+  return cartItems.map(cartItem => {
+    const promotionType = getPromotionType(cartItem.item.id, promotions);
+    const {saved, subtotal} = discount(cartItem.item.price, cartItem.count, promotionType);
+    return {cartItem, saved, subtotal};
   });
 }
 
 function getPromotionType(id, promotions) {
-  const promotion = promotions[1].items.some(b => b === id);
-  return promotion ? promotions[1].type : undefined;
-};
+  return promotions[1].items.some(b=>b === id) ? promotions[1].type : undefined;
+}
 
-function discount(count, price, promotionType) {
-  let subtotal = count * price;
+function discount(price, count, promotionType) {
   let saved = 0;
+  let subtotal = price * count;
   if (promotionType === '指定菜品半价') {
-    saved = count * parseFloat(price / 2);
+    saved = parseFloat(price / 2) * count;
   }
   subtotal -= saved;
   return {saved, subtotal};
-};
-
-
-function buildMenuReceipt(menuItems, promotions) {
-  let total = menuItems.map(menuItem => menuItem.subtotal)
-                       .reduce((prv, cur) => prv + cur);
-  let savedTotal = menuItems.map(menuItem => menuItem.saved)
-                            .reduce((prv, cur) => prv + cur);
-  let totalStr = countTotal(menuItems, promotions);
-  let finalTotal = totalStr && total > totalStr.total ? totalStr.total : total;
-  let promotionType = finalTotal === total ? promotions[1].type : totalStr.promotionType;
-  total = {total: finalTotal, promotionType: promotionType};
-  return {menuItems, savedTotal, total};
 }
 
-function countTotal(menuItems, promotions) {
-  let arr = menuItems.map(menuItem => {
-    return menuItem.dishItem.item.price * menuItem.dishItem.count
-  });
-  let total = arr.reduce((prv, cur) => prv + cur);
-  if (total >= 30)
-    return {total: total - 6, promotionType: promotions[0].type};
+function buildReceipt(receiptItems, promotions) {
+  let total = receiptItems.map(receiptItem => receiptItem.subtotal)
+    .reduce((a, b) => a + b);
+  let savedTotal = receiptItems.map(receiptItem => receiptItem.saved)
+    .reduce((a, b)=> a + b);
+  let savedTotalStr = getTotalAnother(receiptItems, promotions);
+  const type = savedTotal > savedTotalStr.saved ? promotions[1].type : savedTotalStr.type;
+  savedTotal = savedTotal > savedTotalStr.saved ? savedTotal : savedTotalStr.saved;
+  savedTotal = {savedTotal, type};
+  total = type === '满30减6元' ? savedTotalStr.total : total;
+  return {receiptItems, savedTotal, total};
 }
+
+function getTotalAnother(receiptItems, promotions) {
+  let subtotalArr = receiptItems.map(receiptItem => receiptItem.cartItem.item.price * receiptItem.cartItem.count);
+  let total = subtotalArr.reduce((a, b)=> a + b);
+  const saved = total > 30 ? 6 : 0;
+  const type = promotions[0].type;
+  total = total > 30 ? total - 6 : total;
+  return {saved, type, total}
+}
+
 
 function getReceiptText(receipt) {
-  let receiptItemsText = receipt.menuItems.map(menuItem => {
-    const item = menuItem.dishItem;
-    return `${item.item.name} x ${item.count} = ${item.item.price * item.count}元`
+  let dishAccount = receipt.receiptItems.map(receiptItem => {
+    const cartItem = receiptItem.cartItem;
+    return `${cartItem.item.name} x ${cartItem.count} = ${cartItem.item.price * cartItem.count}元`
   }).join('\n');
   return `============= 订餐明细 =============
-${receiptItemsText}${getPromotionText(receipt)}
+${dishAccount}${getPromotionText(receipt)}
 -----------------------------------
-总计：${receipt.total.total}元
-===================================`;
-
-};
+总计：${receipt.total}元
+===================================`
+}
 
 function getPromotionText(receipt) {
-  let finalSaved = getFinalSaved(receipt);
-  let finalPromotionType = getFinalPromotionType(receipt);
-  let subtotalArr = receipt.menuItems.map(menuItem => {
-    const itemDish = menuItem.dishItem;
-    return itemDish.item.price * itemDish.count;
-  });
-  let total = subtotalArr.reduce((pev, cru) => pev + cru);
-  total = total === receipt.total.total && receipt.savedTotal === 0
-  let text = `
+  let promotionItems =  receipt.receiptItems.map(receiptItem =>
+    receiptItem.saved != 0 ? receiptItem.cartItem.item.name + "，" : "").join("");
+  promotionItems = receipt.savedTotal.type != '满30减6元' ? promotionItems.substring(0,promotionItems.length-1) : "";
+  let charOne  = receipt.savedTotal.type != '满30减6元' ? '(' : "";
+  let charTwo  = receipt.savedTotal.type != '满30减6元' ? ')' : "";
+  const text = `
 -----------------------------------
 使用优惠:
-${receipt.total.promotionType}${finalPromotionType}省${finalSaved}元`;
-  return total ? "" : text;
-}
-
-function getFinalPromotionType(receipt) {
-  let promo = receipt.menuItems.map(menuItem => {
-    return menuItem.saved != 0 ? menuItem.dishItem.item.name + ',' : undefined;
-  }).join("");
-  return receipt.total.promotionType !== '指定菜品半价' ? ',' : promo;
-}
-
-function getFinalSaved(receipt) {
-  if (receipt.total.promotionType === '满30减6元') {
-    return 6;
-  }
-  else if (receipt.total.promotionType === '指定菜品半价') {
-    return receipt.savedTotal;
-  }
+${receipt.savedTotal.type}${charOne}${promotionItems}${charTwo}，省${receipt.savedTotal.savedTotal}元`;
+  return receipt.savedTotal.savedTotal != 0 ? text : "";
 }
 
 module.exports = {
   bestCharge: bestCharge,
-  buildDishItem: buildDishItem,
-  buildMenuItem: buildMenuItem,
-  buildMenuReceipt: buildMenuReceipt,
+  buildCartItems: buildCartItems,
+  buildReceiptItems: buildReceiptItems,
+  buildReceipt: buildReceipt,
   getReceiptText: getReceiptText
-}
+};
+
+
