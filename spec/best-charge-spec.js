@@ -105,7 +105,7 @@ describe('Take out food', function () {
         saved: 0
       }
     ];
-    let menuReceipt = bestCharge.buildMenuReceipt(inputs,loadPromotions());
+    let menuReceipt = bestCharge.buildMenuReceipt(inputs, loadPromotions());
     let expectMenuReceipt = {
       menuItems: [
         {
@@ -133,13 +133,13 @@ describe('Take out food', function () {
           saved: 0
         }
       ],
-      savedTotal:9.00,
-      total:{ total: 21, promotionType: '指定菜品半价' }
-    } ;
+      savedTotal: 9.00,
+      total: {total: 21, promotionType: '指定菜品半价'}
+    };
     expect(menuReceipt).toEqual(expectMenuReceipt);
   });
 
-  it('getMenuAccount',() => {
+  it('getMenuAccount', () => {
     let inputs = {
       menuItems: [
         {
@@ -167,11 +167,11 @@ describe('Take out food', function () {
           saved: 0
         }
       ],
-      savedTotal:9.00,
-      total:{promotionType:'指定菜品半价',total:21.00}
+      savedTotal: 9.00,
+      total: {promotionType: '指定菜品半价', total: 21.00}
     };
     let receipt = bestCharge.getReceiptText(inputs).trim();
-    let expectReceipt = `
+let expectReceipt = `
 ============= 订餐明细 =============
 黄焖鸡 x 1 = 18元
 肉夹馍 x 2 = 12元
@@ -182,8 +182,7 @@ describe('Take out food', function () {
 总计：21元
 ===================================`.trim();
 expect(receipt).toEqual(expectReceipt);
-
-  })
+});
 
 
   it('should generate best charge when best is 指定菜品半价', function () {
@@ -208,7 +207,7 @@ expect(receipt).toEqual(expectReceipt);
   it('should generate best charge when best is 满30减6元', function () {
     let inputs = ["ITEM0013x4", "ITEM0022x1"];
     let summary = bestCharge.bestCharge(inputs).trim();
-    let expected =`
+    let expected = `
 ============= 订餐明细 =============
 肉夹馍 x 4 = 24元
 凉皮 x 1 = 8元
@@ -221,7 +220,7 @@ expect(receipt).toEqual(expectReceipt);
     expect(summary).toEqual(expected)
   });
 
-  it('should generate best charge when no promotion can be used', function() {
+  it('should generate best charge when no promotion can be used', function () {
     let inputs = ["ITEM0013x4"];
     let summary = bestCharge.bestCharge(inputs).trim();
     let expected = `
@@ -232,7 +231,6 @@ expect(receipt).toEqual(expectReceipt);
 ===================================`.trim();
     expect(summary).toEqual(expected)
   });
-
 
 
 });

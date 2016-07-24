@@ -1,6 +1,6 @@
 'use strict';
-const allItems = require('../src/items');
-const allPromotions = require('../src/promotions');
+const allItems = require('./items');
+const allPromotions = require('./promotions');
 function bestCharge(selectedItems) {
   const dishItems = buildDishItem(selectedItems, allItems());
   const menuItems = buildMenuItem(dishItems, allPromotions());
@@ -17,7 +17,7 @@ function buildDishItem(selectedItems, allItems) {
     const item = allItems.find(item => item.id === id);
     return {item, count};
   });
-};
+}
 
 function buildMenuItem(dishItems, promotions) {
   return dishItems.map(dishItem => {
@@ -115,5 +115,4 @@ module.exports = {
   buildMenuItem: buildMenuItem,
   buildMenuReceipt: buildMenuReceipt,
   getReceiptText: getReceiptText
-
 }
