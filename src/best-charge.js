@@ -1,16 +1,12 @@
 function bestCharge(selectedItems) {
   let countIdItems = getCountIdItems(selectedItems);
   let allItems = loadAllItems();
-  // console.log(allItems)
   let informationItems = getInformationItems(countIdItems, allItems);
   let promotions = loadPromotions();
   let promotedItems = buildPromotedItems(informationItems, promotions);
-  console.log(promotedItems);
   let totalPrice = calculatePrice(promotedItems);
   let receiptModel = buildReceiptModel(promotedItems, totalPrice);
-  let receipt = buildReceiptString(receiptModel,promotions);
-  console.log(receiptModel);
-  return receipt;
+  return buildReceiptString(receiptModel, promotions);
 }
 function getCountIdItems(selectedItems) {
   return selectedItems.map((selectedItem) => {
@@ -22,7 +18,6 @@ function getCountIdItems(selectedItems) {
   })
 }
 function _getExistElementById(arrays, id) {
-  //console.log(arrays)
   return arrays.find((array) => array.id === id);
 }
 function getInformationItems(countIdItems, allItems) {
@@ -42,15 +37,13 @@ function buildPromotedItems(informationItems, promotions) {
     return Object.assign({}, informationItem, {payPrice, saved})
   });
   for (let promotedInfo of promotedInfos) {
-    totalPrice += promotedInfo.payPrice
+    totalPrice += promotedInfo.payPrice;
     totalSaved += promotedInfo.saved;
   }
   let price = totalPrice + totalSaved;
-  console.log(price);
-  console.log(totalSaved);
   if (totalSaved >= 6) {
     return {
-      promotedInfos: promotedInfos,
+      promotedInfos,
       promotedType: '指定菜品半价'
     };
   } else if (price > 30 && (totalPrice < 6 || totalPrice > 0)) {
@@ -120,7 +113,6 @@ function buildReceiptString(receiptModel,promotions) {
   lines.push(`总计：${receiptModel.totalPayPrice}元`);
   lines.push('===================================');
 
-  let result = lines.join('\n');
-  return result;
+  return lines.join('\n');
 
 }
