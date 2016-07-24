@@ -1,4 +1,31 @@
+function loadAllItems() {
+  return [{
+    id: 'ITEM0001',
+    name: '黄焖鸡',
+    price: 18.00
+  }, {
+    id: 'ITEM0013',
+    name: '肉夹馍',
+    price: 6.00
+  }, {
+    id: 'ITEM0022',
+    name: '凉皮',
+    price: 8.00
+  }, {
+    id: 'ITEM0030',
+    name: '冰锋',
+    price: 2.00
+  }];
+}
 
+function loadPromotions() {
+  return [{
+    type: '满30减6元'
+  }, {
+    type: '指定菜品半价',
+    items: ['ITEM0001', 'ITEM0022']
+  }];
+}
 
 function formatTags(tags) {
   return tags.map((tag) => {
@@ -9,7 +36,7 @@ function formatTags(tags) {
     }
   })
 }
-
+let tags= ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
 
 function fixPrice(number) {
   return parseFloat(number.toFixed(2));
@@ -97,10 +124,10 @@ function buildReceipt(promotedItems, {totalHalfSaved, totalnoPromotedPrice}) {
 
 function bulidReceiptString(receipt) {
   let line;
-  itemLine = [];
+  let itemLine = [];
   let lines = [`============= 订餐明细 =============`];
   for (let item of receipt.promotedItems) {
-    line = `${item.name} x ${item.count} = ${item.price*item.count} 元`;
+    line = `${item.name} x ${item.count} = ${item.price*item.count}元`;
     lines.push(line);
   };
 
@@ -108,13 +135,14 @@ function bulidReceiptString(receipt) {
   lines.push(line)
 
   if (receipt.totalHalfSaved > 0 || receipt.totalDiscountSaved > 0) {
-    line += `使用优惠:`;
+    line = `使用优惠:`;
+    lines.push(line);
     if (receipt.fullDiscountPayPrice < receipt.halfDiscountPayPrice) {
       line = `满30减6元，省6元`;
       lines.push(line);
       line = `-----------------------------------`;
       lines.push(line);
-      line = `总计：${receipt.fullDiscountPayPrice}`;
+      line = `总计：${receipt.fullDiscountPayPrice}元`;
       lines.push(line);
       line = `===================================`;
       lines.push(line);
@@ -122,7 +150,7 @@ function bulidReceiptString(receipt) {
     }
 
     if (receipt.fullDiscountPayPrice > receipt.halfDiscountPayPrice) {
-      line += `指定菜品半价(`;
+      line = `指定菜品半价(`;
       for (let item of receipt.savedItems) {
         itemLine.push(item.name);
       }
@@ -132,14 +160,14 @@ function bulidReceiptString(receipt) {
       lines.push(line);
       line = `-----------------------------------`;
       lines.push(line);
-      line = `总计：${receipt.halfDiscountPayPrice}`;
+      line = `总计：${receipt.halfDiscountPayPrice}元`;
       lines.push(line);
       line = `===================================`;
       lines.push(line);
       return lines.join('\n');
     }
   }
-  line = `总计：${receipt.fullDiscountPayPrice}`;
+  line = `总计：${receipt.fullDiscountPayPrice}元`;
   lines.push(line);
   line = `===================================`;
   lines.push(line);
@@ -158,6 +186,8 @@ function bestCharge(tags){
   let builtReceipt = buildReceipt(promotedItems, calculatedTotalPrices);
 //console.log(builtReceipt);
   let receiptString = bulidReceiptString(builtReceipt);
-  return  receiptString;
+   return  receiptString;
+  //console.log(receiptString);
 
 }
+//bestCharge(tags);
