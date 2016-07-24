@@ -1,6 +1,6 @@
-// 请把与index.html页面相关的javascript代码写在这里
-// 同时删除该注释
-
+function getAllItems() {
+  item = document.getElementById('items');
+}
 function calculatePrice() {
   // 想办法调用`bestCharge`并且把返回的字符串
   // 显示在html页面的`message`中
