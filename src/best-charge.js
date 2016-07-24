@@ -115,15 +115,15 @@ function buildReceiptText(receipt) {
 
   return `============= 订餐明细 =============
 ${receiptText}
------------------------------------
-${getpriviliegeText(promotion, halfName, savedMoney).trim()}
+-----------------------------------${getpriviliegeText(promotion, halfName, savedMoney)}
 总计：${total}元
 ===================================`;
 }
 
 function getpriviliegeText(promotion, halfName, savedMoney) {
   if (promotion === '满30减6元') {
-    return `使用优惠:
+    return `
+使用优惠:
 ${promotion}，省${savedMoney}元
 -----------------------------------`;
   }
@@ -131,7 +131,8 @@ ${promotion}，省${savedMoney}元
     return ''.trim();
   }
   else {
-    return `使用优惠:
+    return `
+使用优惠:
 ${promotion}(${halfName})，省${savedMoney}元
 -----------------------------------`;
   }
