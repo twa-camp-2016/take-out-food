@@ -2,20 +2,18 @@
 function formatInputs(inputs) {
     //debugger;
     return inputs.map((input) => {
-        //if(input.includes('x')) {
+
         let [id, count] = input.split('x');
         return {id: id.trim(), count: parseInt(count.trim())};
-        //}
     });
 }
 
-//#2
 
+//#2
 function _getExistentElementById(array, id) {
     return array.find(element => element.id === id);
 }
 function buildItems(formattedInputs, allItems) {
-    //debugger;
     return formattedInputs.map(({id,count}) => {
         let {name,price} = _getExistentElementById(allItems, id);
         return {id, name, price, count};
@@ -31,12 +29,12 @@ function calculateItemsCharge(items) {
     });
 }
 
+
 //#4
 function choosePromotions(itemsWithCharge, promotions) {
     let promotionOne = promotions.find((promotion) => promotion.type === '满30减6元');
     let promotionTwo = promotions.find((promotion) => promotion.type === '指定菜品半价');
 
-    let result = [];
     let prpmotionTwoItemSaved = 0;
     let prpmotionOneItemSaved = 0;
 
@@ -52,12 +50,10 @@ function choosePromotions(itemsWithCharge, promotions) {
         }
 
     });
-    //debugger;
 
     //promotionTwo
     let totalPrice = 0;
     itemsWithCharge.forEach((item) => {
-        //let hasPromoted = promotionTwo.items.includes(item.id);
         totalPrice += item.itemCharge;
 
     });
@@ -66,7 +62,6 @@ function choosePromotions(itemsWithCharge, promotions) {
     }
 
     //choose
-
     if (prpmotionTwoItemSaved > prpmotionOneItemSaved) {
         type = promotionTwo.type;
         saved = prpmotionTwoItemSaved;
@@ -76,7 +71,6 @@ function choosePromotions(itemsWithCharge, promotions) {
         saved = prpmotionOneItemSaved;
         return {type, saved};
     }
-
 
 }
 
@@ -89,6 +83,7 @@ function calculateCharge(itemsWithCharge, bestPromotion) {
     charge -= bestPromotion.saved;
     return {charge};
 }
+
 
 //#6
 function buildReceipt(itemsWithCharge, bestPromotion, charge) {
@@ -109,35 +104,32 @@ function buildReceiptString(receipt) {
         lines.push(line);
     }
     debugger;
-    let hasPromoted = receipt.bestPromotion;
 
     if (receipt.bestPromotion.promotedItemName) {
-        let name = [];
-        for (let name of receipt.bestPromotion.promotedItemName) {
 
-        }
-
+        var name = receipt.bestPromotion.promotedItemName.join('，');
     }
+    let hasPromoted = receipt.bestPromotion.saved > 0;
 
     if (hasPromoted) {
         lines.push(`-----------------------------------`);
         lines.push(`使用优惠:`);
-        lines.push(`${receipt.bestPromotion.type}()`);
+        if (receipt.bestPromotion.type === '满30减6元') {
+            lines.push(`${receipt.bestPromotion.type}，省${receipt.bestPromotion.saved}元`);
 
+        } else {
+
+            lines.push(`${receipt.bestPromotion.type}(${name})，省${receipt.bestPromotion.saved}元`);
+        }
 
     }
-    lines.push(`，省${receipt.bestPromotion.saved}元`);
     lines.push(`-----------------------------------`);
     lines.push(`总计：${receipt.charge.charge}元`);
     lines.push(`===================================`);
 
-
     let receiptString = lines.join('\n');
     return receiptString;
 }
-
-
-//指定菜品半价(黄焖鸡，凉皮)，省13元
 
 
 function bestCharge(inputs) {
