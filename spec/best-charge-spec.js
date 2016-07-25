@@ -200,20 +200,19 @@ describe('Take out food', function () {
     it('saveAndTotal', function () {
 
       let totalArr = calculateSaveAndTotal(receiptItems);
-      let expected = [{saveTotal:13,total:38}];
+      let expected = {saveTotal:13,total:38};
       expect(totalArr).toEqual(expected);
     });
   });
   describe('getBestCharge', function () {
-    let totalArr =[{saveTotal:13,total:38}];
+    let totalArr ={saveTotal:13,total:38};
     it('getBestCharge', function () {
       let best = getBestCharge(totalArr);
-      let expected = [{bestcharge:25,proType:'指定菜品半价'}];
+      let expected = {bestcharge:25,proType:'指定菜品半价'};
       expect(best).toEqual(expected);
     });
   });
-
- /* it('should generate best charge when best is 指定菜品半价', function() {
+  it('should generate best charge when best is 指定菜品半价', function() {
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
     let summary = bestCharge(inputs).trim();
     let expected = `
@@ -256,6 +255,6 @@ describe('Take out food', function () {
 总计：24元
 ===================================`.trim()
     expect(summary).toEqual(expected)
-  });*/
+  });
 
 });

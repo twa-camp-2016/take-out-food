@@ -1,7 +1,7 @@
 function getSelectedItems(inputs, allItems) {
   let selectItems = [];
-  inputs.map(input=>{
-    let inputArray=input.split(' x ');
+  inputs.map(input=> {
+    let inputArray = input.split(' x ');
     let id = inputArray[0];
     let count = parseFloat(inputArray[1]);
     let item = allItems.find(item => item.id === id);
@@ -19,16 +19,15 @@ function getReceiptItems(selectItems, allPromotions) {
 }
 
 function findPromotionType(id, promotions) {
-let exist= promotions.find(item=>item.hasOwnProperty('items'))
-     let promotion = exist.items.some(a => a === id) ;
+  let exist = promotions.find(item=>item.hasOwnProperty('items'))
+  let promotion = exist.items.some(a => a === id);
   return promotion ? exist.type : undefined;
 }
 
-
 function getDiscountInfo(count, price, promotionType) {
+  let saved = 0;
   let promotionsType = promotionType;
   let subtotal = count * price;
-  let saved = 0;
   if (promotionType === '指定菜品半价') {
     saved = subtotal / 2;
   }
@@ -36,96 +35,91 @@ function getDiscountInfo(count, price, promotionType) {
 }
 
 function calculateSaveAndTotal(receiptItems) {
-  let totalArr = [];
-  let saveTotal = 0;
-  let total = 0;
-  receiptItems.map(item=> {
-    saveTotal += item.saved
-    total += item.subtotal;
-  });
-  totalArr.push(Object.assign({saveTotal: saveTotal}, {total: total}));
-  return totalArr;
+  let totalArr = {};
+  let total = receiptItems.reduce((acc, cur)=>acc += cur.subtotal, 0);
+  let saveTotal = receiptItems.reduce((acc, cur)=> acc += cur.saved, 0);
+  return totalArr = {saveTotal: saveTotal, total: total};
 }
 
 function getBestCharge(totalArr) {
-  let best = [];
+  let best = {};
   let bestcharge;
   let proType = '';
-  let halfPriceTotal = totalArr[0].total - totalArr[0].saveTotal;
-  if (totalArr[0].total > 30) {
-    totalArr[0].total -= 6;
+  let halfPriceTotal = totalArr.total - totalArr.saveTotal;
+  if (totalArr.total > 30) {
+    totalArr.total -= 6;
   }
-  if (halfPriceTotal > totalArr[0].total) {
-    bestcharge = totalArr[0].total;
+  if (halfPriceTotal > totalArr.total) {
+    bestcharge = totalArr.total;
     proType = '满30减6元';
-    best.push(Object.assign({bestcharge: bestcharge}, {proType: proType}));
+    best = {bestcharge: bestcharge, proType: proType};
   }
-  else if ((halfPriceTotal < totalArr[0].total)) {
+  else if ((halfPriceTotal < totalArr.total)) {
     bestcharge = halfPriceTotal;
     proType = '指定菜品半价';
-    best.push(Object.assign({bestcharge: bestcharge}, {proType: proType}));
+    best = {bestcharge: bestcharge, proType: proType};
   }
   else {
-    best.push(Object.assign({}, {bestcharge: totalArr[0].total}));
+    best = {bestcharge: totalArr.total};
   }
   return best;
 }
 
-/*function ptint(receiptItems, totalArr, best) {
-  let receipt = "============= 订餐明细 =============\n"
+function ptint(receiptItems, totalArr, best) {
+  function getbody(receiptItems) {
+    let body = receiptItems.map(item=> {
+      return `${item.selectItem.item.name} x ${item.selectItem.count} = ${item.subtotal}元\n`
+    }).join('');
+    return body;
+  }
   function getText(totalArr, best) {
     let text = '';
     function getpromotionInfo(best) {
       let promtionInfo;
-      for (let item of best) {
-        if (item.proType === '指定菜品半价') {
-          promtionInfo = 'half';
-        }
-        else if (item.proType === '满30减6元') {
-          promtionInfo = 'sub';
-        }
-        else {
-          promtionInfo = 'null';
-        }
+      if (best.proType === '指定菜品半价') {
+        promtionInfo = 'half';
+      }
+      else if (best.proType === '满30减6元') {
+        promtionInfo = 'sub';
+      }
+      else {
+        promtionInfo = 'null';
       }
       return promtionInfo;
     }
     let promtionInfo = getpromotionInfo(best);
     if (promtionInfo === 'sub') {
-      text += '-----------------------------------\n' +
-        '使用优惠:\n' + best[0].proType
-        + '，省6元\n';
+      text = `-----------------------------------\n使用优惠:\n${best.proType}，省6元\n`;
     }
     else if (promtionInfo === 'null') {
       text = '';
     }
     else {
-      text += '-----------------------------------\n' +
-        '使用优惠:\n' + best[0].proType + '(';
+      textheader = `-----------------------------------\n使用优惠:\n${best.proType}(`
       let itemsArr = [];
-      for (let items of receiptItems) {
-        if (items.promotionsType === best[0].proType) {
+      receiptItems.map(items=> {
+        if (items.promotionsType === best.proType)
           itemsArr.push(items.selectItem.item.name);
-        }
-       for(let i=0;i<itemsArr.length-1;i++){
-          text += itemsArr[i]+'，'
-        }
-      } text+=itemsArr[itemsArr.length-1];
-      text += ')' + '，省' + totalArr[0].saveTotal + '元\n';
+      })
+      let str = '';
+      itemsArr.forEach(item=>str += item + '，')
+      str= `${str.slice(0, -1)}`;
+      textfooter= `)，省${totalArr.saveTotal}元\n`;
+      text=`${textheader}${str}${textfooter}`;
     }
     return text;
   }
-  let text = getText(totalArr, best);
-  for (let item of receiptItems) {
-    receipt += item.selectItem.item.name + ' x ' + item.selectItem.count
-      + ' = ' + item.subtotal + '元\n'
+  function getFooter(best) {
+    let footer = '';
+    footer =`-----------------------------------\n总计：${best.bestcharge}元\n===================================`;
+    return footer;
   }
-  receipt += text;
-  receipt += '-----------------------------------\n' +
-    '总计：' + best[0].bestcharge + '元\n' +
-    '===================================';
-  return receipt;
-}*/
+  let header = `============= 订餐明细 =============\n`
+  let text = getText(totalArr, best);
+  let body = getbody(receiptItems);
+  let footer = getFooter(best);
+  return `${header}${body}${text}${footer}`;
+}
 
 function bestCharge(inputs) {
   let allItems = loadAllItems();
@@ -134,7 +128,6 @@ function bestCharge(inputs) {
   let receiptItems = getReceiptItems(selectItems, allPromotions);
   let totalArr = calculateSaveAndTotal(receiptItems);
   let best = getBestCharge(totalArr);
-  // let recepipt = ptint(receiptItems, totalArr, best);
-  // return recepipt;
-
+  let recepipt = ptint(receiptItems, totalArr, best);
+  return recepipt;
 }
