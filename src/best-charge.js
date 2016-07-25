@@ -54,17 +54,17 @@ function matchInformation(subAmount, allItems) {
   return subCount;
 }
 
-function calculateSaves(subTotal, promotions) {
-  let saves = [];
-  let save = 0;
-  for (let i = 0; i < subTotal.length; i++) {
-    for (let j = 0; j < promotions[1].items.length; j++) {
-      if (subTotal[i].id === promotions[1].items[j]) {
-        save = (subTotal[i].subTotal) / 2;
-        saves.push(Object.assign({}, {name: subTotal[1].name}, {saves: save}))
+function calculateSaves(subTotal,promotions) {
+  let saves=[];
+  let save=0;
+  subTotal.forEach(function (item1) {
+    promotions[1].items.forEach(function (item2) {
+      if(item1.id===item2){
+        save = (item1.subTotal) / 2;
+        saves.push(Object.assign({}, {name: item1.name}, {saves: save}))
       }
-    }
-  }
+    })
+  })
   console.log(saves)
   return saves;
 }
