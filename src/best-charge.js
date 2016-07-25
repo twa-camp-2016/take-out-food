@@ -5,13 +5,13 @@ function bestCharge(tags) {
   let subTotalItems = getSubTotalItems(cartItems);
   let total = getTotal(subTotalItems);
   let promotions = loadPromotions();
-  let discountTypeItems = getDiscountType(subTotalItems, promotions);
-  let discountTotalType = getDiscountTotal(discountTypeItems, total);
-  let discountType = getSaveMoney(total, discountTotalType);
-  return print(discountTypeItems, discountType);
+  let cartItemsPromotions = getCartItemsPromotions(subTotalItems, promotions);
+  let discountTotalType = getDiscountTotal(cartItemsPromotions, total);
+  let saveType = getSaveMoney(discountTotalType, total);
+  return print(cartItemsPromotions, saveType);
 }
 
-function formatTags(tags){
+function formatTags(tags) {
   return tags.map((tag) => {
     let splitTag = tag.split(" x ");
     return {
@@ -21,28 +21,29 @@ function formatTags(tags){
   })
 }
 
-function getCartItems(barcodes, items){
+function getCartItems(barcodes, items) {
   let cartItems = [];
-  for(let barcode of barcodes){
+  for(let barcode of barcodes) {
     let existItem = items.find((item) => {
-      return item.id === barcode.id
-      }
-    );
+      return item.id === barcode.id;
+    })
     cartItems.push(Object.assign({}, existItem, {count: barcode.count}));
   }
   return cartItems;
 }
 
-function getSubTotalItems(cartItems){
+function getSubTotalItems(cartItems) {
   let subTotalItems = [];
+  let subTotal = 0;
   for(let item of cartItems){
-    let subTotal = item.count * item.price;
-    subTotalItems.push(Object.assign({}, item, {subTotal: subTotal}));
+    subTotal = item.price * item.count;
+    subTotalItems.push(Object.assign({}, item, {subTotal: subTotal}))
   }
+
   return subTotalItems;
 }
 
-function getTotal(subTotalItems){
+function getTotal(subTotalItems) {
   let total = 0;
   for(let item of subTotalItems){
     total += item.subTotal;
@@ -50,105 +51,98 @@ function getTotal(subTotalItems){
   return total;
 }
 
-function getDiscountType(subTotalItems, promotions){
-  let discountTypeItems = [];
-
-  for(let element of subTotalItems){
-    let halfPromotion = {};
-    for(let promotion of promotions){
-      if(promotion.type === "指定菜品半价");
-        halfPromotion = promotion;
-    }
-    let existItem = halfPromotion.items.find((item) => {
-      return item === element.id;
-    });
+function getCartItemsPromotions(subTotalItems, promotions) {
+  let cartItemsPromotions = [];
+  let existPromotion = {};
+  for(let item of subTotalItems){
+    let existItem = promotions.find((promotion) => {
+      if(promotion.type === "指定菜品半价"){
+        return promotion.items.find((id) => {
+          return id === item.id;
+        });
+      }else{
+        return;
+      }
+    })
     if(existItem){
-      element.type = "指定菜品半价";
+      cartItemsPromotions.push(Object.assign({}, item, {type: "指定菜品半价"}))
     }else{
-      element.type = "满30减6元";
+      cartItemsPromotions.push(Object.assign({}, item, {type: "满30减6元"}))
     }
-    discountTypeItems.push(Object.assign({}, element, {type: element.type}));
   }
-  return discountTypeItems;
+  return cartItemsPromotions;
 }
 
-function getDiscountTotal(discountTypeItems, total) {
+function getDiscountTotal(cartItemsPromotions, total){
   let discountTotalType = {};
   let discountTotal = 0;
   let discountTotalOne = total;
   let discountTotalTwo = 0;
-  let type = '';
   let flag = false;
-
-  for (let item of discountTypeItems) {
-    if (item.type === '指定菜品半价') {
+  let type = "";
+  for(let item of cartItemsPromotions){
+    if(item.type === "指定菜品半价"){
       discountTotalOne -= item.subTotal / 2;
       flag = true;
     }
   }
 
-  if(total > 30 && flag) {
+  if(total > 30 && flag){
     discountTotalTwo = total - 6;
-    if(discountTotalOne > discountTotalTwo){
-      discountTotal = discountTotalTwo;
-      type = "满30减6元";
-    }else{
+    if(discountTotalOne < discountTotalTwo){
+      type = "指定菜品半价";
       discountTotal = discountTotalOne;
-      type = '指定菜品半价';
+    }else{
+      type = "满30减6元";
+      discountTotal = discountTotalTwo;
     }
-  }else if(total > 30){
-    discountTotal = total - 6;
-    type = "满30减6元";
-  }else{
+  }else if(total < 30 && flag){
+    type = "指定菜品半价";
+    discountTotal = discountTotalOne;
+  }else {
+    tyep = "";
     discountTotal = total;
-    type = "";
   }
 
   discountTotalType.type = type;
-  discountTotalType.discountTotal = discountTotal
-
+  discountTotalType.discountTotal = discountTotal;
+  console.log(discountTotalType)
   return discountTotalType;
 }
 
-function getSaveMoney(total, discountTotalType){
+function getSaveMoney(discountTotalType, total) {
+  let saveType = {};
   let save = total - discountTotalType.discountTotal;
-  let discountType = Object.assign({}, discountTotalType, {save: save});
-  return discountType;
+  discountTotalType.save = save;
+  saveType = discountTotalType
+  return saveType;
 }
 
-function print(discountTypeItems, discountType){
-  let halfName = [];
-  for(let item of discountTypeItems){
-    if(item.type === "指定菜品半价"){
-      halfName.push(item.name);
-    }
-  }
+function print(cartItemsPromotions, saveType){
   let receipt = "============= 订餐明细 =============\n";
-  for(let item of discountTypeItems){
-    receipt += item.name + " x " + item.count + " = " + item.subTotal + "元\n"
+  let names = "";
+  for(let item of cartItemsPromotions){
+    receipt += item.name + " x " + item.count + " = " + item.subTotal + "元\n";
   }
 
-  if(discountType.type === "指定菜品半价"){
-    receipt += ("-----------------------------------\n" + "使用优惠:\n" + discountType.type + "(" + halfName.join() + ")，省" + discountType.save + "元\n");
-  }else if(discountType.type === "满30减6元"){
-    receipt += ("-----------------------------------\n" + "使用优惠:\n" + discountType.type + "，省" + discountType.save + "元\n")
+
+  if(saveType.type === "指定菜品半价"){
+    for(let item of cartItemsPromotions){
+      if(item.type === "指定菜品半价"){
+        names += (item.name + "，");
+      }
+    }
+    receipt += "-----------------------------------\n" + "使用优惠:\n" +  saveType.type + "(" + names.substring(0, names.length-1)
+    + ")，省" + saveType.save + "元\n"
+  }else if(saveType.type === "满30减6元"){
+    receipt += "-----------------------------------\n" + "使用优惠:\n" +  saveType.type + "，省" + saveType.save + "元\n"
   }
 
-  receipt += "-----------------------------------\n" + "总计：" + discountType.discountTotal + "元\n" +
-    "===================================";
-  console.log(discountType.discountTotal)
-
+  receipt += "-----------------------------------\n" + "总计：" + saveType.discountTotal + "元\n"
+  + "===================================\n";
+console.log(receipt)
   return receipt;
 }
-
-
-
-
-
-
-
-
-
 
 
 
