@@ -10,6 +10,20 @@
     <script type="text/javascript" src="../src/promotions.js"></script>
     <script type="text/javascript" src="../src/best-charge.js"></script>
     <script type="text/javascript" src="./index.js"></script>
+    <script type="text/javascript">
+      let items = [{
+        count: 3,
+        price: 4
+      }, {
+        count: 4,
+        price: 5
+      }];
+
+      let result = items.map(({price, count}) => count * price)
+                        .reduce((a, b) => a + b);
+
+      console.log(result);
+    </script>
 </head>
 <body>
 
