@@ -2,109 +2,133 @@ function bestCharge(selectedItems) {
   return /*TODO*/;
 }
 let idItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
-
 let allItems = loadAllItems();
-
 let promotions = loadPromotions();
-
-function getIdCountSum(idItems) {
-   let idCountSum = idItems.map(
+function formatItems(idItems) {
+  let itemsCount = idItems.map(
     function (idItem) {
       let temp = idItem.split(" x ");
       return {
         id: temp[0],
-        amount: parseInt(temp[1])
+        count: parseInt(temp[1])
       }
     }
   );
-  return idCountSum;
+  return itemsCount;
 }
 
 
-function matchPromotion(promotions, idCountSum) {
-  let promotionType = [];
-  for (let i = 0; i < idCountSum.length; i++) {
-    for (let j = 0; j < promotion.length; j++) {
-      let temp = promotion[j].items;
-      if (idCountSum[i].id === temp[j].id) {
-        promotionType.push(Object.assign({}, idCountSum[i], {type: promotions[j].type}));
-      }
-    }
-  }
-  return promotionType;
-}
-
-function getPromotionSubtotal(promotionType, allItems) {
-  let promotionSubtotal = [];
-  let subtotal = 0;
-  for (let i = 0; i < promotionType.length; i++) {
-    for (let j = 0; j < allItems.length; j++) {
-      if (promotionType[i].id === allItems[j].id) {
-        if (promotionType[i].type === "指定菜品半价") {
-          subtotal += allItems[j].price / 2 * promotionType[i].amount;
+function matchPromotions(itemsCount, promotions) {
+  let itemsType = [];
+  for (let i=0;i<itemsCount.length;i++){
+    promotions.find(function (item) {
+      if (item.items){
+        let existItem = item.items.find(function (id) {
+          return id===itemsCount[i].id;
+        });
+        if(existItem){
+          type=item.type;
         }
-        if (promotionType[i].type === "满30减6元") {
-          subtotal1 += allItems[j].price * promotionType[i].amount;
-          subtotal = subtotal1 - 6;
-        } else {
-          subtotal = allItems[j].price * promotionType[i].amount;
-        }
-        promotionSubtotal.push(Object.assign({}, allItems[i], {promotionSubtotal: promotionSubtotal}))
+      }else {
+        type="满30减6元"
       }
-    }
+    });
+    itemsType.push(Object.assign({},itemsCount[i],{type:type}));
   }
-  return promotionSubtotal;
+  return itemsType;
+    
+
+}
+
+// function getItemsInfo(itemsType, allItems) {
+//   let itemsInfo = [];
+//   for (let i = 0; i < itemsType.length; i++) {
+//     for (let j = 0; j < allItems.length; j++) {
+//       if (itemsType[i].id === allItems[j].id) {
+//         itemsInfo = itemsType.push(Object.assign({}, allItems[j]));
+//       }
+//     }
+//   }
+//   return itemsInfo;
+// }
+
+
+function getDiscountSubtotal(itemsInfo) {
+  let discountSubtotalInfo = [];
+  let subtotal = 0;
+  for (let i = 0; i < itemsInfo.length; i++) {
+    if (itemsInfo[i].type === "指定菜品半价") {
+      subtotal += itemsInfo[i].price * itemsInfo[i].count;
+    } else if (itemsInfo[i].type === "满30减6元") {
+      subtotal += itemsInfo[i].price * itemsInfo[i].count;
+      if (subtotal > 30) {
+        subtotal = subtotal - 6;
+      }
+    } else {
+      subtotal += subtotal[i].price * subtotal[i].count;
+    }
+    discountSubtotalInfo.push(Object.assign({}, itemsInfo[i], {discountSubtotal: subtotal}));
+  }
+  return discountSubtotalInfo;
 }
 
 
-function getSubtotal(promotionSubtotal) {
+function getSubtotal(itemsInfo) {
   let subtotal = 0;
-  for (let i = 0; i < promotionSubtotal.length; i++) {
-    subtotal += promotionSubtotal[i].promotionSubtotal
+  for (let i = 0; i < itemsInfo.length; i++) {
+    subtotal += itemsInfo[i].discountSubtotalInfo;
+    subtotal.push(Object.assign({}, itemsInfo[i], {subtotal: subtotal}));
   }
   return subtotal;
 }
 
-function saveMoney(promotionSubtotal, subtotal) {
-  let saveMoney = [];
-  let money = 0;
-  for (let i = 0; i < promotionSubtotal.length; i++) {
-    for (let j = 0; j < subtotal.length; j++) {
-      if (promotionSubtotal[i].id === subtotal[i].id) {
-        money += subtotal[j].subtotal - promotionSubtotal[i].promotionSubtotal;
+
+function saveMoney(discountSubtotalInfo, subtotal) {
+  let saveMoney = 0;
+
+  for (let i = 0; i < subtotal.length; i++) {
+    for (let j = 0; j < discountSubtotalInfo.length; j++) {
+      if (subtotal[i].id === discountSubtotalInfo[j].id) {
+        saveMoney += subtotal[i].subtotal - discountSubtotalInfo[j].discountSubtotal;
       }
     }
-    saveMoney.push(Object.assign({}, promotionSubtotal[i], {money: money}))
   }
   return saveMoney;
 }
 
-function getTotal(subtotal) {
+
+function getTotal(discountSubtotalInfo) {
   let total = 0;
-  for (let i = 0; i < subtotal.length; i++) {
-    total += subtotal[i].subtotal;
+  for (let i = 0; i < discountSubtotalInfo.length; i++) {
+    total += discountSubtotalInfo[i].discountSubtotal;
   }
   return total;
 }
 
-function print(total, saveMoney) {
+function print(discountSubtotalInfo, total, saveMoney) {
 
-  for (let i = 0; i < saveMoney.length; i++) {
-    let receipt="============= 订餐明细 =============\n"
-    receipt+=saveMoney[i].name+"x"+saveMoney[i].price+"="+total;
-    receipt+="使用优惠:\n"+"指定菜品半价"+"("+saveMoney[i].name+")"+saveMoney[i].money;
-    receipt+="-----------------------------------\n";
-    receipt+="总计:"+total+"元";
-    receipt+="===================================";
+  for (let i = 0; i < discountSubtotalInfo.length; i++) {
+    let str = "============= 订餐明细 =============\n";
+    str += discountSubtotalInfo[i].name + "x" + discountSubtotalInfo[i].price + "=" + total;
+    str += "使用优惠:\n" + discountSubtotalInfo[i].type + "(" + discountSubtotalInfo[i].name + ")" + saveMoney + "\n";
+    str += "-----------------------------------\n";
+    str += "总计:" + total + "元\n";
+    receipt += "===================================";
   }
+
 
 }
 function bestCharge(idItems) {
-  let idCountSum = getIdCountSum(idItems);
-  let promotionType = matchPromotion(promotions, allItems);
-  let promotionSubtotal = getPromotionSubtotal(promotionType, allItems);
-  let saveMoney = saveMoney(promotionSubtotal, subtotal);
-  let total = getTotal(subtotal);
+  let allItems = loadAllItems();
+  let promotions = loadPromotions();
+  let itemsCount = formatItems(idItems);
+  let itemsType = matchPromotion(itemsCount, promotions);
+  let itemsInfo = getItemsInfo(itemsType, allItems);
+  let discountSubtotalInfo = getDiscountSubtotal(itemsInfo);
+  let subtotal = getSubtotal(itemsInfo);
+  let saveMoney = saveMoney(discountSubtotalInfo, subtotal);
+  let total = getTotal(discountSubtotalInfo);
+  print(discountSubtotalInfo, total, saveMoney);
 }
 
-bestCharge();
+
