@@ -407,6 +407,6 @@ describe("discountItems", function () {
     let output = discountItems(input, argument);
     expect(output).toEqual(expected);
 
-  })
+  });
 
 });
