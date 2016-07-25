@@ -30,7 +30,6 @@ function loadAllItems() {
 }
 
 function getCartItems(items,barcodes){
-  let cartItems =[]
   return barcodes.map((item)=>{
       let existItem = items.find(({id})=>{
           return id === item.id
@@ -64,8 +63,7 @@ function loadPromotions() {
 
 function getPromotionsTypeItems(subTotalItems,promotions){
   return subTotalItems.map((item)=>{
-    let flag = false
-    let type = ""
+    let [flag,type]=[false,""]
     promotions.forEach(({items})=>{
       if(items){
         let existItem = items.find((it)=>{
@@ -76,7 +74,6 @@ function getPromotionsTypeItems(subTotalItems,promotions){
           type = '指定菜品半价'
         }
       }
-
     })
     if(!flag){
       type = null
@@ -86,54 +83,81 @@ function getPromotionsTypeItems(subTotalItems,promotions){
 }
 
 function getUsedPromotionsTypeItems(promotionsTypeItems,total){
-  let [result,sum1,sum2,sum3,sum,usedType]=[{},0,0,0,0,""]
-  if(total>=30){
-    sum1 = total - 6
-  }
-  let flag = false
   let existItem=promotionsTypeItems.find((item)=>{
     return item.type
   })
   if(existItem){
-    flag = true
+    let promotionsTotalHalfCut = promotionsTypeItems.map((it)=>{
+        if(it.type)
+        return Number(it.subTotal/2)
+        else
+        return it.subTotal
+      }).reduce((a,b)=>{
+        return a+b;
+      })
+      if(total<30)
+      return {usedType:'指定菜品半价',promotionsTotal:promotionsTotalHalfCut}
+      else {
+        let promotionsTotal = (total-6)<promotionsTotalHalfCut? (total - 6):promotionsTotalHalfCut
+        let usedType = (promotionsTotal === promotionsTotalHalfCut)?'指定菜品半价':'满30减6元'
+        return {usedType:usedType,promotionsTotal:promotionsTotal}
+      }
   }
-  if(!flag && total<30){
-    usedType = null
-    sum3 = total
-    sum =sum3
+  else {
+    if(total<30)
+    return {usedType:null,promotionsTotal:total}
+    else
+    return {usedType:'满30减6元',promotionsTotal:(total-6)}
   }
-  if(flag){
-    let existItem = promotionsTypeItems.find(({type,subTotal})=>{
-      if(type){
-         sum2 += parseFloat(subTotal/2)
-       }
-       else {
-         sum2 += subTotal
-       }
-     })
-    }
-  if(sum3==0){
-  if(sum1<sum2){
-    usedType = '满30减6元'
-    sum = sum1
-  }
-  if(sum1 == sum2){
-    usedType = '满30减6元'
-    sum = sum1
-  }
-  if(sum1>sum2){
-    usedType = '指定菜品半价'
-    sum = sum2
-  }
-}
-
-  result.usedType = usedType
-  result.promotionsTotal = sum
-
-  return result
 }
 
 function calculateSaving(total,result){
   let promotionsTotal = result.promotionsTotal
   return total - promotionsTotal
+}
+
+function getSummary(promotionsTypeItems,saving,result){
+  let summary = "============= 订餐明细 =============\n"
+
+  summary = promotionsTypeItems.reduce((a,b)=>{
+    return a+=b.name + " x "+b.count +" = "+b.subTotal+"元\n"
+  },summary)
+summary+="-----------------------------------\n"
+if(result.usedType){
+  summary+="使用优惠:\n"+result.usedType
+  if(result.usedType === '指定菜品半价'){
+    summary +="("
+
+    let halfCutItems = promotionsTypeItems.filter((item)=>{
+      return item.type
+    })
+    let length = halfCutItems.length
+    halfCutItems.forEach((it)=>{
+      if(length != 1 && it.id != 'ITEM0022' )
+      summary += it.name + "，"
+      else
+      summary += it.name
+    })
+
+    summary +=")"
+  }
+  summary+="，"+"省"+saving+"元\n-----------------------------------\n"
+}
+summary+="总计："+result.promotionsTotal+"元\n==================================="
+return summary
+}
+
+function bestCharge(tag){
+  let barcodes = formatTag(tag)
+  let items = loadAllItems()
+  let cartItems = getCartItems(items,barcodes)
+  let subTotalItems = getSubTotalItems(cartItems)
+  let total = calculateTotal(subTotalItems)
+  let promotions = loadPromotions()
+  let promotionsTypeItems = getPromotionsTypeItems(subTotalItems,promotions)
+  let result = getUsedPromotionsTypeItems(promotionsTypeItems,total)
+  let saving = calculateSaving(total,result)
+  let summary = getSummary(promotionsTypeItems,saving,result)
+  return summary
+
 }

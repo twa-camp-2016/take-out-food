@@ -10,40 +10,73 @@
     <script type="text/javascript" src="../src/promotions.js"></script>
     <script type="text/javascript" src="../src/best-charge.js"></script>
     <script type="text/javascript" src="./index.js"></script>
-    <script type="text/javascript">
-      let items = [{
-        count: 3,
-        price: 4
-      }, {
-        count: 4,
-        price: 5
-      }];
+  
 
-      let result = items.map(({price, count}) => count * price)
-                        .reduce((a, b) => a + b);
-
-      console.log(result);
-    </script>
 </head>
 <body>
 
     <h1>“好多肉”在线点餐系统</h1>
 
     <div id="items">
-        把`loadAllItems()`中的菜品信息以动态加载的方式显示在这里，并且能够让用户输入数量
+        <table>
+          <tr>
+            <td>id</td>
+            <td>菜名</td>
+            <td>单价</td>
+            <td>数量</td>
+          </tr>
+          <tr id="dish0">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><input type= "text" ></td>
+          </tr>
+          <tr id="dish1">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><input type= "text" ></td>
+          </tr>
+          <tr id="dish2">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><input type= "text" ></td>
+          </tr>
+          <tr id="dish3">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><input type= "text" ></td>
+          </tr>
+        </table>
     </div>
 
     <div id="promotions">
-        把`loadPromotions()`中的优惠信息以动态加载的方式显示在这里，让用户看到即可
+
+        <table>
+          <tr>
+            <td>优惠方式</td>
+            <td>优惠商品</td>
+          </tr>
+          <tr id="promotion0">
+            <td></td>
+            <td></td>
+          </tr>
+          <tr id="promotion1">
+            <td></td>
+            <td></td>
+          </tr >
+        </table>
     </div>
 
     <div>
         <button onclick="calculatePrice()">结算</button>
-        <button onclick="clear()">清除</button>
+        <button onclick="clearsss()">清除</button>
     </div>
 
     <pre id="message">
-        /* 请将结算后产生的汇总字符串显示在这里 */
+
     </pre>
 
 </body>

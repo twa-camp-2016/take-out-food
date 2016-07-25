@@ -269,34 +269,34 @@ describe("getPromotionsTypeItems",function(){
 describe("getUsedPromotionsTypeItems",function(){
   it("should return result of type and promotionsTotal",function(){
     let promotionsTypeItems = [
-      {
-        id: "ITEM0001",
-        name: '黄焖鸡',
-        price: 18.00,
-        count: 1,
-        subTotal: 18,
-        type:'指定菜品半价'
-      },
+      // {
+      //   id: "ITEM0001",
+      //   name: '黄焖鸡',
+      //   price: 18.00,
+      //   count: 1,
+      //   subTotal: 18,
+      //   type:'指定菜品半价'
+      // },
       {
         id: "ITEM0013",
         name: '肉夹馍',
         price: 6.00,
-        count: 2,
-        subTotal:12,
+        count: 4,
+        subTotal:24,
         type:null
-      },
-      {
-        id: "ITEM0022",
-        name: '凉皮',
-        price: 8.00,
-        count:1,
-        subTotal:8,
-        type:'指定菜品半价'
       }
+      // {
+      //   id: "ITEM0022",
+      //   name: '凉皮',
+      //   price: 8.00,
+      //   count:1,
+      //   subTotal:8,
+      //   type:'指定菜品半价'
+      // }
     ]
-    let total = 38
+    let total = 24
     let result = getUsedPromotionsTypeItems(promotionsTypeItems,total)
-    let expectResult = {usedType:'指定菜品半价',promotionsTotal:25}
+    let expectResult = {usedType:null,promotionsTotal:24}
     expect(result).toEqual(expectResult)
   })
 })
