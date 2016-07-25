@@ -49,30 +49,18 @@ describe('findPromotionTypes',function(){
       {id: 'ITEM0013', name: '肉夹馍', price: 6.00,count:2,subtotal:12},
       {id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,subtotal:8}];
       let promotions=loadPromotions();
-      expect(findPromotionTypes(detailedOrders, promotions)).toEqual([{name:'黄焖鸡'},{name:'凉皮'}]);
+      expect(findPromotionTypes(detailedOrders, promotions)).toEqual([{id: 'ITEM0001', name: '黄焖鸡', price: 18.00,count:1,subtotal:18},{id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,subtotal:8}]);
   })
-});
-
-describe('onePromotion',function(){
-  it('show promotionTotal',function(){
-    let detailedOrders=[{id: 'ITEM0001', name: '黄焖鸡', price: 18.00,count:1,subtotal:18},
-      {id: 'ITEM0013', name: '肉夹馍', price: 6.00,count:2,subtotal:12},
-      {id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,subtotal:8}];
-    let promotions=loadPromotions();
-    expect(onePromotion(detailedOrders,promotions)).toEqual([{id: 'ITEM0001', name: '黄焖鸡', price: 18.00,count:1,promotionSubtotal:9},
-      {id: 'ITEM0013', name: '肉夹馍', price: 6.00,count:2,promotionSubtotal:12},
-      {id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,promotionSubtotal:4}]);
-  });
 });
 
 describe('findPromotion',function(){
   it('show result',function(){
     let total=38;
-    let promotionDetailedOrders=[{id: 'ITEM0001', name: '黄焖鸡', price: 18.00,count:1,promotionSubtotal:9},
-      {id: 'ITEM0013', name: '肉夹馍', price: 6.00,count:2,promotionSubtotal:12},
-      {id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,promotionSubtotal:4}];
-    let promotions=loadPromotions();
-    expect(findPromotion(promotionDetailedOrders,promotions,total)).toEqual({
+    let DetailedOrders=[{id: 'ITEM0001', name: '黄焖鸡', price: 18.00,count:1,Subtotal:18},
+      {id: 'ITEM0013', name: '肉夹馍', price: 6.00,count:2,Subtotal:12},
+      {id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,Subtotal:8}];
+    let typeName=[{id: 'ITEM0001', name: '黄焖鸡', price: 18.00,count:1,subtotal:18},{id: 'ITEM0022',name: '凉皮', price: 8.00,count:1,subtotal:8}];
+    expect(findPromotion(DetailedOrders,total,typeName)).toEqual({
       type:'指定菜品半价',
       promotionTotal:25
     });

@@ -7,8 +7,7 @@ function bestCharge(tags) {
   let detailedOrders = getSubtotal(orders);
   let total = getTotal(detailedOrders);
   let typeName = findPromotionTypes(detailedOrders, promotions);
-  let promotionDetailedOrders = onePromotion(detailedOrders, promotions);
-  let promotionType = findPromotion(promotionDetailedOrders, promotions, total);
+  let promotionType = findPromotion(detailedOrders, total,typeName);
   let str = print(promotionType, detailedOrders, total, typeName);
   return str;
 }
@@ -34,57 +33,20 @@ function getSubtotal(orders) {
   });
 }
 function getTotal(detailedOrders) {
-  let total = 0;
-  for (let order of detailedOrders) {
-    total += order.subtotal;
-  }
-  return total;
+ return detailedOrders.reduce(function(total,order){
+   return total+=order.subtotal;
+ },0);
 }
 function findPromotionTypes(detailedOrders, promotions) {
-  let typeName = [];
-  for (let order of detailedOrders) {
-    let existItem = promotions[1].items.find(function (item) {
-      return item === order.id;
-    });
-    if (existItem) {
-      typeName.push({name: order.name});
-    }
-  }
-  return typeName;
+  return detailedOrders.filter(function(order){return promotions[1].items.find(function(item){return item===order.id;});});
 }
-function onePromotion(detailedOrders, promotions) {
-  let promotionDetailedOrders = [];
-  for (let order of detailedOrders) {
-    let existItem = promotions[1].items.find(function (item) {
-      return item === order.id;
-    });
-    if (existItem) {
-      promotionDetailedOrders.push(Object.assign({}, {
-        id: order.id,
-        name: order.name,
-        price: order.price,
-        count: order.count
-      }, {promotionSubtotal: order.subtotal / 2}));
-    }
-    else
-      promotionDetailedOrders.push(Object.assign({}, {
-        id: order.id,
-        name: order.name,
-        price: order.price,
-        count: order.count
-      }, {promotionSubtotal: order.subtotal}));
-  }
-  return promotionDetailedOrders;
-}
-function findPromotion(promotionDetailedOrders, promotions, total) {
+
+function findPromotion(DetailedOrders, total,typeName) {
   let onePromotionTotal = 0;
   if (total >= 30) {
     onePromotionTotal = total - 6;
   }
-  let anotherPromtoinTotal = 0;
-  for (let order of promotionDetailedOrders) {
-    anotherPromtoinTotal += order.promotionSubtotal;
-  }
+  let anotherPromtoinTotal =total-typeName.reduce((save,ty)=>save+ty.subtotal/2,0);
   if (onePromotionTotal <= anotherPromtoinTotal) {
     return {
       type: '满30减6元',
@@ -97,11 +59,12 @@ function findPromotion(promotionDetailedOrders, promotions, total) {
       promotionTotal: anotherPromtoinTotal
     };
 }
+
 function print(promotionType, detailedOrders, total, typeName) {
   let str = '============= 订餐明细 =============\n';
-  for (let order of detailedOrders) {
+  detailedOrders.forEach((order)=>{
     str += order.name + ' x ' + order.count + ' = ' + order.subtotal + '元\n';
-  }
+  }) ;
   str += '-----------------------------------\n';
   if (promotionType.promotionTotal===0) {
     str += '总计：' + total + '元\n===================================';
@@ -110,10 +73,12 @@ function print(promotionType, detailedOrders, total, typeName) {
     str += '使用优惠:\n';
     str += promotionType.type;
     if (promotionType.type === '指定菜品半价') {
-      str += '(' + typeName[0].name;
-      for (let i = 1; i < typeName.length; i++) {
-        str += '，' + typeName[i].name + ')';
-      }
+      str+='(';
+      let str1='';
+     typeName.forEach(ty=>{
+       str1 += '，' + ty.name ;
+     });
+      str+=str1.substring(1)+')';
     }
     str += '，省' + (total - promotionType.promotionTotal) + '元\n';
     str += '-----------------------------------\n总计：' + promotionType.promotionTotal + '元\n===================================';
