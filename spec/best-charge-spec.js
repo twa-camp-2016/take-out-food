@@ -206,3 +206,199 @@ describe("getHalfCutId", function(){
     expect(getHalfCutId(promotions)).toEqual(expected);
   });
 });
+
+describe("getHalfCutItems", function(){
+  it("to get the half cut items", function(){
+    let inputs = [
+      {
+        id: "ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        amount: 1,
+        subtotal: 18.00
+      },
+      {
+        id: "ITEM0013",
+        name: '肉夹馍',
+        price: 6.00,
+        amount: 2,
+        subtotal: 12.00
+      },
+      {
+        id: "ITEM0022",
+        name: '凉皮',
+        price: 8.00,
+        amount: 1,
+        subtotal: 8.00
+      }
+    ]
+
+    let halfCutIds = ['ITEM0001', 'ITEM0022'];
+    let expected = [
+      {
+        id: "ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        amount: 1,
+        subtotal: 18.00,
+        saved: 9
+      },
+      {
+        id: "ITEM0013",
+        name: '肉夹馍',
+        price: 6.00,
+        amount: 2,
+        subtotal: 12.00,
+        saved: 0
+      },
+      {
+        id: "ITEM0022",
+        name: '凉皮',
+        price: 8.00,
+        amount: 1,
+        subtotal: 8.00,
+        saved: 4
+      }
+    ]
+    
+    expect(getHalfCutItems(inputs, halfCutIds)).toEqual(expected);
+  });
+});
+
+describe("calculateHalfCutedTotal", function(){
+  it("to calculate the half total", function(){
+    let inputs = [
+      {
+        id: "ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        amount: 1,
+        subtotal: 18.00,
+        saved: 9
+      },
+      {
+        id: "ITEM0013",
+        name: '肉夹馍',
+        price: 6.00,
+        amount: 2,
+        subtotal: 12.00,
+        saved: 0
+      },
+      {
+        id: "ITEM0022",
+        name: '凉皮',
+        price: 8.00,
+        amount: 1,
+        subtotal: 8.00,
+        saved: 4
+      }
+    ]    
+    
+    let expected = [
+      {
+        save: 13,
+        afterSavedTotal: 25
+      }
+    ]
+    
+    let total = 38.00;
+    
+    expect(calculateHalfCutedTotal(inputs, total)).toEqual(expected);
+  });
+});
+
+describe("calculateFullCutedTotal", function(){
+  it("to calculate the half total", function(){
+    let input = 30;
+    let expected = [{
+      save: 6,
+      afterSavedTotal: 24
+    }]
+    
+    expect(calculateFullCutedTotal(input)).toEqual(expected);
+  });
+
+  it("to calculate the half total", function(){
+    let input = 24;
+    let expected = [{
+      save: 0,
+      afterSavedTotal: 24
+    }]
+
+    expect(calculateFullCutedTotal(input)).toEqual(expected);
+  });
+});
+
+describe("getTheBestPromotion", function(){
+  it("get the best ptomotion type and saved money", function(){
+    let halfCut =
+      {
+        save: 13,
+        afterSavedTotal: 25
+      }
+
+    let fullCut =
+    {
+      save: 2,
+      afterSavedTotal: 32
+    }
+    
+    let bestPromotion = [
+      {
+        save: 13,
+        bestTotal: 25,
+        type: "指定菜品半价"
+      }
+    ]
+    
+    expect(getTheBestPromotion(halfCut, fullCut)).toEqual(bestPromotion);
+  });
+
+  it("get the best ptomotion type and saved money", function(){
+    let halfCut =
+    {
+      save: 0,
+      afterSavedTotal: 10
+    }
+
+    let fullCut =
+    {
+      save: 0,
+      afterSavedTotal: 10
+    }
+
+    let bestPromotion = [
+      {
+        save: 0,
+        bestTotal: 10,
+        type: "满30减6元"
+      }
+    ]
+
+    expect(getTheBestPromotion(halfCut, fullCut)).toEqual(bestPromotion);
+  });
+
+  it("get the best ptomotion type and saved money", function(){
+    let halfCut =
+    {
+      save: 4,
+      afterSavedTotal: 28
+    }
+
+    let fullCut =
+    {
+      save: 6,
+      afterSavedTotal: 26
+    }
+
+    let bestPromotion = [
+      {
+        save: 6,
+        bestTotal: 26,
+        type: "满30减6元"
+      }
+    ]
+
+    expect(getTheBestPromotion(halfCut, fullCut)).toEqual(bestPromotion);
+  });
+});
