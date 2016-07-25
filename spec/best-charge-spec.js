@@ -1,115 +1,192 @@
 
+/*describe("isLegalBarcode",function () {
+  it("should return legal barcode",function () {
+    let temp=":::::";
+    expect(isIlegalBarcode(temp)).toEqual(false);
+  })
+})*/
+/*describe("isLegalBarcode",function () {
+  it("should return legal barcode",function () {
+    let temp="|:|::|";
+    expect(isIlegalBarcode(temp)).toEqual(false);
+  })
+})
+describe("isLegalBarcode",function () {
+  it("should return legal barcode",function () {
+    let temp="条形码";
+    expect(isLegalBarcode(temp)).toEqual(false);
+  })
+})
+describe("isLegalBarcode",function () {
+  it("should return legal barcode",function () {
+    let temp="| :|| "
+    expect(isLegalBarcode(temp)).toEqual(true);
+  })
+})
+
+describe("isLegalBarcode",function () {
+  it("should return right",function () {
+    let temp="| ";
+    expect(isLegalBarcode(temp)).toEqual(false);
+  })
+  it("should return right",function () {
+    let string="| | | ";
+    expect(isLegalBarcode(string)).toEqual(false);
+  })
+  it("should return right",function () {
+    let string="|  | ";
+    expect(isLegalBarcode(string)).toEqual(false);
+  })
+  it("should return right",function () {
+    let string="| |";
+    expect(isLegalBarcode(string)).toEqual(false);
+  })
+})
+describe("matchBarcodeLength",function () {
+  it("should return valued",function () {
+    let temp=":|:|| :::||";
+    expect(matchBarcodeLength(temp)).toEqual(true);
+  })
+  it("should return valued",function () {
+    let temp="|||::";
+    expect(matchBarcodeLength(temp)).toEqual(true);
+  })
+  it("should return valued",function () {
+    let temp="|||||  |||||";
+    expect(matchBarcodeLength(temp)).toEqual(false);
+  })
+  it("should return valued",function () {
+    let temp="||||   |||||";
+    expect(matchBarcodeLength(temp)).toEqual(false);
+  })
+})*/
+
 describe("formatItems",function () {
-  it("should return id and count",function () {
-    let tempArray=["ITEM0001 x 1"];
-    let result=formatItems(tempArray);
+  it("should return format items",function () {
+    let items=["ITEM0001 x 1"];
+    let result=formatItems(items);
     expect(result).toEqual([{id:"ITEM0001",count:1}]);
   })
 })
 
 describe("getSelectedItems",function () {
   it("should return selected items",function () {
-    let tempArray=[{id: 'ITEM0001',count: 1}];
-    let result=getSelectedItems(tempArray,loadAllItems());
-    expect(result).toEqual([{id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1}]);
+    let items=[{id:"ITEM0001",count:1}];
+    let result=getSelectedItems(loadAllItems(),items);
+    expect(result).toEqual([
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1}]);
   })
 })
 
 describe("calculateSubtotal",function () {
-  it("should return including subtotal",function () {
-    let tempArray=[ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1}];
-    let result=calculateSubtotal(tempArray);
-    expect(result).toEqual([ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
+  it("should return subtotal items",function () {
+    let items=[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1}];
+    let result=calculateSubtotal(items);
+    expect(result).toEqual([
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
       subtotal:18}]);
   })
 })
 
 describe("calculateSaving",function () {
-  it("should return including saving",function () {
-    let tempArray=[ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18}];
-    let result=calculateSaving(loadPromotions(),tempArray);
-    expect(result).toEqual([ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18,
-      saving:9}]);
+  it("should return saving items",function () {
+    let items=[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18}];
+    let result=calculateSaving(items,loadPromotions());
+    expect(result).toEqual([
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18,
+        saving:9}]);
   })
 })
-
-describe("calculateAllSaving",function () {
-  it("should return including saving",function () {
-    let tempArray=[ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18,
-      saving:9}];
-    let temp={allSaving:9};
-    let result=calculateAllSaving(tempArray);
-    expect(result).toEqual([ [{id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18,
-      saving:9}],temp]
-      );
+describe("getAllSaving",function () {
+  it("should reutn allSaving",function () {
+    let items=[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18,
+        saving:9}];
+    let result=getAllSaving(items);
+    expect(result).toEqual(9);
   })
 })
-
 describe("getTotal",function () {
-  it("should return including total",function () {
-    let tempArray=[ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18,
-      saving:9}];
-    let result=getTotal(tempArray);
+  it("should reutn total",function () {
+    let items=[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18,
+        saving:9}];
+    let result=getTotal(items);
     expect(result).toEqual(18);
   })
 })
-
-describe("getBestSavingItems",function () {
-  it("should return including best items",function () {
-    let tempArray=[ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18,
-      saving:9}];
-    let result=getBestSavingItems(allSavedItems,allSaving,total,allPromotions);
-    expect(result).toEqual(18);
+describe("getBestSaving",function () {
+  it("should return bestSaving ",function () {
+    let total=18;
+    let allSaving=9;
+    let items=[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18,
+        saving:9}];
+    let result=getBestSaving(total,allSaving,items);
+    expect(result).toEqual({items:[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18,
+        saving:9}], bestSaving: 9, type: "指定菜品半价"});
   })
 })
-
-
 describe("getFinalTotal",function () {
-  it("should return final total",function () {
-    let tempArray=[ {id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count: 1,
-      subtotal:18}];
-    let result=getFinalTotal(total,allSavedItems);
-    expect(result).toEqual(18);
+  it("should return total",function () {
+    let items={items:[
+      {
+        id:"ITEM0001",
+        name: '黄焖鸡',
+        price: 18.00,
+        count:1,
+        subtotal:18,
+        saving:9}], bestSaving: 9, type: "指定菜品半价"};
+    let result=getFinalTotal(items,18);
+    expect(result).toEqual(9);
   })
 })
-/*
-describe('Take out food', function () {
+/*describe('Take out food', function () {
 
   it('should generate best charge when best is 指定菜品半价', function() {
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
@@ -157,3 +234,5 @@ describe('Take out food', function () {
   });
 
 });*/
+
+
