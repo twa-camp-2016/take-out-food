@@ -1,13 +1,12 @@
 function getSelectedItems(inputs, allItems) {
-
   let selectItems = [];
-  for (let input of inputs) {
-    let inputArray = input.split(' x ');
+  inputs.map(input=>{
+    let inputArray=input.split(' x ');
     let id = inputArray[0];
     let count = parseFloat(inputArray[1]);
     let item = allItems.find(item => item.id === id);
     selectItems.push({item, count});
-  }
+  })
   return selectItems;
 }
 
@@ -20,14 +19,11 @@ function getReceiptItems(selectItems, allPromotions) {
 }
 
 function findPromotionType(id, promotions) {
-
-  for (let p of promotions) {
-    if (p.hasOwnProperty('items')) {
-      let promotion = p.items.some(a => a === id);
-      return promotion ? p.type : undefined;
-    }
-  }
+let exist= promotions.find(item=>item.hasOwnProperty('items'))
+     let promotion = exist.items.some(a => a === id) ;
+  return promotion ? exist.type : undefined;
 }
+
 
 function getDiscountInfo(count, price, promotionType) {
   let promotionsType = promotionType;
@@ -43,10 +39,10 @@ function calculateSaveAndTotal(receiptItems) {
   let totalArr = [];
   let saveTotal = 0;
   let total = 0;
-  for (let item of receiptItems) {
+  receiptItems.map(item=> {
     saveTotal += item.saved
     total += item.subtotal;
-  }
+  });
   totalArr.push(Object.assign({saveTotal: saveTotal}, {total: total}));
   return totalArr;
 }
@@ -75,7 +71,7 @@ function getBestCharge(totalArr) {
   return best;
 }
 
-function ptint(receiptItems, totalArr, best) {
+/*function ptint(receiptItems, totalArr, best) {
   let receipt = "============= 订餐明细 =============\n"
   function getText(totalArr, best) {
     let text = '';
@@ -129,7 +125,7 @@ function ptint(receiptItems, totalArr, best) {
     '总计：' + best[0].bestcharge + '元\n' +
     '===================================';
   return receipt;
-}
+}*/
 
 function bestCharge(inputs) {
   let allItems = loadAllItems();
@@ -138,7 +134,7 @@ function bestCharge(inputs) {
   let receiptItems = getReceiptItems(selectItems, allPromotions);
   let totalArr = calculateSaveAndTotal(receiptItems);
   let best = getBestCharge(totalArr);
-  let recepipt = ptint(receiptItems, totalArr, best);
-  return recepipt;
+  // let recepipt = ptint(receiptItems, totalArr, best);
+  // return recepipt;
 
 }
