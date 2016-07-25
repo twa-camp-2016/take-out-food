@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let selectedItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+    function formatTags(selectedItems) {
+        let subAmount = [];
+        subAmount = selectedItems.map(function (item) {
+            let arr = item.split("x");
+            return Object.assign({}, {id: arr[0]}, {amount: parseInt(arr[1])});
+        })
+        console.log(subAmount);
+        return subAmount;
+    }
+    formatTags(selectedItems);
+    let subAmount = [{id: 'ITEM0001', amount: 1}, {id: 'ITEM0013', amount: 2}, {id: 'ITEM0022', amount: 1}];
+    let allItems = [{
+        id: 'ITEM0001',
+        name: '黄焖鸡',
+        price: 18.00
+    }, {
+        id: 'ITEM0013',
+        name: '肉夹馍',
+        price: 6.00
+    }, {
+        id: 'ITEM0022',
+        name: '凉皮',
+        price: 8.00
+    }, {
+        id: 'ITEM0030',
+        name: '冰锋',
+        price: 2.00
+    }];
+
+    function matchInformation(subAmount, allItems) {
+        let subCount = [];
+        subAmount.forEach(function (item1) {
+            let exist = allItems.find(function (item2) {
+                return item2.id === item1.id;
+            })
+            if (exist) {
+                subCount.push(Object.assign({}, exist, {count: item1.amount}));
+            }
+        })
+        console.log(subCount);
+        return subCount;
+    }
+    matchInformation(subAmount, allItems);
+
+    let subCount = [{id: 'ITEM0001', name: '黄焖鸡', price: 18, count: 1},
+        {id: 'ITEM0013', name: '肉夹馍', price: 6, count: 2},
+        {id: 'ITEM0022', name: '凉皮', price: 8, count: 1}]
+    function calculateSubTotal(subCount) {
+        let subTotal = [];
+        subTotal = subCount.map(function (item) {
+            return Object.assign({}, item, {subTotal: item.price * item.count})
+        })
+        console.log(subTotal);
+        return subTotal;
+    }
+    calculateSubTotal(subCount);
+
+    let subTotal = [{id: 'ITEM0001', name: '黄焖鸡', price: 18, count: 1, subTotal: 18},
+        {id: 'ITEM0013', name: '肉夹馍', price: 6, count: 2, subTotal: 12},
+        {id: 'ITEM0022', name: '凉皮', price: 8, count: 1, subTotal: 8}];
+
+    function calculateTotal(subTotal) {
+        let total = 0;
+        subTotal.forEach(function (item) {
+            total += item.subTotal
+        });
+        console.log(total);
+        return total;
+    }
+    calculateTotal(subTotal);
+
+    function calculateSaves(subTotal, promotions) {
+        let saves=[];
+    }
+</script>
+
+</body>
+</html>
