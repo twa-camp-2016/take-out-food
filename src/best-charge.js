@@ -1,40 +1,27 @@
-function bestCharge(selectedItems) {
+function bestCharge(selectedItems){
   let allItems = loadAllItems();
-  let allPromots = loadPromotions();
-  let formteTags = formteTags(selectedItems);
-  let cartItems = matchId(formteTags);
-  let noProSubItems  = noProSubTotal(cartItems);
-  let noProTotal = total(noProSubItems);
-  let firstProTotal = firstProTypeTotal(noProTotal,allPromots[0]);
-  let proCartItems = matchSecondProType(cartItems,allPromots[1]);
-  let secondProTotal = secondProTypeTotal(cartItems);
-  let bestProTotal =  getBestTotalType(firstProTotal, secondProTotal);
-  let proNames = getProNames(proCartItems);
-  let promotion = getPromotion(bestProTotal,noProTotal);
-console.log(promotion);
-  let src = '============= 订餐明细 =============\n';
-  for(let i=0;i<noProSubItems.length;i++){
-    src += noProSubItems[i].name + 'x' + noProSubItems[i].count +'=' +noProSubItems.subTotal + '元\n';
+  let allPromotions = loadPromotions();
 
-  }
-  src += '-----------------------------------\n使用优惠:\n';
-  src +=bestProTotal.type+'(';
-  for(let i=0;i<proNames.length;i++){
-    src += proNames[i] + '，';
-  }
-  src +=')，省'+promotion + '元\n-----------------------------------\n总计：'+bestProTotal+'元';
-
-
-
-
-  return ;
+  let formatTags = formateTags(selectedItems);
+  let cartItems = matchId(formatTags,allItems);
+  let noProSubItems = noProSubTotal(cartItems);
+  let noPrototal = noProTotal(noProSubItems);
+  let firstPrototal = firstProTotal(noPrototal,allPromotions[0]);
+  let secondProSubItems = getSecondProSubToatl(cartItems,allPromotions[1]);
+  let secondPrototal = secondProTotal(secondProSubItems,allPromotions[1]);
+  let bestProTypetotal = getBestProTypeTotal(firstPrototal,secondPrototal);
+  let promition = getPromotion(bestProTypetotal,noPrototal);
+  let proNames = getProNames(cartItems,allPromotions[1]);
+  let str = getPrintStr(noProSubItems, proNames, bestProTypetotal,allPromotions,promition);
+  return str;
 }
-function formateTags(userMenuTags){
-  return userMenuTags.map(function(tag){
-    let parsTag = tag.split("x");
+
+function formateTags(userTags){
+  return userTags.map(function(tag){
+    let parsTag = tag.split('x');
     return {
-      id : parsTag[0].trim(),
-      count : Number(parsTag[1].trim())
+      id:parsTag[0].trim(),
+      count:Number(parsTag[1])
     }
   });
 }
@@ -49,78 +36,100 @@ function matchId(formteTags,allItems){
       cartItems.push(Object.assign({},exist,{count :formteTags[i].count}));
     }
   }
- return cartItems;
-}
- function noProSubTotal(cartItems){
-   return cartItems.map(function(item){
-     let subTotal = item.count * item.price;
-     return Object.assign(item,{subTotal : subTotal});
-   });
- }
-
-function total(noProSubTotal){
-  let total = 0;
-  for(let i=0;i<noProSubTotal.length;i++){
-    total = Number(noProSubTotal[i].subTotal) + Number(total);
-  }
-  return total;
+  return cartItems;
 }
 
-function firstProTypeTotal(noProSubTotal,firstProType){
-  let total = noProSubTotal > 30 ? (noProSubTotal-6) : noProSubTotal;
-  return total === noProSubTotal ? {type : '-1',total:total} : {type:firstProType.type, total:total};
-}
-
-function matchSecondProType(cartItems,secondProType){
- let proCartItems = [];
+function noProSubTotal(cartItems){
+  let noProSubItems = [];
   for(let i=0;i<cartItems.length;i++){
-    let exist = secondProType.items.find(function(item){
-      return item === cartItems[i].id;
-    });
-    if(exist){
-      proCartItems.push(Object.assign({},cartItems[i],{type : secondProType.type}));
-    }else{
-      proCartItems.push(Object.assign({},cartItems[i],{type : "-1"}));
-    }
+    let total = Number(cartItems[i].count) * Number(cartItems[i].price);
+    noProSubItems.push(Object.assign({},cartItems[i],{subTotal: total}));
   }
-  return proCartItems;
+  return noProSubItems;
 }
+function noProTotal(noProSubItems){
 
-function secondProTypeTotal(proCartItems,secondProType){
   let total = 0;
-  for(let i=0;i<proCartItems.length;i++){
-      if(proCartItems[i].type === "-1"){
-         total += proCartItems[i].count * proCartItems[i].price;
-      }else if (proCartItems[i].type === secondProType.type){
-        total += proCartItems[i].price * 0.5 *proCartItems[i].count;
-      }}
+  for(let i=0;i<noProSubItems.length;i++){
+    total = Number(total)+Number(noProSubItems[i].subTotal);
+  }
   return {
-    type : secondProType.type,
-    total:total
+    type:'-1',
+    total: Number(total)
   };
 }
-
-function getBestTotalType(firstProTotal, secondProTotal){
-  return firstProTotal.total < secondProTotal.total ? firstProTotal : secondProTotal;
+function firstProTotal(noPrototal,firstProType){
+  return noPrototal.total<30 ?noPrototal : {
+    type:firstProType.type,
+    total:Number(noPrototal.total)-6
+  }
 }
+function getSecondProSubToatl(cartItems,secondProType){
+  let secondProSubTotal = [];
+  for(let i=0;i<cartItems.length;i++){
+    let exist =  secondProType.items.find(function(item){
+      return item === cartItems[i].id;
+    });
 
-function getProNames(proCartItems){
-  let proNames = [];
-  for(let i=0;i<proCartItems.length;i++){
-
-    if(!(proCartItems[i].type === "-1")){
-        proNames.push(proCartItems[i].name);
+    if(exist){
+      secondProSubTotal.push(Object.assign({},cartItems[i],{subTotal:0.5*cartItems[i].count*cartItems[i].price}));
+    }else{
+      secondProSubTotal.push(Object.assign({},cartItems[i],{subTotal:cartItems[i].price*cartItems[i].count}));
     }
   }
-  return proNames;
+  return secondProSubTotal;
+
 }
+function secondProTotal(secondProSubItems,secondProType){
 
-function getPromotion(bestProTotal,noProTotal){
-
-  return Number(noProTotal.total) - Number(bestProTotal.total);
+  let total = 0;
+  for(let i=0;i<secondProSubItems.length;i++){
+    total = Number(secondProSubItems[i].subTotal)+Number(total);
+  }
+  return {
+    type:secondProType.type,
+    total:Number(total)
+  }
 }
+function getBestProTypeTotal(firstPrototal,secondPrototal){
+  return firstPrototal.total<=secondPrototal.total ? firstPrototal : secondPrototal;
+}
+function  getPromotion(bestProTypetotal,noPrototal){
+  return noPrototal.total- bestProTypetotal.total ;
+}
+function getProNames(cartItems,secondProType){
+  let names = [];
+  for(let i=0;i<cartItems.length;i++){
+    let exist = secondProType.items.find(function(item){
+      return item ===cartItems[i].id;
+    });
+    if(exist){
+      names.push(cartItems[i].name);
+    }
+  }
+  return names;
+}
+function getPrintStr(noProSubItems, proNames, bestProTotal,allPromots,promotion){
 
+  let src = '============= 订餐明细 =============\n';
+  for(let i=0;i<noProSubItems.length;i++){
+    src += noProSubItems[i].name + ' x ' + noProSubItems[i].count +' = ' +noProSubItems[i].subTotal + '元\n';
+  }
 
+  if(bestProTotal.type === allPromots[0].type){
+    src += '-----------------------------------\n';
+    src += '使用优惠:\n'+bestProTotal.type+'，省'+promotion+'元\n';
+  }else if(bestProTotal.type === allPromots[1].type){
+    src += '-----------------------------------\n';
+    src += '使用优惠:\n';
+    src +=bestProTotal.type+'('+proNames[0];
+    for(let i=1;i<proNames.length;i++){
+      src += '，'+proNames[i];
+    }
+    src +=')，省'+ promotion + '元\n';
+  }
 
+  src += '-----------------------------------\n总计：'+bestProTotal.total+'元';
 
-
+  return src;
+}

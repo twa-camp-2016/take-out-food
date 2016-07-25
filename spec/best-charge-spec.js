@@ -47,6 +47,7 @@ describe ('matchId test',function(){
   });
 });
 
+
 describe ('noProSubTotal test',function(){
   it('noProSubTotal : ',function(){
     let inputs = [{
@@ -88,7 +89,7 @@ describe ('noProSubTotal test',function(){
   });
 });
 
-describe ('total test',function(){
+describe ('noPrototal test',function(){
   it('total : ',function(){
     let inputs = [{
       id: 'ITEM0001',
@@ -109,59 +110,108 @@ describe ('total test',function(){
       count:1,
       subTotal:8
     }];
-    let result = total(inputs);
-    expect(result).toEqual(38);
-  });
-});
-
-describe ('secondProTypeTotal test',function(){
-  it('secondProTypeTotal : ',function(){
-    let inputs1 =[{
-      id: 'ITEM0001',
-      name: '黄焖鸡',
-      price: 18.00,
-      count:1,
-      type:'指定菜品半价'
-    }, {
-      id: 'ITEM0013',
-      name: '肉夹馍',
-      price: 6.00,
-      count:2,
-      type:'-1'
-    }, {
-      id: 'ITEM0022',
-      name: '凉皮',
-      price: 8.00,
-      count:1,
-      type:'指定菜品半价'
-    }];
-      let inputs2 =  {
-        type: '指定菜品半价',
-        items: ['ITEM0001', 'ITEM0022']
-      };
-    let result = secondProTypeTotal(inputs1,inputs2);
+    let result = noProTotal(inputs);
     expect(result).toEqual({
-      type: '指定菜品半价',
-      total : 25
+      type:'-1',
+      total:38
     });
   });
 });
 
 
-describe ('firstProTypeTotal test',function(){
-  it('firstProTypeTotal : ',function(){
-    let inputs1 = 38;
-    let inputs2 = {
-      type: '满30减6元'
+describe ('firstProTotal test',function(){
+  it('firstProTotal : ',function(){
+
+    let noPrototal = {
+      type:'-1',
+      total :38
     };
-    let result = firstProTypeTotal(inputs1,inputs2);
-    expect(result).toEqual({ type: '满30减6元',total : 32});
+    let firstProType = {
+      type: '满30减6元'
+    }
+    let result = firstProTotal(noPrototal,firstProType)
+    expect(result).toEqual({  type: '满30减6元',  total :32});
   });
 });
 
-describe ('matchSecondProType test',function(){
-  it('matchSecondProType : ',function(){
-    let inputs1 =  [{
+
+describe ('firstProTotal test',function(){
+  it('firstProTotal : ',function(){
+
+    let cartItems = [{
+      id: 'ITEM0001',
+      name: '黄焖鸡',
+      price: 18.00,
+      count:1
+    }, {
+      id: 'ITEM0013',
+      name: '肉夹馍',
+      price: 6.00,
+      count:2
+    }, {
+      id: 'ITEM0022',
+      name: '凉皮',
+      price: 8.00,
+      count:1
+    }]
+    let secondProType = {
+      type: '指定菜品半价',
+      items: ['ITEM0001', 'ITEM0022']
+    }
+    let result = getProNames(cartItems,secondProType);
+    expect(result).toEqual([ '黄焖鸡','凉皮']);
+  });
+});
+
+
+
+
+describe ('getPromotion test',function(){
+  it('getPromotion : ',function(){
+    let inputs = {
+      type:'指定菜品半价',
+      total :25
+
+    };
+    let inputs2 = {
+      type:'-1',
+      total:30
+    }
+    let result = getPromotion(inputs,inputs2);
+    expect(result).toEqual(5);
+  });
+});
+
+
+
+
+describe ('getBestProTypeTotal test',function(){
+  it('getBestProTypeTotal : ',function(){
+    let inputs = {
+      type:'指定菜品半价',
+      total :25
+
+    };
+    let noPrototal = {
+      type:'-1',
+      total:30
+    }
+    let result = getBestProTypeTotal(noPrototal,inputs);
+    expect(result).toEqual({
+      type:'指定菜品半价',
+      total:25
+    });
+  });
+});
+let secondProSubItems =
+
+describe ('getSecondProSubToatl test',function(){
+  it('getSecondProSubToatl : ',function(){
+    let inputs = {
+      type: '指定菜品半价',
+      items: ['ITEM0001', 'ITEM0022']
+    }
+    let cartItems =[{
       id: 'ITEM0001',
       name: '黄焖鸡',
       price: 18.00,
@@ -177,95 +227,64 @@ describe ('matchSecondProType test',function(){
       price: 8.00,
       count:1
     }];
-
-    let inputs2 =  {
-      type: '指定菜品半价',
-      items: ['ITEM0001', 'ITEM0022']
-    };
-    let result = matchSecondProType(inputs1,inputs2);
+    let result = getSecondProSubToatl(cartItems,inputs);
     expect(result).toEqual([{
       id: 'ITEM0001',
       name: '黄焖鸡',
       price: 18.00,
       count:1,
-      type:'指定菜品半价'
+      subTotal:9
     }, {
       id: 'ITEM0013',
       name: '肉夹馍',
       price: 6.00,
       count:2,
-      type:'-1'
+      subTotal:12
     }, {
       id: 'ITEM0022',
       name: '凉皮',
       price: 8.00,
       count:1,
-      type:'指定菜品半价'
+      subTotal:4
     }]);
   });
 });
 
+describe ('secondProTotal test',function(){
+  it('secondProTotal : ',function(){
 
-describe ('getBestTotalType test',function(){
-  it('getBestTotalType : ',function(){
-
-    let inputs1 = {
-      type: '满30减6元',
-      total : 32
-    };
-    let inputs2 =  {
+    let inputs = {
       type: '指定菜品半价',
-      total : 25
-    };
-    let result = getBestTotalType(inputs1,inputs2);
-    expect(result).toEqual( {
-      type: '指定菜品半价',
-      total : 25
-    });
-  });
-});
-
-
-describe ('getProNames test',function(){
-  it('getProNames : ',function(){
-    let inputs =[{
+      items: ['ITEM0001', 'ITEM0022']
+    }
+    let inputs2 =[{
       id: 'ITEM0001',
       name: '黄焖鸡',
       price: 18.00,
       count:1,
-      type:'指定菜品半价'
+      subTotal:9
     }, {
       id: 'ITEM0013',
       name: '肉夹馍',
       price: 6.00,
       count:2,
-      type:'-1'
+      subTotal:12
     }, {
       id: 'ITEM0022',
       name: '凉皮',
       price: 8.00,
       count:1,
-      type:'指定菜品半价'
+      subTotal:4
     }];
-    let result = getProNames(inputs);
-    expect(result).toEqual(['黄焖鸡','凉皮']);
+    let result = secondProTotal(inputs2,inputs);
+    expect(result).toEqual({
+      type:'指定菜品半价',
+      total:25
+    });
+
   });
 });
 
-describe ('getPromotion test',function(){
-  it('getPromotion : ',function(){
-    let inputs1 = {
-      type: '指定菜品半价',
-      total : 25
-    };
-    let inputs2 = {
-      type : '-1',
-      total:30
-    }
-    let result = getPromotion(inputs1,inputs2);
-    expect(result).toEqual(5);
-  });
-});
 describe('Take out food', function () {
 
   it('should generate best charge when best is 指定菜品半价', function() {
@@ -314,3 +333,6 @@ describe('Take out food', function () {
   });
 
 });
+
+
+
