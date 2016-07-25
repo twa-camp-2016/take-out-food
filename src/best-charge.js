@@ -1,4 +1,3 @@
-let cartItems = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
 function bestCharge(cartItems) {
   let allItems = loadAllItems();
   let allPromotions = loadPromotions();
@@ -87,16 +86,21 @@ function selectPromotion(firstPro,secondPro,allPromotion){
 
   if(firstPro>secondPro){
     selectedPro = Object.assign({},{type:allPromotion[0].type,promo:firstPro});
-  }else{
+  }else if(secondPro>0){
     selectedPro = Object.assign({},{type:allPromotion[1].type,promo:secondPro});
+  }else{
+    selectedPro = null;
   }
   return selectedPro;
 
 }
 
 function total(selectedPro,theTotal){
-
-  return theTotal-selectedPro.promo;
+  if(selectedPro){
+    return theTotal-selectedPro.promo;
+  }else{
+    return theTotal;
+  }
 }
 
 function print(selectedProtion,matchedPromotion,totals){
@@ -107,7 +111,7 @@ function print(selectedProtion,matchedPromotion,totals){
     strInfo += item.name +' x '+item.count+' = '+parseInt(item.subTotals)+'元'+'\n';
   });
   strInfo += '-----------------------------------'+'\n';
-  if(selectedProtion.type){
+  if(selectedProtion){
     strInfo += '使用优惠:'+'\n';
   }
 
@@ -121,13 +125,17 @@ function print(selectedProtion,matchedPromotion,totals){
     }
   }
 
-  if(selectedProtion.type === '满30减6元'){
-    strInfo += '\''+selectedProtion.type+'\''+'，省'+parseInt(selectedProtion.promo)+'元'+'\n';
-  }else if(selectedProtion.type === '指定菜品半价'){
+  if(selectedProtion && selectedProtion.type === '满30减6元'){
+    strInfo += selectedProtion.type+'，省'+parseInt(selectedProtion.promo)+'元'+'\n';
+  }else if(selectedProtion && selectedProtion.type === '指定菜品半价'){
     strInfo += selectedProtion.type+'('+cartName+')'+'，省'+parseInt(selectedProtion.promo)+'元'+'\n';
+  }else{
+    strInfo += '';
+  }
+  if(selectedProtion){
+    strInfo += '-----------------------------------'+'\n';
   }
 
-  strInfo += '-----------------------------------'+'\n';
   strInfo += '总计：'+totals+'元'+'\n';
   strInfo += '===================================';
   return strInfo.trim();
