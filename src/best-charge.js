@@ -11,10 +11,12 @@ function formatItems(items) {
 function removeAllSpace(str) {
   return str.replace(/\s+/g, "");
 }
-let a = formatItems(items);
-console.log(a);
+/*let a = formatItems(items);
+console.log(a);*/
 function getSelectedItems(allItems, formatItems) {
+
   let selectedItems = [];
+
   for (let i = 0; i < allItems.length; i++) {
     let item = formatItems.find(function (it) {
       return it.id === allItems[i].id;
@@ -23,6 +25,7 @@ function getSelectedItems(allItems, formatItems) {
       selectedItems.push(Object.assign({}, allItems[i], {count: item.count}));
     }
   }
+
   return selectedItems;
 }
 /*
@@ -32,10 +35,12 @@ console.log(selectedItems);
 
 function calculateSubtotal(selectedItems) {
   let subtotalItems = [];
+
   for (let i = 0; i < selectedItems.length; i++) {
     let subtotal = selectedItems[i].price * (selectedItems[i].count);
     subtotalItems.push(Object.assign({}, selectedItems[i], {subtotal: subtotal}));
   }
+
   return subtotalItems;
 }
 /*let subtotalItems = calculateSubtotal(selectedItems);
@@ -44,6 +49,7 @@ console.log(subtotalItems);*/
 function calculateSaving(subtotalItems, allPromotionItems) {
   let savedItems = [];
   let tempArray = allPromotionItems[1].items;
+
   for (let i = 0; i < subtotalItems.length; i++) {
     let items = tempArray.find(function (it) {
       return it === subtotalItems[i].id;
@@ -55,6 +61,7 @@ function calculateSaving(subtotalItems, allPromotionItems) {
       savedItems.push(Object.assign({}, subtotalItems[i], {saving: 0}));
     }
   }
+
   return savedItems;
 }
 /*let savedItems = calculateSaving(subtotalItems, loadPromotions());
@@ -62,17 +69,21 @@ console.log(savedItems);*/
 
 function getAllSaving(savedItems) {
   let allSaving = 0;
+
   for (let i = 0; i < savedItems.length; i++) {
     allSaving += savedItems[i].saving;
   }
+
   return allSaving;
 }
 
 function getTotal(savedItems) {
   let total = 0;
+
   for (let i = 0; i < savedItems.length; i++) {
     total += savedItems[i].subtotal;
   }
+
   return total;
 }
 /*
@@ -84,6 +95,7 @@ function getBestSaving(total, allSaving, savedItems) {
   let type;
   //要返回的是
   let bestSavingItems = {};
+
   if (total >= 30) {
     if (allSaving > 6) {
       bestSaving = allSaving;
@@ -99,6 +111,7 @@ function getBestSaving(total, allSaving, savedItems) {
   else {
     bestSavingItems = {items: savedItems, bestSaving: allSaving, type: '指定菜品半价'};
   }
+
   return bestSavingItems;
 }
 /*
@@ -108,7 +121,9 @@ console.log(bestSavingItems);
 
 function getFinalTotal(bestSavingItems, total) {
   let finalTotal;
+
   finalTotal = total - bestSavingItems.bestSaving;
+
   return finalTotal;
 
 }

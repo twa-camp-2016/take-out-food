@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f91cda2c-c519-49b0-a92c-441f0324d465" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pipeline.jpg" afterPath="$PROJECT_DIR$/pipeline.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/best-charge-spec.js" afterPath="$PROJECT_DIR$/spec/best-charge-spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/best-charge.js" afterPath="$PROJECT_DIR$/src/best-charge.js" />
     </list>
@@ -26,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="best-charge-spec.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="189" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+            <state relative-caret-position="171">
+              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -56,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="best-charge.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/best-charge.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="111" column="20" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
+            <state relative-caret-position="190">
+              <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -85,8 +83,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/student-name.txt" />
-        <option value="$PROJECT_DIR$/spec/best-charge-spec.js" />
         <option value="$PROJECT_DIR$/src/best-charge.js" />
+        <option value="$PROJECT_DIR$/spec/best-charge-spec.js" />
       </list>
     </option>
   </component>
@@ -255,12 +253,12 @@
       <workItem from="1469237876098" duration="16941000" />
       <workItem from="1469257507492" duration="1876000" />
       <workItem from="1469417707230" duration="3442000" />
-      <workItem from="1469427133118" duration="16001000" />
+      <workItem from="1469427133118" duration="16704000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38260000" />
+    <option name="totallyTimeSpent" value="38963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
@@ -301,7 +299,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/spec/best-charge-spec.js</url>
-          <line>63</line>
+          <line>1</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -396,6 +394,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/best-charge.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/promotions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -414,16 +420,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/best-charge-spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="189" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/best-charge.js">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
-          <caret line="111" column="20" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
           <folding />
         </state>
       </provider>
