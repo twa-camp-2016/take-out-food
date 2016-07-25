@@ -103,7 +103,7 @@ describe("calculateSaves",function () {
     let subTotal=[{ id: 'ITEM0001', name: '黄焖鸡', price: 18, count: 1 ,subTotal:18},
       { id: 'ITEM0013', name: '肉夹馍', price: 6, count: 2 ,subTotal:12},
       { id: 'ITEM0022', name: '凉皮', price: 8, count: 1 ,subTotal:8}]
-    let saves=[{ name: '肉夹馍', saves: 9 }, { name: '肉夹馍', saves: 4 }];
+    let saves=[{ name: '黄焖鸡', saves: 9 }, { name: '凉皮', saves: 4 }];
     let result=calculateSaves(subTotal,promotions);
     expect(result).toEqual(saves);
   })
