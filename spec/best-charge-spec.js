@@ -378,7 +378,7 @@ describe("discountItems", function () {
           type: "指定菜品半价"
         }
       ],
-      sumtotal: 38.00
+      sumtotal: 32.00
     };
     let expected = [{
       items: [

@@ -79,8 +79,8 @@ function chargeItmes(addedItems) {
 
 function discountItems(chargedItems, allPromotions) {
   let discountedItems = [];
-  let tempItems = chargedItems;
-  let assignedDishesItems = chargedItems;
+  let tempItems = newChargedItems(chargedItems);
+  let assignedDishesItems = newChargedItems(chargedItems);
   let assignedDishesSavedPrice = 0;
   for (let item of assignedDishesItems.items) {
     if (item.type === "指定菜品半价") {
@@ -103,4 +103,22 @@ function discountItems(chargedItems, allPromotions) {
     }));
   }
   return discountedItems;
+}
+
+function newChargedItems(chargedItems) {
+  let newItems = {
+    items: [],
+    sumtotal: chargedItems.sumtotal
+  };
+  for (let item of chargedItems.items) {
+    newItems.items.push(({
+      id: item.id,
+      amount: item.amount,
+      name: item.name,
+      price: item.price,
+      subtotal: item.subtotal,
+      type: item.type
+    }));
+  }
+  return newItems;
 }
