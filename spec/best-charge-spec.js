@@ -305,10 +305,33 @@ describe("calculateHalfCutedTotal", function(){
     
     expect(calculateHalfCutedTotal(inputs, total)).toEqual(expected);
   });
+
+  it("to calculate the no half total", function(){
+    let inputs =[
+      {
+        id: "ITEM0013",
+        name: '肉夹馍',
+        price: 6.00,
+        amount: 2,
+        subtotal: 12.00,
+        saved: 0
+      }
+    ]
+    let expected = [
+      {
+        save: 0,
+        afterSavedTotal: 12
+      }
+    ]
+
+    let total = 12.00;
+
+    expect(calculateHalfCutedTotal(inputs, total)).toEqual(expected);
+  });
 });
 
 describe("calculateFullCutedTotal", function(){
-  it("to calculate the half total", function(){
+  it("to calculate the full total", function(){
     let input = 30;
     let expected = [{
       save: 6,
@@ -318,7 +341,7 @@ describe("calculateFullCutedTotal", function(){
     expect(calculateFullCutedTotal(input)).toEqual(expected);
   });
 
-  it("to calculate the half total", function(){
+  it("to calculate the no full total", function(){
     let input = 24;
     let expected = [{
       save: 0,
@@ -330,7 +353,7 @@ describe("calculateFullCutedTotal", function(){
 });
 
 describe("getTheBestPromotion", function(){
-  it("get the best ptomotion type and saved money", function(){
+  it("get the best ptomotion type and saved money_halfCut", function(){
     let halfCut =
       {
         save: 13,
@@ -354,7 +377,7 @@ describe("getTheBestPromotion", function(){
     expect(getTheBestPromotion(halfCut, fullCut)).toEqual(bestPromotion);
   });
 
-  it("get the best ptomotion type and saved money", function(){
+  it("get the best ptomotion type and saved money_null", function(){
     let halfCut =
     {
       save: 0,
@@ -371,14 +394,14 @@ describe("getTheBestPromotion", function(){
       {
         save: 0,
         bestTotal: 10,
-        type: "满30减6元"
+        type: null
       }
     ]
 
     expect(getTheBestPromotion(halfCut, fullCut)).toEqual(bestPromotion);
   });
 
-  it("get the best ptomotion type and saved money", function(){
+  it("get the best ptomotion type and saved money_fullCut", function(){
     let halfCut =
     {
       save: 4,

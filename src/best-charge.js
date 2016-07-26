@@ -111,6 +111,8 @@ function getTheBestPromotion(halfCut, fullCut){
 
   if(halfCut.afterSavedTotal < fullCut.afterSavedTotal){
     bestPromotion.push({save: halfCut.save, bestTotal: halfCut.afterSavedTotal, type: "指定菜品半价"});
+  }else if(halfCut.save == 0 && fullCut.save == 0){
+    bestPromotion.push({save: 0, bestTotal: fullCut.afterSavedTotal, type: null});
   }else{
     bestPromotion.push({save: fullCut.save, bestTotal: fullCut.afterSavedTotal, type: "满30减6元"});
   }
