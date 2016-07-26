@@ -1,21 +1,11 @@
-function Tag(){
-  let test=[
-
-    "ITEM0001*1",
-    "ITEM0013*2",
-    "ITEM0022*1"
-  ];
-  //console.log(test);
-  return test;
-}
+let tags= ["ITEM0001x1", "ITEM0013x2", "ITEM0022x1"];
 function getFoodCounts(tags) {
   let result=[];
   for(let myTag of tags)
   {
-    let items=myTag.split("*");
+    let items=myTag.split("x");
     result.push({code:items[0],count:parseInt(items[1])});
   }
-  console.log(result);
   return result;
 }
 function loadAllItems() {
@@ -38,85 +28,34 @@ function loadAllItems() {
   }];
 
 }
-
-function builtItems(myGetCount,myAll){
- let result=[];
- for(let elementOne of myGetCount)
- for(let elementTwo of myAll)
- {
- if(elementOne.code===elementTwo.code)
- result.push({code:elementOne.code,
- name:elementTwo.name,
- count:elementOne.count,
- price:elementTwo.price
+function _getElementBycodes(array,code){
+  return array.find((arr)=>arr.code===code);
+}
+function builtItems(GetCounts,allItems){
+ return GetCounts.map(({code,count})=>{
+   let {name,price}=_getElementBycodes(allItems,code);
+   return {code,name,count,price};
  });
- }
- //console.log(result);
- return result;
+
  }
 
 
-function loadPromotions() {
+/*function loadPromotions() {
   return [{
     type:'满30减6元'
   }, {
     type:'指定菜品半价',
-    items: ['ITEM0001', 'ITEM0022']
+    items:['ITEM0001', 'ITEM0022']
+
+
   }];
-}
-function getBeforeAllPrice(myBuilt,promotions)
+}*/
+function printReceipt(tags)
 {
- let result=[];
-  //let afterPer;
-  for (let myCoun of myBuilt) {
-    let sumP=myCoun.price * myCoun.count;
-
-    result.push({code:myCoun.code,name:myCoun.name,count:myCoun.count,price:myCoun.price,
-      perAll:sumP});
-    }
-
-  return result;
-  //console.log(result);
+  //console.log(getFoodCounts(tags));
+  let GetCounts=getFoodCounts(tags);
+  let allItems=loadAllItems();
+  console.log(builtItems(GetCounts,allItems));
 }
+printReceipt(tags);
 
-function halfSave(getBef) {
-
-  let result = [];
-  let me = 0;
-  //let mes;
-  for (let i = 0; i < getBef.length; i++) {
-    me += getBef[i].perAll;
-  }
-  if (me >= 30) {
-    result.push((me - 6));
-  }
-  result.push(me);
-return result;
-   //console.log(result);
-
-}
-/*function specialSaves(myBuilt,promotions){
-  let result=[];
-  for(let myBul of myBuilt)
-
-    for(let mypro of promotions)
-    {
-      for(let jokn of mypro.items)
-      if(mypro.type==='指定菜品半价'&& myBul.code===jokn)
-      {
-        let perPrice=(myBul.price*myBul.count)/2;
-      }
-    }
-
-}
-*/
-let tags=Tag();
-//getFoodCounts(tags);
-let myGetCount=getFoodCounts(tags);
-let myAll=loadAllItems();
-builtItems(myGetCount,myAll);
-let myBuilt=builtItems(myGetCount,myAll);
-let promotions=loadPromotions();
-let getBef=getBeforeAllPrice(myBuilt,promotions);
-let myTir=halfSave(getBef);
-//halfSaves(myTir,getBef);
