@@ -133,8 +133,7 @@ describe('Take out food', function () {
           normalPrice: 42.00,
           saved: 0
         }],
-      halfSavedItems: [{name: '黄焖鸡', saved: 27.00}, {name: '肉夹馍', saved: 0.00}],
-      normalSavedItems: [],
+      savedItems: [{name: '黄焖鸡', saved: 27.00}, {name: '肉夹馍', saved: 0.00}],
       totalNormalPrice: 96.00,
       totalSaved: 27.00,
       finalPrice: 69.00
@@ -159,8 +158,7 @@ describe('Take out food', function () {
           payPrice: 42.00,
           saved: 0
         }],
-      halfSavedItems: [{name: '黄焖鸡', saved: 27.00}, {name: '肉夹馍', saved: 0}],
-      normalSavedItems: [],
+      savedItems: [{name: '黄焖鸡', saved: 27.00}, {name: '肉夹馍', saved: 0}],
       totalHalfPrice: 69.00,
       totalNormalPrice: 96.00,
       totalSaved: 27.00,

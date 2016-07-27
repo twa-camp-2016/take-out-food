@@ -50,25 +50,18 @@ function buildReceipt(promotedItems, {totalNormalPrice, totalSaved}) {
   } else {
     finalPrice = totalSubPrice;
   }
-  let halfSavedItems = promotedItems.filter(()=> {
-    return finalPrice === totalHalfPrice;
-  }).map(({name, saved})=> {
-    return {name, saved};
-  });
-
-  let normalSavedItems = promotedItems.filter(()=> {
-    return finalPrice === totalSubPrice;
-  }).map(({name, saved})=> {
-    return {name, saved};
-  });
-
+  let savedItems = [];
+  if (finalPrice === totalHalfPrice) {
+    savedItems = promotedItems.map(({name, saved})=> {
+      return {name, saved};
+    })
+  }
   let promotedItem = promotedItems.map(({name, price, count, normalPrice, saved})=> {
     return {name, price, count, normalPrice, saved};
   });
   return {
     promotedItem,
-    halfSavedItems,
-    normalSavedItems,
+    savedItems,
     totalNormalPrice,
     totalSaved,
     finalPrice
@@ -80,30 +73,21 @@ function buildReceiptString(receipt) {
     let line = `${name} x ${count} = ${normalPrice}元`;
     lines.push(line);
   }
-  if (receipt.totalSaved > 0) {
-    lines.push('-----------------------------------');
-    lines.push('使用优惠:');
-    if (receipt.normalSavedItems.length > 0) {
-      lines.push('满30减6元，省6元');
+  if (receipt.finalPrice != receipt.normalPrice) {
+    if (receipt.totalSaved > 6) {
+
+      let halfPricesItems=receipt.savedItems.filter(({saved})=> saved>0).map(({name})=>name);
       lines.push('-----------------------------------');
-      lines.push(`总计：${receipt.totalNormalPrice - 6}元`)
-    }
-    // console.log(receipt.totalNormalPrice);
-    if (receipt.halfSavedItems.length > 0) {
-      let halfPricesItems = [];
-      receipt.halfSavedItems.filter(({name, saved})=> {
-        if (saved > 0) {
-          halfPricesItems.push(name);
-        }
-      });
+      lines.push('使用优惠:');
       lines.push(`指定菜品半价(${halfPricesItems.join(',')})，省${receipt.totalSaved}元`);
+    }else if(receipt.totalSaved!=0){
       lines.push('-----------------------------------');
-      lines.push(`总计：${receipt.finalPrice}元`)
+      lines.push('使用优惠:');
+      lines.push('满30减6元，省6元');
     }
-  } else {
-    lines.push('-----------------------------------');
-    lines.push(`总计：${receipt.finalPrice}元`);
   }
+  lines.push('-----------------------------------');
+  lines.push(`总计：${receipt.finalPrice}元`);
   lines.push('===================================');
   let receiptString = lines.join('\n');
   console.log(receiptString);
@@ -122,7 +106,7 @@ function printReceipt(tags) {
   let totalPrices = calculateTotalPrices(promotedItems);
   // console.log(totalPrices);
   let receipt = buildReceipt(promotedItems, totalPrices);
-  console.log(receipt);
+  // console.log(receipt);
   let receiptString = buildReceiptString(receipt);
   // console.log(receiptString);
   return receiptString;
