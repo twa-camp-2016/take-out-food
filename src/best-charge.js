@@ -1,11 +1,14 @@
-//import _ from 'lodash';
 'use strict';
-function bestCharge(selectedItems) {
+/*global require,module*/
+const loadAllItems = require('../src/items');
+const loadAllPromotions = require('../src/promotions');
+const _ = require('lodash');
 
+function bestCharge(selectedItems) {
   const allItems = loadAllItems();
+  const allPromotions = loadAllPromotions();
   const itemArray = getItemArray(selectedItems,allItems);
   const totalArray = getSubtotalArray(itemArray);
-  const allPromotions = loadPromotions();
   const savesA = firstPromotion(totalArray);
   const savesB = secondPromotion(totalArray,allPromotions);
   const typeArray = promotionTypeItem(savesA, savesB);
@@ -19,8 +22,7 @@ function bestCharge(selectedItems) {
 function getItemArray(selectedItems,allItems){
 
   let countItems = [];
-
-  for (let selectedItem of selectedItems) {
+    _.map(selectedItems,selectedItem =>{
     let splitItem = selectedItem.split(' x ');
     let id = splitItem[0];
     let count = parseInt(splitItem[1]);
@@ -33,13 +35,13 @@ function getItemArray(selectedItems,allItems){
       let item = allItems.find(item => item.id === id);
       countItems.push({item, count});
     }
-  }
+  });
   return countItems;
 }
 
 function getSubtotalArray(itemArray) {
 
-  return itemArray.map(array => {
+  return _.map(itemArray,array => {
     let subtotal = array.item.price * array.count;
     return {countItem:array, subtotal};
   });
@@ -55,22 +57,27 @@ function firstPromotion(totalArray) {
 
 }
 
-function totalPrice(totalArray) {
-  let total = 0;
-  for(let array of totalArray){
-    total += array.subtotal;
-  }
-  return total;
-}
 function secondPromotion(totalArray,allPromotions){
 
   let total = totalPrice(totalArray);
-  let saves = 0;
+  let saves;
   let selectedItems = selectedPromotionItems(totalArray,allPromotions[1]);
-  for(let item of selectedItems){
-    saves += item.countItem.item.price / 2;
-  }
+
+  _.reduce(selectedItems,(prev,cur) => {
+    saves += cur.countItem.item.price / 2;
+    return saves;
+  },saves=0);
+
   return {total,saves_B:saves};
+}
+function totalPrice(totalArray) {
+  let total;
+
+  _.reduce(totalArray,(prev,cur) => {
+    total = prev + cur.subtotal;
+    return total;
+  },total=0);
+  return total;
 }
 
 function selectedPromotionItems(totalArray,promotion) {
@@ -80,6 +87,7 @@ function selectedPromotionItems(totalArray,promotion) {
       items.push(array);
     }
   }));
+
   return items;
 }
 
@@ -97,9 +105,9 @@ function promotionTypeItem(savesA, savesB) {
 
 function getItemList(totalArray) {
 
-  return totalArray.map(array => {
-   return `${array.countItem.item.name} x ${array.countItem.count} = ${array.subtotal}元`;})
-    .join('\n');
+  return _.map(totalArray,array => {
+    return `${array.countItem.item.name} x ${array.countItem.count} = ${array.subtotal}元`;
+  }).join('\n');
 }
 
 function getPromotionList(typeArray) {
@@ -135,3 +143,16 @@ ${promotionList}
 总计：${realTotal}元
 ===================================`;}
 }
+
+module.exports = {
+  bestCharge,
+  getItemArray,
+  getSubtotalArray,
+  firstPromotion,
+  secondPromotion,
+  promotionTypeItem,
+  getItemList,
+  getPromotionList,
+  totalPrice,
+  printList
+};

@@ -1,5 +1,18 @@
 'use strict';
-/*global describe,beforeEach,expect,it,spyOn*/
+/*global describe,beforeEach,expect,it,spyOn,require*/
+const {
+  bestCharge,
+  getItemArray,
+  getSubtotalArray,
+  firstPromotion,
+  secondPromotion,
+  promotionTypeItem,
+  getItemList,
+  getPromotionList,
+  printList
+} = require('../src/best-charge');
+const loadAllItems = require('../src/items');
+const loadAllPromotions = require('../src/promotions');
 
 describe('Take out food', function () {
 
@@ -229,7 +242,7 @@ describe('Take out food', function () {
         subtotal:8.00
       }
     ];
-    const allPromotions = loadPromotions();
+    const allPromotions = loadAllPromotions();
     const savesB = secondPromotion(totalArray,allPromotions);
     const expectText = {total:38,saves_B:13};
 
