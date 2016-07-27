@@ -1,0 +1,5 @@
+{ promotedItem: [ Object({ name: '黄焖鸡', price: 18, count: 3, normalPrice: 54, saved: 27 }), Object({ name: '肉夹馍', price: 6, count: 7, normalPrice: 42, saved: 0 }) ],
+ halfSavedItems: [ Object({ name: '黄焖鸡', saved: 27 }), Object({ name: '肉夹馍', saved: 0 }) ],
+  normalSavedItems: [  ],
+  totalNormalPrice: 96,
+   totalSaved: 27 }).
