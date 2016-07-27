@@ -1,121 +1,135 @@
 function getFormattedTags(tags) {
-
   return tags.map((tag)=> {
-    let temps = tag.split('x');
-    let temp=temps[0].substring(0,temps[0].length-1);
-    return {id: temp, count: parseInt(temps[1])};
+    let temps = tag.split(' x ');
+    return {id: temps[0], count: parseInt(temps[1])}
   })
 }
-
-function _getExistElementById(array, id) {
-
-  for (let countItem of array) {
-    if (countItem.id === id) {
-      return countItem;
-    }
-  }
-  return null;
+function _getExistElementByBarcodes(array, id) {
+  return array.find((countItem)=>countItem.id === id)
 }
 function buildCartItems(formattedTags, allItems) {
-  return formattedTags.map((formattedTag)=> {
-
-
-    // console.log(allItems);
-    // console.log('['+formattedTag.id+']');
-    let item = _getExistElementById(allItems, formattedTag.id);
-    // console.log(item);
-
+  return formattedTags.map(({id, count})=> {
+    let {name, price}= _getExistElementByBarcodes(allItems, id);
     return {
-      id: formattedTag.id,
-      name: item.name,
-      price: item.price,
-      count: formattedTag.count
+      id,
+      name,
+      price,
+      count
     }
-
   })
 }
-
-function buildPromotedItems(carItems, promotions) {
-  let subPromotion = promotions[0];
-  console.log(subPromotion);
-  let halfPromotion = promotions[1];
-  console.log(halfPromotion);
-
-  let result = carItems.map((cartItem)=> {
-    let totalPrices = cartItem.count * cartItem.price;
-    // console.log(totalPrices);
-    if (subPromotion) {
-      var subPromoted = 6;
-      return subPromoted;
-    }
-    if (halfPromotion) {
-      var halfPrice = totalPrices * 0.5;
-      return halfPrice;
-    }
-    
-    if (subPromoted != halfPrice) {
-      var saved = subPromoted > halfPrice ? subPromoted : halfPrice;
-      return saved;
-    } else {
-      var saved = subPromoted;
-      return saved;
-    }
-    let payPrice = totalPrices - saved;
-    return Object.assign({}, cartItem, {payPrice, saved});
-    // console.log(cartItem);
-  })
-
-  return result;
-
-  // return carItems.map((carItem)=> {
-  //   let totalPrices = carItem.count * carItem.price;
-  //   if(subPromotion){
-  //     let hasPromoted=totalPrices-6;
-  //     return hasPromoted;
-  //   }else{
-  //     var halfPrice = currentPromotion.items.map((promotedId)=> {
-  //       if (found.id === promotedId) {
-  //         var halfSaved = totalPrices * 0.5;
-  //         return halfSaved;
-  //       }
-  //       return halfPrice;
-  //     let saved = subSaved > halfPrice ? subSaved : halfPrice;
-  //     let payPrice = totalPrices - saved;
-  //     return Object.assign({}, carItem, {payPrice, saved});
-  //
-  // })
+function _fixPrice(number) {
+  return parseFloat(number.toFixed(2));
 }
 
-function calculateTotalPrice(promotedItems) {
-  let result = {
-    totalPayPrices: 0,
-    totalSaved: 0
-  };
-
-  return promotedItems.map((promotedItem)=> {
-    result.totalPayPrices += promotedItem.payPrice;
+function buildPromotedItems(cartItems, promotions) {
+  let currentPromotion = promotions.find((promotion)=>promotion.type === '指定菜品半价');
+  return cartItems.map((cartItem)=> {
+    let normalPrice = cartItem.count * cartItem.price;
+    let hasHalfPromoted = currentPromotion.items.includes(cartItem.id);
+    let saved = hasHalfPromoted ? normalPrice * 0.5 : 0;
+    return Object.assign({}, cartItem, {normalPrice, saved: _fixPrice(saved)});
+  })
+}
+function calculateTotalPrices(promotedItems) {
+  return promotedItems.reduce((result, promotedItem)=> {
+    result.totalNormalPrice += promotedItem.normalPrice;
     result.totalSaved += promotedItem.saved;
-  })
-
-}
-function buildReceipt(promotedItems,totalPrices) {
-
+    return result;
+  }, {totalNormalPrice: 0, totalSaved: 0})
 }
 
+function buildReceipt(promotedItems, {totalNormalPrice, totalSaved}) {
+  let finalPrice = 0;
+  let totalHalfPrice = totalNormalPrice - totalSaved;
+  let totalSubPrice = totalNormalPrice - 6;
+  if (totalNormalPrice < 30) {
+    finalPrice = totalNormalPrice;
+  } else if (totalSaved != 6) {
+    finalPrice = totalSaved > 6 ? totalHalfPrice : totalSubPrice;
+  } else {
+    finalPrice = totalSubPrice;
+  }
+  let halfSavedItems = promotedItems.filter(()=> {
+    return finalPrice === totalHalfPrice;
+  }).map(({name, saved})=> {
+    return {name, saved};
+  });
 
-function bestCharge(tags) {
+  let normalSavedItems = promotedItems.filter(()=> {
+    return finalPrice === totalSubPrice;
+  }).map(({name, saved})=> {
+    return {name, saved};
+  });
 
+  let promotedItem = promotedItems.map(({name, price, count, normalPrice, saved})=> {
+    return {name, price, count, normalPrice, saved};
+  });
+  return {
+    promotedItem,
+    halfSavedItems,
+    normalSavedItems,
+    totalNormalPrice,
+    totalSaved,
+    finalPrice
+  }
+}
+function buildReceiptString(receipt) {
+  let lines = ['============= 订餐明细 ============='];
+  for (let {name, count, normalPrice} of receipt.promotedItem) {
+    let line = `${name} x ${count} = ${normalPrice}元`;
+    lines.push(line);
+  }
+  if (receipt.totalSaved > 0) {
+    lines.push('-----------------------------------');
+    lines.push('使用优惠:');
+    if (receipt.normalSavedItems.length > 0) {
+      lines.push('满30减6元，省6元');
+      lines.push('-----------------------------------');
+      lines.push(`总计：${receipt.totalNormalPrice - 6}元`)
+    }
+    // console.log(receipt.totalNormalPrice);
+    if (receipt.halfSavedItems.length > 0) {
+      let halfPricesItems = [];
+      receipt.halfSavedItems.filter(({name, saved})=> {
+        if (saved > 0) {
+          halfPricesItems.push(name);
+        }
+      });
+      lines.push(`指定菜品半价(${halfPricesItems.join(',')})，省${receipt.totalSaved}元`);
+      lines.push('-----------------------------------');
+      lines.push(`总计：${receipt.finalPrice}元`)
+    }
+  } else {
+    lines.push('-----------------------------------');
+    lines.push(`总计：${receipt.finalPrice}元`);
+  }
+  lines.push('===================================');
+  let receiptString = lines.join('\n');
+  console.log(receiptString);
+  return receiptString;
+}
+
+function printReceipt(tags) {
   let formattedTags = getFormattedTags(tags);
-
+  // console.log(formattedTags);
   let allItems = loadAllItems();
   let cartItems = buildCartItems(formattedTags, allItems);
   // console.log(cartItems);
   let promotions = loadPromotions();
   let promotedItems = buildPromotedItems(cartItems, promotions);
-  let totalPrices = calculateTotalPrice(promotedItems);
-
+  // console.log(promotedItems);
+  let totalPrices = calculateTotalPrices(promotedItems);
+  // console.log(totalPrices);
+  let receipt = buildReceipt(promotedItems, totalPrices);
+  console.log(receipt);
+  let receiptString = buildReceiptString(receipt);
+  // console.log(receiptString);
+  return receiptString;
 }
-tags = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+let tags = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+// let tags= ["ITEM0001 x 3", "ITEM0013 x 7"];
+
 function loadAllItems() {
   return [{
     id: 'ITEM0001',
@@ -144,7 +158,6 @@ function loadPromotions() {
       items: ['ITEM0001', 'ITEM0022']
     }];
 }
+printReceipt(tags);
 
-
-bestCharge(tags);
 
