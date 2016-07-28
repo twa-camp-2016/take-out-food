@@ -90,12 +90,10 @@ function printReceipt(totalPriceItem) {
     return `${item.name} x ${item.count} = ${item.price * item.count}元`;
   }).join('\n');
 
-  let nameText = receipts.map((receipt)=> {
-    if (receipt.promotionType && receipt.promotionType === '指定菜品半价') {
-      return receipt.item.name;
-    }
-  }).join();
-  nameText =  `${nameText.slice(0,3)}，${nameText.slice(5,9)}`;
+  let nameText = receipts
+    .filter((receipt)=> receipt.promotionType && receipt.promotionType === '指定菜品半价')
+    .map((receipt)=>receipt.item.name)
+    .join();
 
   if (type === '指定菜品半价') {
     return `
