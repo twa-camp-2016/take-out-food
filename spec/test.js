@@ -70,8 +70,8 @@ function getFormatIds(inputs) {
 function _getExistByIds(array, id) {
   //return array.find((element)=>element.id === id);
   return _.find(array, function (element) {
-     return element.id === id;
-   })
+    return element.id === id;
+  })
 }
 function getBuyedItems(formatIds, allItems) {
   return formatIds.map(({id, count})=> {

@@ -1,7 +1,6 @@
 /*global describe,it,expect*/
 'use strict';
-// let _=require('lodash');
-//let {}=require('../src/best-charge');
+
 describe("test",function(){
   it("getFormatIds",function(){
     let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
