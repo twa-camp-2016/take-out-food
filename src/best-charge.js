@@ -9,7 +9,8 @@ function bestCharge(selectedItems) {
   let addedItems = addEachPromotion(subtotaledItems, allPromotions);
   let chargedItems = chargeItmes(addedItems);
   let discountedItems = discountItems(chargedItems, allPromotions);
-  return chargedItems;
+  let summary = generateSummay(discountedItems);
+  return summary;
 }
 
 function formatItems(selectedItems) {
@@ -90,7 +91,12 @@ function discountItems(chargedItems, allPromotions) {
       assignedDishesSavedPrice += (tempPrice - item.subtotal);
     }
   }
-  if(chargedItems.sumtotal >= 30 && assignedDishesSavedPrice <= 6) {
+  if (chargedItems.sumtotal < 30 && assignedDishesSavedPrice === 0) {
+    discountedItems.push(Object.assign({}, assignedDishesItems, {
+      type: "无",
+      savedPrice: 0
+    }));
+  } else if(chargedItems.sumtotal >= 30 && assignedDishesSavedPrice <= 6) {
     tempItems.sumtotal -= 6;
     discountedItems.push(Object.assign({}, tempItems, {
       type: "满30减6元",
@@ -103,6 +109,32 @@ function discountItems(chargedItems, allPromotions) {
     }));
   }
   return discountedItems;
+}
+
+function generateSummay(discountedItems) {
+  let summary = `============= 订餐明细 =============\n`;
+  for (let item of discountedItems[0].items) {
+    summary += `${item.name} x ${item.amount} = ${item.amount * item.price}元\n`;
+  }
+  if (discountedItems[0].type !== "无") {
+    summary += `-----------------------------------\n`;
+    summary += (`使用优惠:\n` + discountedItems[0].type);
+    if (discountedItems[0].type === "指定菜品半价") {
+      summary += `(`;
+      for (let item of discountedItems[0].items) {
+        if (item.type === "指定菜品半价") {
+          summary += (item.name + `，`);
+        }
+      }
+      summary = summary.substring(0,summary.length-1);
+      summary += ")";
+    }
+    summary += (`，省${discountedItems[0].savedPrice}元\n`);
+  }
+  summary += `-----------------------------------\n`;
+  summary += (`总计：${discountedItems[0].sumtotal}元\n`);
+  summary += `===================================`;
+  return summary;
 }
 
 function newChargedItems(chargedItems) {
