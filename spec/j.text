@@ -1,0 +1,9 @@
+Object({ text: 'please input right input', next: 'Please input zip code:' })
+Object({ text: 'please input right input', next: 'Please input zip code:' }).
+Object({ text: 'translateResult is :|:|::|:|:|:||::::|:|::||:::::||::|:|::||::|::|||:::|', reset: true })
+Object({ text: 'translateResult is ::|::|:|:|:||::::|:|::||:::::||::|:|::||::|::|||:::', reset: true }).
+
+
+
+Object({ text: 'please input right input', next: 'Please input bar code:' })
+Object({ text: 'please input right input', next: 'Please input bar code:' }).
