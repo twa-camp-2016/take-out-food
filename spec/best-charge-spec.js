@@ -406,7 +406,6 @@ describe("discountItems", function () {
     let argument = loadPromotions();
     let output = discountItems(input, argument);
     expect(output).toEqual(expected);
-
   });
 
 });
