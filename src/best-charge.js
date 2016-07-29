@@ -1,119 +1,103 @@
-function bestCharge(selectedItems) {
-  return /*TODO*/;
- /*
-  let parsedItems =parseSelectedItems(selectedItems);
-  let Items = loadAllItems();
-  let cartItemsCount = getCartItemsCount(Items,parsedItems);
-  let promotionItems = loadPromotions();
-  let cartItemsCountType = getCartItemsCountType(cartItemsCount,promotionItems);
 
-*/
-  function parseSelectedItems(selectedItems)
-  {
-    return selectedItems.map(function(selectedItem){
-      let selectedItemsPart = selectedItem.split("x");
-      return {id: selectedItemsPart[0], count: parseFloat(selectedItemsPart[1]) || 1 };
-    })
-  }
+'use strict';
 
+function isLegalBarcode(barcode)
+{
+   return !barcode.split('').find((item)=>item !== ' '&& item !== '|' && item !== ':');
 }
- function getCartItemsCount(Items,parsedItems)
- {
-   let cartItemsCount =[];
-  for(let i =0; i< parsedItems.length; i++)
-  {
-    for(let j=0; j< Items.length; j++)
+
+function isValidFrame(barcode)
+{
+  return (barcode[0] === '|' && barcode[1] === ' ' &&
+        barcode[barcode.length - 1] === '|'&& barcode[barcode.length - 2] === ' ');
+}
+
+function matchBarcodeLength(barcode)
+{
+  return   !barcode.slice(2,barcode.length - 2).split(' ').find(item=>item.length !== 5);
+}
+
+function judgeBarcode(barcode)
+{
+ return isLegalBarcode(barcode)&&isValidFrame(barcode)&&matchBarcodeLength(barcode);
+}
+
+function formatBarcode(barcode)
+{
+  return barcode.slice(2,barcode.length - 2).split(' ');
+}
+
+function  testCheckDigit(formattedBarcode,table)
+{
+return formattedBarcode.map((item)=>table.indexOf(item)).reduce((pre,cur)=>pre+cur)%10 === 0;
+}
+
+function getZIPcode(formattedBarcode,table)
+{
+  let num_array = formattedBarcode.map((item)=>table.indexOf(item));
+        num_array.pop();
+    if(num_array.length === 9)
     {
-      if (parsedItems[i].id=== Items[j].id)
-      {
-        cartItemsCount.push(Object.assign({},Items[j],{count:parsedItems[i].count}));
-      }
+      num_array.splice(5,0,'-');
     }
-  }
-  return  cartItemsCount;
- }
+    return num_array.join('');
+}
 
- function getCartItemsCountType(cartItemsCount,promotionItems)
- {
-   let cartItemsCountType =[];
-   for(let i =0; i< promotionItems.length;i++)
-   {
-      if(promotionItems[i].type === '指定菜品半价')
-      {
-        for(let j= 0; j< promotionItems[i].items.length; j++)
-        {
-          for(let m = 0; m <cartItemsCount.length;m++ )
-          {
-            if(cartItemsCount[m].id === promotionItems[i].items[j])
-            {
-              cartItemsCountType.push(Object.assign({},cartItemsCount[m],{type:promotionItems[i].type}));
-            }
-            else
-            {
-              cartItemsCountType.push(Object.assign({},cartItemsCount[m],{type:'满30减6元'}));
-
-            }
-          }
-
-        }
-      }
-
-
-   }
-   return cartItemsCountType;
- }
-
- function getPromotionItems(cartItemsCountType)
- {
-   let promotionItems = [];
-   for(let i=0; i < cartItemsCountType.length; i++)
-   {
-     if(cartItemsCountType[i].type === '指定菜品半价' )
+function barcodeChangeZIPcode(barcode,table)
+{
+  if(judgeBarcode(barcode))
+  {
+    let formattedBarcode = formatBarcode(barcode);
+    if(testCheckDigit(formattedBarcode,table))
     {
-       let money = parseFloat(cartItemsCountType[i].price / 2);
-        let promotionPrice = money * cartItemsCountType[i].count;
-        let promotionedPrice = promotionPrice;
-      promotionItems.push(Object.assign({},cartItemsCountType[i],
-        {promotionPrice:promotionPrice, promotionedPrice: promotionedPrice}));
+      return getZIPcode(formattedBarcode,table);
+
     }
     else
-     {
-       promotionItems.push(Object.assign({},cartItemsCountType[i],
-         {promotionPrice:0, promotionedPrice:cartItemsCountType[i].price * cartItemsCountType[i].count }));
+    {
+      return false;
+    }
+  }
+  return false;
+}
 
-     }
-   }
-   return promotionItems;
- }
+function formatZIPcode( ZIPcode)
+{
+  let pureNum = ZIPcode;
+  if(pureNum.length === 10)
+  {
+    return  pureNum.split('-').join('');
+  }
+   return  pureNum;
+}
 
- function  getSubTotal(promotionItems)
- {
-   let subTotalItems =[];
-   for(let i=0; i < promotionItems.length; i++)
-   {
-     let subTotal = promotionItems[i].price *  promotionItems[i].count;
-     subTotalItems.push(Object.assign({},promotionItems[i],{subTotal: subTotal} ));
-   }
-   return subTotalItems;
- }
+function getCD(formatedZIPcode)
+{
+  let formatZIPcode_array = formatedZIPcode.split('').map((item)=>parseInt(item));
+  let sum = formatZIPcode_array.reduce((pre,cur)=>pre+cur);
+  formatZIPcode_array.push((10 - sum % 10)%10);
+  return formatZIPcode_array;
+}
 
- function getSaveMoney(promotionItems)
- {
-   let saveMoney = 0;
-   for(let i = 0; i < promotionItems.length; i++ )
-   {
-     let saveMoney +=  promotionItems[i].promotionPrice;
-   }
-   return saveMoney;
- }
+function getBarcode(formatZIPcode_array,table)
+{
+ return  formatZIPcode_array.map((item)=>table[item]).join('');
+}
 
- function getTotal(promotionItems)
- {
-   let total = 0;
-   for(let i = 0; i < promotionItems.length; i++ )
-   {
-     let total +=  promotionItems[i].promotionedPrice;
-   }
-   return total;
+function getWholeBarcode(barcode)
+{
+  return '|'+ barcode + '|';
+}
 
- }
+function printWholeBarcode(wholeBarcode)
+{
+  console.log(wholeBarcode);
+}
+
+function ZIPcodeChangeBarcode(ZIPcode,table)
+{
+ let pureNum = formatZIPcode( ZIPcode);
+  let formatZIPcode_array = getCD(pureNum);
+  let barcode = getBarcode(formatZIPcode_array,table);
+  return getWholeBarcode(barcode);
+}
