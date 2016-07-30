@@ -1,19 +1,13 @@
 const items = require('../src/items');
 const promotions = require('../src/promotions');
 
-
 function bestCharge(selectedItems) {
-
   const allItems = items.loadAllItems();
   const cartItems = buildCartItems(selectedItems, allItems);
-
-  const allPromotions = promotions.loadPromotions();
   const receiptItems = buildReceiptItems(cartItems);
-
   const bestCharge = getBestCharge(receiptItems);
   thisPromotionType(bestCharge);
   const receiptText = buildReceipt(bestCharge);
-
   return receiptText;
 }
 
@@ -23,7 +17,6 @@ function buildCartItems(selectedItems, allItems) {
     const selected = selectedItem.split(' x ');
     const id = selected[0];
     const count = parseInt(selected[1]);
-
     const item = allItems.find(item => item.id === id);
     return {item, count};
   });
@@ -78,52 +71,48 @@ function getBestCharge(receiptItems) {
 }
 
 function buildReceipt(bestChargeItems) {
-
-  let receipt = bestChargeItems.cartItems.map(cartItem => {
+  const receipt = bestChargeItems.cartItems.map(cartItem => {
     return `${cartItem.cartItem.item.name} x ${cartItem.cartItem.count} = ${cartItem.subtotal}元`
   }).join('\n');
 
-  if (bestChargeItems.cartItems[0].promotionType === '指定菜品半价'){
-    return `
-============= 订餐明细 =============
-${receipt}
+  const promotionItems = [];
+  const items = bestChargeItems.cartItems;
+  items.map(i => {
+    if (i.promotionType === '指定菜品半价') {
+      promotionItems.push(i.cartItem.item.name);
+    }
+  });
+
+  let  promotionInfo = ``;
+  const type = bestChargeItems.cartItems[0].promotionType;
+  if (type === '满30减6元') {
+    promotionInfo = `
 -----------------------------------
 使用优惠:
-${bestChargeItems.cartItems[0].promotionType}(黄焖鸡，凉皮)，省${bestChargeItems.savedTotal}元
------------------------------------
-总计：${bestChargeItems.total}元
-===================================`;
+${type}，省${bestChargeItems.savedTotal}元`;
 
   }
-  if (bestChargeItems.cartItems[0].promotionType === '满30减6元'){
-    return `
-============= 订餐明细 =============
-${receipt}
+  if (type === '指定菜品半价') {
+    promotionInfo = `
 -----------------------------------
 使用优惠:
-${bestChargeItems.cartItems[0].promotionType}，省${bestChargeItems.savedTotal}元
------------------------------------
-总计：${bestChargeItems.total}元
-===================================`;
-  }
-  else {
-    return `
-============= 订餐明细 =============
-${receipt}
------------------------------------
-总计：${bestChargeItems.total}元
-===================================`;
+${type}(${promotionItems.join('，')})，省${bestChargeItems.savedTotal}元`;
   }
 
+  return `
+============= 订餐明细 =============
+${receipt}${promotionInfo}
+-----------------------------------
+总计：${bestChargeItems.total}元
+===================================`.trim();
 }
+
 
 module.exports = {
   bestCharge,
-
   buildCartItems,
   buildReceiptItems,
   getBestCharge,
   buildReceipt,
-
   thisPromotionType
 }
