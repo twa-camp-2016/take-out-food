@@ -3,7 +3,7 @@ const promotions = require('../src/promotions');
 
 const app = require('../src/best-charge');
 
-describe('inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"]', () => {
+describe('take out food unit tests', () => {
 
   it('get cartItems', () => {
 
