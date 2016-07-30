@@ -10,9 +10,9 @@ function bestCharge(selectedItems) {
   const allPromotions = promotions.loadPromotions();
   const receiptItems = buildReceiptItems(cartItems);
 
-  const receipt = getBestCharge(receiptItems);
-  getPromotionType(receipt);
-  const receiptText = buildReceipt(receipt);
+  const bestCharge = getBestCharge(receiptItems);
+  thisPromotionType(bestCharge);
+  const receiptText = buildReceipt(bestCharge);
 
   return receiptText;
 }
@@ -42,7 +42,7 @@ function buildReceiptItems(cartItems) {
   });
 }
 
-function getPromotionType(bestChargeItems) {
+function thisPromotionType(bestChargeItems) {
   const total = bestChargeItems.total;
   const savedTotal = bestChargeItems.savedTotal;
   const preTotal = total + savedTotal;
@@ -121,14 +121,6 @@ ${receipt}
 
 }
 
-/*
-
-function getDiscountItems() {
-  const allPromotions = promotions.loadPromotions();
-  return allPromotions[1].item;
-}
-*/
-
 module.exports = {
   bestCharge,
 
@@ -137,5 +129,5 @@ module.exports = {
   getBestCharge,
   buildReceipt,
 
-  getPromotionType
+  thisPromotionType
 }
