@@ -20,15 +20,15 @@ function bestCharge(selectedItems) {
 function buildCartItems(selectedItems, allItems) {
 
   const cartItems = [];
-  for (const selectedItem of selectedItems){
 
+  selectedItems.map(selectedItem => {
     const selected = selectedItem.split(' x ');
     const id = selected[0];
     const count = parseInt(selected[1]);
 
     const item = allItems.find(item => item.id === id);
     cartItems.push({item, count});
-  }
+  });
 
   return cartItems;
 }
