@@ -10,6 +10,7 @@ function formatInputs(inputs) {
 function _getExistentElementById(array, id) {
     return array.find(element => element.id === id);
 }
+
 function buildItems(formattedInputs, allItems) {
     return formattedInputs.map(({id,count}) => {
         let {name,price} = _getExistentElementById(allItems, id);
@@ -29,25 +30,22 @@ function calculateItemsCharge(items) {
 function choosePromotions(itemsWithCharge, promotions) {
     let promotionOne = promotions.find((promotion) => promotion.type === '满30减6元');
     let promotionTwo = promotions.find((promotion) => promotion.type === '指定菜品半价');
-    let promotionTwoItemsSaved = 0;
-    let promotionOneItemsSaved = 0;
-    let totalPrice = 0;
+
     //promotionOne
-    itemsWithCharge.forEach((item) => {
-        totalPrice += item.itemCharge;
-    });
-    if (totalPrice > 30) {
-        promotionOneItemsSaved = parseInt((totalPrice / 30) * 6);
-    }
+    let totalPrice = _.sumBy(itemsWithCharge, 'itemCharge');
+    let promotionOneItemsSaved = (totalPrice > 30) ? parseInt((totalPrice / 30) * 6) : 0;
+
     //promotionTwo
     let promotedItemName = [];
-    itemsWithCharge.forEach((item) => {
+
+    let promotionTwoItemsSaved = _.sumBy(itemsWithCharge, (item) => {
         let hasPromoted = promotionTwo.items.includes(item.id);
         if (hasPromoted) {
-            promotionTwoItemsSaved += item.itemCharge / 2;
             promotedItemName.push(item.name);
+            return item.itemCharge / 2;
         }
     });
+
     //choose the best promotion
     if (promotionTwoItemsSaved > promotionOneItemsSaved) {
         let promotionType = promotionTwo.type;
@@ -62,9 +60,7 @@ function choosePromotions(itemsWithCharge, promotions) {
 
 //#5
 function calculateCharge(itemsWithCharge, bestPromotion) {
-    let charge = itemsWithCharge.reduce((result, {itemCharge}) => {
-        return result += itemCharge;
-    }, 0);
+    let charge = _.sumBy(itemsWithCharge, 'itemCharge');
     charge -= bestPromotion.saved;
     return charge;
 }
@@ -82,10 +78,20 @@ function buildReceipt(itemsWithCharge, bestPromotion, charge) {
 
 function buildReceiptString(receipt) {
     let lines = ['============= 订餐明细 ============='];
-    for (let {name,count,itemCharge} of receipt.items) {
-        let line = `${name} x ${count} = ${itemCharge}元`;
-        lines.push(line);
-    }
+    //for (let {name,count,itemCharge} of receipt.items) {
+    //    let line = `${name} x ${count} = ${itemCharge}元`;
+    //    lines.push(line);
+    //}
+
+    //receipt.items.map(({name,count,itemCharge}) => {
+    //    let line = `${name} x ${count} = ${itemCharge}元`;
+    //    lines.push(line);
+    //});
+
+    let itemLines = receipt.items.map(({name,count,itemCharge}) => {
+        return `${name} x ${count} = ${itemCharge}元`;
+    });
+    lines = lines.concat(itemLines);
     let hasPromoted = receipt.bestPromotion.saved > 0;
     if (hasPromoted) {
         lines.push(`-----------------------------------`);
@@ -93,7 +99,7 @@ function buildReceiptString(receipt) {
         if (receipt.bestPromotion.promotionType === '满30减6元') {
             lines.push(`${receipt.bestPromotion.promotionType}，省${receipt.bestPromotion.saved}元`);
         } else {
-            var name = receipt.bestPromotion.promotedItemName.join('，');
+            let name = receipt.bestPromotion.promotedItemName.join('，');
             lines.push(`${receipt.bestPromotion.promotionType}(${name})，省${receipt.bestPromotion.saved}元`);
         }
     }
