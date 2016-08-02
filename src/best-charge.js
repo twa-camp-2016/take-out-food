@@ -78,15 +78,6 @@ function buildReceipt(itemsWithCharge, bestPromotion, charge) {
 
 function buildReceiptString(receipt) {
     let lines = ['============= 订餐明细 ============='];
-    //for (let {name,count,itemCharge} of receipt.items) {
-    //    let line = `${name} x ${count} = ${itemCharge}元`;
-    //    lines.push(line);
-    //}
-
-    //receipt.items.map(({name,count,itemCharge}) => {
-    //    let line = `${name} x ${count} = ${itemCharge}元`;
-    //    lines.push(line);
-    //});
 
     let itemLines = receipt.items.map(({name,count,itemCharge}) => {
         return `${name} x ${count} = ${itemCharge}元`;
