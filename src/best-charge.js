@@ -182,12 +182,16 @@ function bestCharge(tags){
   let promotions = loadPromotions();
   let promotedItems = buildPromotedItems(cartItems, promotions);
   let calculatedTotalPrices = calculateTotalPrices(promotedItems);
-//console.log(promotedItems);
   let builtReceipt = buildReceipt(promotedItems, calculatedTotalPrices);
-//console.log(builtReceipt);
   let receiptString = bulidReceiptString(builtReceipt);
    return  receiptString;
-  //console.log(receiptString);
-
 }
-//bestCharge(tags);
+module.exports={
+  formatTags,
+  buildCartItems,
+  buildPromotedItems,
+  calculateTotalPrices,
+  buildReceipt,
+  bulidReceiptString,
+  bestCharge
+};

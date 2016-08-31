@@ -1,3 +1,13 @@
+
+// let{
+//   formatTags,
+//   buildCartItems,
+//   buildPromotedItems,
+//   calculateTotalPrices,
+//   buildReceipt,
+//   bestCharge
+// }=require('../src/best-charge');
+
 describe('Take out food', function () {
 
   it('should formatTags', function() {
