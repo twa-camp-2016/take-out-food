@@ -1,170 +1,169 @@
-/**
- * Created by xjy on 7/27/16.
- */
 "use strict";
-let _ = require('lodash');
-let postcode = '45056-1234';
-//let postcode = '95713';
-function checkPostcode(postcode) {
-  // let isTruePostcode = false;
-  // if (postcode.length === 5 || postcode.length === 9 || postcode.length === 10 && postcode[5] === '-') {
-  //   postcode = postcode.length === 10 ? postcode.substr(0, 5) + postcode.substr(6) : postcode;
-  //   postcode = postcode.split('');
-  //   console.log(postcode);
-  //   let pattern = /\d/g;
-  //   postcode.map((num)=> {
-  //     if (pattern.test(parseInt(num))) {
-  //       isTruePostcode = true;
-  //     }
-  //   });
-  // }
-  // return isTruePostcode;
-  if (/^\d{5}$|^\d{9}$|^\d{5}-\d{4}$/.test(postcode)) {
-    return true;
-  }
-  return false;
-}
-function getReducedArray(postcode, checkResult) {
-  let result = postcode.split("");
-  if (result.indexOf('-') !== -1) {
-    result.splice(5, 1);
-  }
-  return result;
-}
-function getCheckCode(postcode) {
-  let sum = 0;
-  sum = postcode.reduce(((barcode, num)=> {
-    barcode += parseInt(num);
-    return barcode;
-  }), 0);
-  let code;
-  if (sum % 10 === 0) {
-    code = 0;
-  }
-  else {
-    code = 10 - sum % 10;
-  }
-  return code;
-}
-function getSubCodes(postcode, allCodes, checkCode) {
-  let result = [];
-  postcode.push(checkCode);
-  result = postcode.map((num)=> {
-    return allCodes[num];
-  });
-  return result;
-}
-function getCodeString(subCodes) {
-  let result = subCodes.join('');
-  return '|' + result + "|";
-}
-function changToCodes(postcode, checkResult) {
-  let allCodes = ['||:::', ':::||', '::|:|', '::||:', ':|::|', ':|:|:', ':||::', '|:::|', '|::|:', '|:|::'];
-  let codeArray = getReducedArray(postcode, checkResult);
-  let checkCode = getCheckCode(codeArray);
-  let subCodes = getSubCodes(codeArray, allCodes, checkCode);
-  let codeString = getCodeString(subCodes, checkCode);
-  return codeString;
-}
-function finalChangTocodes(postcode) {
-  let checkResult = checkPostcode(postcode);
-  if (checkResult === true) {
-    let finalString = changToCodes(postcode, checkResult);
-    return finalString;
-  }
-  else {
-    return false;
-  }
-}
-
-/****
- *       no.2
- ****/
-function splitStringBy5(barcode) {
-  return _.chunk(barcode, 5).map((array)=> {
-    return array.join("")
+function formatTags(tags) {
+  return tags.map((tag) => {
+    let [id, count] = tag.split(' x ');
+    return {
+      id: id,
+      count: parseInt(count)
+    }
   })
 }
-function checkBarcode(barcode, allCodes) {
-  let length = barcode.length;
-  let temps = barcode.substr(1, length - 1);
-  temps = splitStringBy5(barcode);
-  let result = temps.map((code)=>allCodes.indexOf(code));
-  if ((length === 32 || length === 52 )&&((/^\|[|: ]+\|$/.test(barcode)))&&(result!==0)) {
-      return true;
-    } else {
-      return false;
-    }
-  //  let temps = barcode.substr(1, length - 1);
-  //   temps = splitStringBy5(barcode);
-  //   let result = temps.map((code)=>allCodes.indexOf(code));
-  //   if (result != -1) {
-  //     return true;
-  //   }
-  // }
+let tags= ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
 
+function fixPrice(number) {
+  return parseFloat(number.toFixed(2));
 }
-function getFormatBarCode(barcode, checkNode) {
-  let result = '';
-  if (checkNode) {
-    result = barcode.slice(1, barcode.length - 6);
+
+function getExistIdFromArray(id, array) {
+  for (let Item of array) {
+    if (Item.id === id) {
+      return Item;
+    }
+  }
+  return null;
+}
+
+function buildCartItems(formatTags, allItems) {
+  let result = [];
+  for (let formatTag of formatTags) {
+    let item = getExistIdFromArray(formatTag.id, allItems);
+    let cartItem = {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      count: formatTag.count
+    }
+    result.push(cartItem);
   }
   return result;
 }
-function getBarCodesArray(formatBarcode, allCodes) {
-  let result = [];
-  let barcodes = formatBarcode.split("");
-  let codebarcodes = _.chunk(barcodes, 5);
-  codebarcodes = codebarcodes.map((element)=> {
-    return _.sum(element);
+
+function buildPromotedItems(cartItems, promotions) {
+  let currentPromotion = promotions.find((promotion) => {
+    return promotion.type === '指定菜品半价';
   });
-  codebarcodes.map((code)=> {
-    for (let i = 0; i < allCodes.length; i++) {
-      if (code === allCodes[i]) {
-        result.push(i);
+  return cartItems.map((cartItem) => {
+    let hasPromoted = currentPromotion.items.includes(cartItem.id);
+    let nolmalPrice = cartItem.price * cartItem.count;
+    let halfSaved = hasPromoted ? nolmalPrice / 2 : 0;
+    return Object.assign({}, cartItem, {halfSaved: fixPrice(halfSaved), nolmalPrice});
+  })
+    ;
+}
+
+function calculateTotalPrices(promotedItems) {
+  return promotedItems.reduce((result, promotedItem) => {
+      result.totalHalfSaved += promotedItem.halfSaved;
+      result.totalnoPromotedPrice += promotedItem.nolmalPrice;
+      return result;
+    },
+    {
+      totalHalfSaved: 0, totalnoPromotedPrice: 0
+    }
+  )
+}
+
+function buildReceipt(promotedItems, {totalHalfSaved, totalnoPromotedPrice}) {
+
+  let halfsavedItems = promotedItems.filter((promotedItem) => {
+      return promotedItem.halfSaved > 0;
+    })
+    ;
+
+  let savedItems = halfsavedItems.map((halfsavedItem) => {
+      return {
+        name: halfsavedItem.name,
       }
     }
-  });
-  return result;
-}
-function getCodeToNumber(numberCodes) {
-  let result = '';
-  if (numberCodes.length === 9) {
-    numberCodes.splice(5, 0, '-');
-  }
-  result = numberCodes.join("");
-  return result;
-}
-function changeToPostcode(barcode, checkResult, allCodes) {
-  let formatBarcode = getFormatBarCode(barcode, checkResult);
-  let numberCodes = getBarCodesArray(formatBarcode, allCodes);
-  let codeString = getCodeToNumber(numberCodes);
-  return codeString;
+  );
+  let fullDiscountPayPrice = totalnoPromotedPrice > 30 ? totalnoPromotedPrice - 6 : totalnoPromotedPrice;
+  let totalDiscountSaved = totalnoPromotedPrice > 30 ? 6 : 0;
+  let halfDiscountPayPrice = totalnoPromotedPrice - totalHalfSaved;
+  return {
+    promotedItems: promotedItems.map(({name, price, count, nolmalPrice, halfSaved}) => {
+        return {name, price, count, nolmalPrice, halfSaved}
+      }
+    ),
+    savedItems,
+    fullDiscountPayPrice,
+    halfDiscountPayPrice,
+    totalHalfSaved,
+    totalDiscountSaved
 
-}
-function totalChangeTopostcode(barcode) {
-  let allCodes = ['||:::', ':::||', '::|:|', '::||:', ':|::|', ':|:|:', ':||::', '|:::|', '|::|:', '|:|::'];
-  let checkNode = checkBarcode(barcode, allCodes);
-  if (checkNode) {
-    let postcode = changeToPostcode(barcode, checkNode, allCodes);
-    return postcode;
-  }
-  else {
-    return false;
   }
 }
-module.exports = {
-  checkPostcode: checkPostcode,
-  getReducedArray: getReducedArray,
-  getCheckCode: getCheckCode,
-  getSubCodes: getSubCodes,
-  getCodeString: getCodeString,
-  changToCodes: changToCodes,
-  finalChangTocodes: finalChangTocodes,
-  checkBarcode: checkBarcode,
-  getFormatBarCode: getFormatBarCode,
-  getBarCodesArray: getBarCodesArray,
-  getCodeToNumber: getCodeToNumber,
-  changeToPostcode: changeToPostcode,
-  totalChangeTopostcode: totalChangeTopostcode
+
+
+function bulidReceiptString(receipt) {
+  let line;
+  let itemLine = [];
+  let lines = [`============= 订餐明细 =============`];
+  for (let item of receipt.promotedItems) {
+    line = `${item.name} x ${item.count} = ${item.price*item.count}元`;
+    lines.push(line);
+  };
+
+  line = `-----------------------------------`;
+  lines.push(line);
+
+  if (receipt.totalHalfSaved > 0 || receipt.totalDiscountSaved > 0) {
+    line = `使用优惠:`;
+    lines.push(line);
+    if (receipt.fullDiscountPayPrice < receipt.halfDiscountPayPrice) {
+      line = `满30减6元，省6元`;
+      lines.push(line);
+      line = `-----------------------------------`;
+      lines.push(line);
+      line = `总计：${receipt.fullDiscountPayPrice}元`;
+      lines.push(line);
+      line = `===================================`;
+      lines.push(line);
+      return lines.join('\n');
+    }
+
+    if (receipt.fullDiscountPayPrice > receipt.halfDiscountPayPrice) {
+      line = `指定菜品半价(`;
+      for (let item of receipt.savedItems) {
+        itemLine.push(item.name);
+      }
+      line += itemLine.join('，');
+      line += ')，';
+      line += `省${receipt.totalHalfSaved}元`;
+      lines.push(line);
+      line = `-----------------------------------`;
+      lines.push(line);
+      line = `总计：${receipt.halfDiscountPayPrice}元`;
+      lines.push(line);
+      line = `===================================`;
+      lines.push(line);
+      return lines.join('\n');
+    }
+  }
+  line = `总计：${receipt.fullDiscountPayPrice}元`;
+  lines.push(line);
+  line = `===================================`;
+  lines.push(line);
+
+  return lines.join('\n');
+}
+
+function bestCharge(tags){
+  let tag = formatTags(tags);
+  let allItems = loadAllItems();
+  let cartItems = buildCartItems(tag, allItems);
+  let promotions = loadPromotions();
+  let promotedItems = buildPromotedItems(cartItems, promotions);
+  let calculatedTotalPrices = calculateTotalPrices(promotedItems);
+  let builtReceipt = buildReceipt(promotedItems, calculatedTotalPrices);
+  let receiptString = bulidReceiptString(builtReceipt);
+   return  receiptString;
+}
+module.exports={
+  formatTags,
+  buildCartItems,
+  buildPromotedItems,
+  calculateTotalPrices,
+  buildReceipt,
+  bulidReceiptString,
+  bestCharge
 };

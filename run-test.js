@@ -19,6 +19,7 @@ var reporter = new JasmineConsoleReporter({
   listStyle: 'indent', // "flat"|"indent"
   activity: false
 });
+
 jasmine.addReporter(reporter);
 
 jasmine.execute();
